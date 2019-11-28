@@ -1,0 +1,27 @@
+{
+  "name": "alloy-utils",
+  "version": "1.14.4",
+  "description": "Common utils for Alloy",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "alloy",
+    "common",
+    "utils"
+  ],
+  "author": "Axway Appcelerator",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@babel/code-frame": "^7.5.5",
+    "chmodr": "^1.2.0",
+    "colors": "^1.4.0",
+    "fs-extra": "^8.1.0",
+    "global-paths": "^1.0.0",
+    "jsonlint": "^1.6.3",
+    "lodash": "^4.17.15",
+    "resolve": "^1.12.0",
+    "xmldom": "^0.1.27"
+  }
+}

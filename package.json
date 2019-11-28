@@ -1,0 +1,12 @@
+{
+  "name": "alloy-devkit",
+  "version": "1.0.0",
+  "description": "Tooling for Alloy",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "lerna": "^3.19.0"
+  }
+}

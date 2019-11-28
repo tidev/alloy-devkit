@@ -1,0 +1,12 @@
+{
+  "version": "1.14.4",
+  "npmClient": "yarn",
+  "packages": ["packages/*"],
+  "command": {
+    "publish": {
+      "allowBranch": "master",
+      "message": "chore(release): publish %s",
+      "noPush": true
+    }
+  }
+}

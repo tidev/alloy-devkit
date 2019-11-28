@@ -1,0 +1,37 @@
+{
+  "name": "alloy-compiler",
+  "version": "1.14.4",
+  "description": "Compiler for Alloy components",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "jest --verbose false",
+    "lint": "eslint lib test"
+  },
+  "keywords": [
+    "alloy",
+    "compiler"
+  ],
+  "author": "Axway Appcelerator",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@babel/generator": "^7.7.2",
+    "@babel/parser": "^7.7.3",
+    "@babel/traverse": "^7.7.2",
+    "@babel/types": "^7.7.2",
+    "alloy-utils": "^1.14.4",
+    "chmodr": "^1.2.0",
+    "fs-extra": "^8.1.0",
+    "jsonlint": "^1.6.3",
+    "lodash": "^4.17.15",
+    "node.extend": "^2.0.2",
+    "walk-sync": "^2.0.2",
+    "xmldom": "^0.1.27"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-config-axway": "^4.5.0",
+    "eslint-plugin-jest": "^23.0.4",
+    "jest": "^24.9.0",
+    "prettier": "^1.19.1"
+  }
+}
