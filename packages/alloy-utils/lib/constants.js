@@ -1,19 +1,6 @@
-var platforms = require('./platforms');
-var _ = require('lodash');
-
-// iterate through supported platforms to create specific constants
-var generatePlatformArray = function(key) {
-  var ret = [];
-  _.each(_.keys(platforms), function(p) {
-    ret.push(platforms[p][key]);
-  });
-  return ret;
-};
-
-// generate compile time constants based on supported platforms
-exports.PLATFORMS = generatePlatformArray('platform');
-exports.PLATFORM_FOLDERS_ALLOY = generatePlatformArray('alloyFolder');
-exports.PLATFORM_FOLDERS = generatePlatformArray('titaniumFolder');
+// !!! WARNING !!!
+// This file is used by Alloy during runtime so its dependencies must be
+// compatible with the Titanium runtime.
 
 // General default values
 exports.ALLOY_DIR = 'app';
@@ -135,7 +122,7 @@ exports.JS_RESERVED_FUTURE = [
 	'interface', 'let', 'package', 'private', 'protected', 'public',
 	'static', 'yield'
 ];
-exports.JS_RESERVED_ALL = _.union(exports.JS_RESERVED, exports.JS_RESERVED_FUTURE);
+exports.JS_RESERVED_ALL = Array.from(new Set([...exports.JS_RESERVED, ...exports.JS_RESERVED_FUTURE]));
 
 // constants for implicit namespaces in markup
 var NS_ALLOY = 'Alloy',

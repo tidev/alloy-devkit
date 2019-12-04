@@ -1,17 +1,23 @@
-var U = require('alloy-utils').utils,
-	path = require('path'),
+var path = require('path'),
 	os = require('os'),
 	fs = require('fs-extra'),
 	walkSync = require('walk-sync'),
 	chmodr = require('chmodr'),
 	jsonlint = require('jsonlint'),
-	logger = require('alloy-utils').logger,
 	astController = require('./compiler/ast/controller'),
 	sourceMapper = require('./compiler/sourceMapper'),
 	styler = require('./compiler/styler'),
 	_ = require('lodash'),
-	XMLSerializer = require('xmldom').XMLSerializer,
-	CONST = require('alloy-utils').constants;
+	XMLSerializer = require('xmldom').XMLSerializer;
+
+const {
+	constants: CONST,
+	logger,
+	platforms,
+	utils: U
+} = require('alloy-utils');
+
+CONST.PLATFORMS = platforms.constants.PLATFORMS;
 
 ///////////////////////////////////////
 ////////// private variables //////////

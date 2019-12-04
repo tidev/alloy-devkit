@@ -14,7 +14,8 @@ var path = require('path'),
 	DOMParser = require('xmldom').DOMParser,
 	_ = require('lodash'),
 	CONST = require('./constants'),
-	codeFrameColumns = require('@babel/code-frame').codeFrameColumns;
+	codeFrameColumns = require('@babel/code-frame').codeFrameColumns
+	platforms = require('./platforms');
 
 exports.XML = {
 	getNodeText: function(node) {
@@ -551,7 +552,7 @@ exports.getDeploymentTargets = function(projDir) {
 		tiapp.init(tiappPath);
 		targets = tiapp.getDeploymentTargets().join(',');
 	} else {
-		targets = CONST.PLATFORMS.join(',');
+		targets = platforms.constants.PLATFORMS.join(',');
 	}
 
 	return targets;
