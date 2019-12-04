@@ -2,6 +2,7 @@ const { utils: U } = require('alloy-utils');
 const babel = require('@babel/core');
 
 const BaseCompiler = require('./base');
+const { configureBabelPlugins } = require('./utils');
 
 module.exports = class StandaloneCompiler extends BaseCompiler {
 	compileComponent(options) {
@@ -9,11 +10,7 @@ module.exports = class StandaloneCompiler extends BaseCompiler {
 		const babelOptions = {
 			babelrc: false,
 			retainLines: true,
-			plugins: [
-				[ require('./ast/builtins-plugin'), this.config ],
-				require('./ast/handle-alloy-globals'),
-				[ require('./ast/optimizer-plugin'), this.config.alloyConfig ]
-			],
+			plugins: configureBabelPlugins(this.config),
 			inputSourceMap: result.map
 		};
 		try {

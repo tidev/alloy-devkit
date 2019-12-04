@@ -4,6 +4,7 @@ const BuildLog = require('./build-log');
 const utils = require('./utils');
 const sourceMapper = require('./compiler/sourceMapper');
 const StandaloneCompiler = require('./compiler/standalone');
+const { configureBabelPlugins } = require('./compiler/utils');
 const WebpackCompiler = require('./compiler/webpack');
 
 function createCompileConfig(options) {
@@ -29,6 +30,7 @@ function createCompiler(options) {
 
 module.exports = {
 	BuildLog,
+	configureBabelPlugins,
 	createCompileConfig,
 	createCompiler,
 	sourceMapper,
