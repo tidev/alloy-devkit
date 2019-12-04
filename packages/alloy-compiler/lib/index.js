@@ -1,3 +1,4 @@
+const { logger } = require('alloy-utils');
 const path = require('path');
 
 const BuildLog = require('./build-log');
@@ -10,6 +11,7 @@ const WebpackCompiler = require('./compiler/webpack');
 function createCompileConfig(options) {
 	const { projectDir } = options;
 	const appDir = path.join(projectDir, 'app');
+	logger.logLevel = options.logLevel || logger.ERROR;
 	const buildLog = options.buildLog || new BuildLog(projectDir);
 	const alloyConfig = options.alloyConfig;
 	return utils.createCompileConfig(appDir, projectDir, alloyConfig, buildLog);
