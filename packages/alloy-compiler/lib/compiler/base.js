@@ -163,14 +163,14 @@ module.exports = class BaseCompiler {
 				preCode,
 				viewCode,
 				postCode,
-				viewDependencies
+				dependencies: viewDependencies
 			} = this.compileView({
 				file: files.VIEW
 			});
 			template.preCode = preCode;
 			template.viewCode = viewCode;
 			template.postCode = postCode;
-			dependencies = viewDependencies
+			dependencies = dependencies.concat(viewDependencies)
 		}
 
 		// process the controller code
