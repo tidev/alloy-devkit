@@ -1,0 +1,3 @@
+**/node_modules
+packages/alloy-compiler/template/*.js
+packages/alloy-utils/lib/grammar/tss.js
