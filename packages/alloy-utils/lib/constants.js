@@ -9,7 +9,7 @@ exports.RESOURCES_DIR = 'Resources';
 exports.NAME_DEFAULT = 'index';
 exports.NAME_WIDGET_DEFAULT = 'widget';
 exports.NPM_WIDGET_PREFIX = 'alloy-widget-';
-exports.NPM_WIDGET_KEYWORDS = ['appcelerator', 'titanium', 'alloy', 'widget'];
+exports.NPM_WIDGET_KEYWORDS = [ 'appcelerator', 'titanium', 'alloy', 'widget' ];
 exports.GLOBAL_STYLE = 'app.tss';
 exports.ROOT_NODE = 'Alloy';
 exports.NAMESPACE_DEFAULT = 'Ti.UI';
@@ -23,11 +23,11 @@ exports.MINIMUM_TI_SDK = '3.0.0';
 exports.ITEM_TEMPLATE_VAR = '__itemTemplate';
 exports.PARENT_SYMBOL_VAR = '__parentSymbol';
 exports.WIDGET_OBJECT = 'Widget';
-exports.SKIP_EVENT_HANDLING = ['Ti.UI.ListItem', 'Alloy.Abstract.ItemTemplate'];
-exports.ADAPTERS = ['localStorage', 'properties', 'sql'];
-exports.CONTROLLER_NODES = ['Alloy.Require', 'Alloy.Widget'];
+exports.SKIP_EVENT_HANDLING = [ 'Ti.UI.ListItem', 'Alloy.Abstract.ItemTemplate' ];
+exports.ADAPTERS = [ 'localStorage', 'properties', 'sql' ];
+exports.CONTROLLER_NODES = [ 'Alloy.Require', 'Alloy.Widget' ];
 exports.DEFAULT_BACKBONE_VERSION = '0.9.2';
-exports.SUPPORTED_BACKBONE_VERSIONS = ['0.9.2', '1.1.2', '1.3.3', '1.4.0'];
+exports.SUPPORTED_BACKBONE_VERSIONS = [ '0.9.2', '1.1.2', '1.3.3', '1.4.0' ];
 
 // property names
 exports.CLASS_PROPERTY = 'classes';
@@ -37,14 +37,14 @@ exports.DOCROOT_MODULE_PROPERTY = 'module';
 exports.DOCROOT_BASECONTROLLER_PROPERTY = 'baseController';
 
 // Constants related to model-view binding
-exports.BIND_PROPERTIES = ['dataCollection', 'dataFilter', 'dataTransform', 'dataFunction'];
+exports.BIND_PROPERTIES = [ 'dataCollection', 'dataFilter', 'dataTransform', 'dataFunction' ];
 exports.BIND_COLLECTION = 'dataCollection';
 exports.BIND_WHERE = 'dataFilter';
 exports.BIND_TRANSFORM = 'dataTransform';
 exports.BIND_FUNCTION = 'dataFunction';
 exports.BIND_TRANSFORM_VAR = '__transform';
 exports.BIND_MODEL_VAR = '$model';
-exports.MODEL_ELEMENTS = ['Alloy.Collection', 'Alloy.Model'];
+exports.MODEL_ELEMENTS = [ 'Alloy.Collection', 'Alloy.Model' ];
 exports.MODEL_BINDING_EVENTS = 'fetch change destroy';
 exports.COLLECTION_BINDING_EVENTS = 'fetch destroy change add remove reset sort';
 exports.COLLECTION_BINDING_EVENTS_092 = 'fetch destroy change add remove reset';
@@ -57,8 +57,8 @@ exports.NAVIGATION_MODE = 'navigationMode';
 exports.ON_HOME_ICON_ITEM_SELECTED = 'onHomeIconItemSelected';
 
 // Listings for supported platforms and commands
-exports.INSTALL_TYPES = ['plugin'];
-exports.GENERATE_TARGETS = ['controller', 'jmk', 'model', 'migration', 'view', 'widget', 'style'];
+exports.INSTALL_TYPES = [ 'plugin' ];
+exports.GENERATE_TARGETS = [ 'controller', 'jmk', 'model', 'migration', 'view', 'widget', 'style' ];
 exports.DEPLOY_TYPES = [
 	{ key: 'ENV_DEV', value: 'development' },
 	{ key: 'ENV_DEVELOPMENT', value: 'development' },
@@ -67,8 +67,8 @@ exports.DEPLOY_TYPES = [
 	{ key: 'ENV_PRODUCTION', value: 'production' }
 ];
 exports.DIST_TYPES = [
-	{ key: 'DIST_ADHOC', value: ['dist-adhoc'] },
-	{ key: 'DIST_STORE', value: ['dist-appstore', 'dist-playstore'] }
+	{ key: 'DIST_ADHOC', value: [ 'dist-adhoc' ] },
+	{ key: 'DIST_STORE', value: [ 'dist-appstore', 'dist-playstore' ] }
 ];
 
 // mappings of file extensions and folders for each file type
@@ -122,7 +122,7 @@ exports.JS_RESERVED_FUTURE = [
 	'interface', 'let', 'package', 'private', 'protected', 'public',
 	'static', 'yield'
 ];
-exports.JS_RESERVED_ALL = Array.from(new Set([...exports.JS_RESERVED, ...exports.JS_RESERVED_FUTURE]));
+exports.JS_RESERVED_ALL = Array.from(new Set([ ...exports.JS_RESERVED, ...exports.JS_RESERVED_FUTURE ]));
 
 // constants for implicit namespaces in markup
 var NS_ALLOY = 'Alloy',

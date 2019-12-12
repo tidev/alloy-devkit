@@ -1,12 +1,18 @@
 {
   "name": "alloy-devkit",
-  "version": "1.0.0",
   "description": "Tooling for Alloy",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint packages",
+    "test": "jest"
   },
-  "dependencies": {
-    "lerna": "^3.19.0"
+  "devDependencies": {
+    "eslint": "^6.7.2",
+    "eslint-config-axway": "^4.5.0",
+    "eslint-plugin-alloy": "^1.1.1",
+    "eslint-plugin-jest": "^23.1.1",
+    "jest": "^24.9.0",
+    "lerna": "^3.19.0",
+    "prettier": "^1.19.1"
   }
 }

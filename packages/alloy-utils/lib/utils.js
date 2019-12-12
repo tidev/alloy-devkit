@@ -14,12 +14,14 @@ var path = require('path'),
 	DOMParser = require('xmldom').DOMParser,
 	_ = require('lodash'),
 	CONST = require('./constants'),
-	codeFrameColumns = require('@babel/code-frame').codeFrameColumns
+	codeFrameColumns = require('@babel/code-frame').codeFrameColumns,
 	platforms = require('./platforms');
 
 exports.XML = {
-	getNodeText: function(node) {
-		if (!node) { return ''; }
+	getNodeText: function (node) {
+		if (!node) {
+			return '';
+		}
 		var serializer = new XMLSerializer(),
 			str = '';
 		for (var c = 0; c < node.childNodes.length; c++) {
@@ -27,9 +29,9 @@ exports.XML = {
 				str += serializer.serializeToString(node.childNodes[c]);
 			}
 		}
-		return str.replace(/\&amp;/g, '&');
+		return str.replace(/&amp;/g, '&');
 	},
-	getElementsFromNodes: function(nodeList) {
+	getElementsFromNodes: function (nodeList) {
 		var elems = [];
 		if (nodeList && nodeList.length) {
 			for (var i = 0, l = nodeList.length; i < l; i++) {
@@ -41,7 +43,7 @@ exports.XML = {
 		}
 		return elems;
 	},
-	parseFromString: function(string) {
+	parseFromString: function (string) {
 		var doc;
 
 		function extractLineData(errorString) {
@@ -58,12 +60,12 @@ exports.XML = {
 		}
 		try {
 			var errorHandler = {};
-			errorHandler.error = errorHandler.fatalError = function(m) {
+			errorHandler.error = errorHandler.fatalError = function (m) {
 				var errorInfo = extractLineData(m);
 				m = m.replace(/@#\[line:(\d+),col:(\d+)\]/, '').trim();
 				exports.dieWithCodeFrame(m, errorInfo, string);
 			};
-			errorHandler.warn = errorHandler.warning = function(m) {
+			errorHandler.warn = errorHandler.warning = function (m) {
 				// ALOY-840: die on unclosed XML tags
 				// xmldom hardcodes this as a warning with the string message 'unclosed xml attribute'
 				// even when it's a tag that's unclosed
@@ -75,22 +77,22 @@ exports.XML = {
 					exports.dieWithCodeFrame('Unclosed XML tag or attribute', errorInfo, string);
 				}
 			};
-			doc = new DOMParser({errorHandler:errorHandler, locator:{}}).parseFromString(string);
+			doc = new DOMParser({ errorHandler: errorHandler, locator: {} }).parseFromString(string);
 		} catch (e) {
 			exports.die('Error parsing XML file.', e);
 		}
 
 		return doc;
 	},
-	parseFromFile: function(filename) {
+	parseFromFile: function (filename) {
 		var xml = fs.readFileSync(filename, 'utf8');
 		return exports.XML.parseFromString(xml);
 	},
-	createEmptyNode: function(name, ns) {
+	createEmptyNode: function (name, ns) {
 		var str = '<' + name + (ns ? ' ns="' + ns + '"' : '') + '></' + name + '>';
 		return exports.XML.parseFromString(str).documentElement;
 	},
-	getAlloyFromFile: function(filename) {
+	getAlloyFromFile: function (filename) {
 		var doc = exports.XML.parseFromFile(filename);
 		var docRoot = doc.documentElement;
 
@@ -104,10 +106,10 @@ exports.XML = {
 
 		return docRoot;
 	},
-	toString: function(node) {
+	toString: function (node) {
 		return (new XMLSerializer()).serializeToString(node);
 	},
-	previousSiblingElement: function(node) {
+	previousSiblingElement: function (node) {
 		if (!node || !node.previousSibling || node.previousSibling === null) {
 			return null;
 		} else if (node.previousSibling.nodeType === 1) {
@@ -118,21 +120,21 @@ exports.XML = {
 	}
 };
 
-exports.readTemplate = function(name) {
+exports.readTemplate = function (name) {
 	return fs.readFileSync(path.join(__dirname, 'template', name), 'utf8');
 };
 
-exports.evaluateTemplate = function(name, o) {
+exports.evaluateTemplate = function (name, o) {
 	return _.template(exports.readTemplate(name))(o);
 };
 
-exports.getAndValidateProjectPaths = function(argPath, opts) {
+exports.getAndValidateProjectPaths = function (argPath, opts) {
 	opts = opts || {};
 	var projectPath = path.resolve(argPath);
 
 	// See if we got the "app" path or the project path as an argument
-	projectPath = fs.existsSync(path.join(projectPath, '..', 'tiapp.xml')) ?
-		path.join(projectPath, '..') : projectPath;
+	projectPath = fs.existsSync(path.join(projectPath, '..', 'tiapp.xml'))
+		? path.join(projectPath, '..') : projectPath;
 
 	// Assign paths objects
 	var paths = {
@@ -168,20 +170,32 @@ exports.getAndValidateProjectPaths = function(argPath, opts) {
 	return paths;
 };
 
-exports.createErrorOutput = function(msg, e) {
-	var errs = [msg || 'An unknown error occurred'];
+exports.createErrorOutput = function (msg, e) {
+	var errs = [ msg || 'An unknown error occurred' ];
 	var posArray = [];
 
 	if (e) {
 		var line = e.line || e.lineNumber;
-		if (e.message) { errs.push(e.message.split('\n')); }
-		if (line)  { posArray.push('line ' + line); }
-		if (e.col) { posArray.push('column ' + e.col); }
-		if (e.pos) { posArray.push('position ' + e.pos); }
-		if (posArray.length) { errs.push(posArray.join(', ')); }
+		if (e.message) {
+			errs.push(e.message.split('\n'));
+		}
+		if (line)  {
+			posArray.push('line ' + line);
+		}
+		if (e.col) {
+			posArray.push('column ' + e.col);
+		}
+		if (e.pos) {
+			posArray.push('position ' + e.pos);
+		}
+		if (posArray.length) {
+			errs.push(posArray.join(', '));
+		}
 
 		// add the stack trace if we don't get anything good
-		if (errs.length < 2) { errs.unshift(e.stack); }
+		if (errs.length < 2) {
+			errs.unshift(e.stack);
+		}
 	} else {
 		errs.unshift(e.stack);
 	}
@@ -189,7 +203,7 @@ exports.createErrorOutput = function(msg, e) {
 	return errs;
 };
 
-exports.getWidgetDirectories = function(appDir) {
+exports.getWidgetDirectories = function (appDir) {
 	var configPath = path.join(appDir, 'config.json');
 	var appWidgets = [];
 	if (fs.existsSync(configPath)) {
@@ -219,13 +233,13 @@ exports.getWidgetDirectories = function(appDir) {
 	widgetPaths.push(path.join(__dirname, '..', 'widgets'));
 	widgetPaths.push(path.join(appDir, 'widgets'));
 
-	_.each(widgetPaths, function(widgetPath) {
+	_.each(widgetPaths, function (widgetPath) {
 		if (fs.existsSync(widgetPath)) {
 			var wFiles = fs.readdirSync(widgetPath);
 			for (var i = 0; i < wFiles.length; i++) {
 				var wDir = path.join(widgetPath, wFiles[i]);
-				if (fs.statSync(wDir).isDirectory() &&
-					_.indexOf(fs.readdirSync(wDir), 'widget.json') !== -1) {
+				if (fs.statSync(wDir).isDirectory()
+					&& _.indexOf(fs.readdirSync(wDir), 'widget.json') !== -1) {
 					var collection = parseManifestAsCollection(path.join(wDir, 'widget.json'));
 					collections[collection.manifest.id] = collection;
 				}
@@ -313,23 +327,25 @@ exports.getWidgetDirectories = function(appDir) {
 	return dirs;
 };
 
-exports.properCase = function(n) {
+exports.properCase = function (n) {
 	return n.charAt(0).toUpperCase() + n.substring(1);
 };
 
 exports.ucfirst = function (text) {
-	if (!text)
+	if (!text) {
 		return text;
+	}
 	return text[0].toUpperCase() + text.substr(1);
 };
 
 exports.lcfirst = function (text) {
-	if (!text)
+	if (!text) {
 		return text;
+	}
 	return text[0].toLowerCase() + text.substr(1);
 };
 
-exports.trim = function(line) {
+exports.trim = function (line) {
 	return String(line).replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 };
 
@@ -339,12 +355,12 @@ exports.trim = function(line) {
  * @param  {String} string The raw (or slightly modified/trimmed) XML content
  * @return {String}        JS source string, possibly multiple concatenations to handle multiple lines
  */
-exports.possibleMultilineString = function(string) {
+exports.possibleMultilineString = function (string) {
 	var parts = string.split(/\r?\n/);
-	return "'" + parts.join("\\n' + '") + "'";
+	return '\'' + parts.join('\\n\' + \'') + '\'';
 };
 
-exports.rmdirContents = function(dir, exceptions) {
+exports.rmdirContents = function (dir, exceptions) {
 	var files;
 	try {
 		files = fs.readdirSync(dir);
@@ -357,7 +373,7 @@ exports.rmdirContents = function(dir, exceptions) {
 		var stat = fs.lstatSync(currFile);
 
 		// process the exceptions
-		var result = _.find(exceptions, function(exception) {
+		var result = _.find(exceptions, function (exception) {
 			if (exception instanceof RegExp) {
 				return exception.test(files[i]);
 			} else {
@@ -378,7 +394,7 @@ exports.rmdirContents = function(dir, exceptions) {
 	}
 };
 
-exports.resolveAppHome = function() {
+exports.resolveAppHome = function () {
 	var indexView = path.join(CONST.DIR.VIEW, CONST.NAME_DEFAULT + '.' + CONST.FILE_EXT.VIEW);
 	var paths = [ path.join('.', 'app'), path.join('.') ];
 
@@ -397,18 +413,18 @@ exports.resolveAppHome = function() {
 	exports.die(errs);
 };
 
-exports.copyFileSync = function(srcFile, destFile) {
+exports.copyFileSync = function (srcFile, destFile) {
 	fs.copySync(srcFile, destFile, { overwrite: true });
 };
 
-exports.ensureDir = function(p) {
+exports.ensureDir = function (p) {
 	if (!fs.existsSync(p)) {
 		fs.mkdirpSync(p);
 		chmodr.sync(p, 0o755);
 	}
 };
 
-exports.die = function(msg, e) {
+exports.die = function (msg, e) {
 	if (e) {
 		logger.error(exports.createErrorOutput(msg, e));
 	} else {
@@ -417,7 +433,7 @@ exports.die = function(msg, e) {
 	throw new Error(msg);
 };
 
-exports.dieWithCodeFrame = function(errorMessage, lineInfo, fileContents, hint) {
+exports.dieWithCodeFrame = function (errorMessage, lineInfo, fileContents, hint) {
 	var frame = codeFrameColumns(fileContents, {
 		start: lineInfo
 	}, {
@@ -433,23 +449,25 @@ exports.dieWithCodeFrame = function(errorMessage, lineInfo, fileContents, hint) 
 	throw new Error(errorMessage);
 };
 
-exports.dieWithNode = function(node, msg) {
-	msg = _.isArray(msg) ? msg : [msg];
+exports.dieWithNode = function (node, msg) {
+	msg = _.isArray(msg) ? msg : [ msg ];
 	msg.unshift('Error with <' + node.nodeName + '> at line ' + node.lineNumber);
 	exports.die(msg);
 };
 
-exports.changeTime = function(file) {
-	if (!fs.existsSync(file)) { return -1; }
+exports.changeTime = function (file) {
+	if (!fs.existsSync(file)) {
+		return -1;
+	}
 	var stat = fs.statSync(file);
 	return Math.max(stat.mtime.getTime(), stat.ctime.getTime());
 };
 
-exports.stripColors = function(str) {
-	return str.replace(/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]/g, '');
+exports.stripColors = function (str) {
+	return str.replace(/x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]/g, '');
 };
 
-exports.installPlugin = function(alloyPath, projectPath) {
+exports.installPlugin = function (alloyPath, projectPath) {
 	var id = 'ti.alloy';
 	var plugins = {
 		plugin: {
@@ -469,13 +487,13 @@ exports.installPlugin = function(alloyPath, projectPath) {
 		}
 	};
 
-	_.each(plugins, function(o, type) {
+	_.each(plugins, function (o, type) {
 		var srcFile = path.join(o.src, o.file);
 		var destFile = path.join(o.dest, o.file);
 
 		// skip if the src and dest are the same file
-		if (fs.existsSync(destFile) &&
-			fs.readFileSync(srcFile, 'utf8') === fs.readFileSync(destFile, 'utf8')) {
+		if (fs.existsSync(destFile)
+			&& fs.readFileSync(srcFile, 'utf8') === fs.readFileSync(destFile, 'utf8')) {
 			return;
 		}
 		exports.ensureDir(o.dest);
@@ -492,33 +510,33 @@ exports.installPlugin = function(alloyPath, projectPath) {
 	});
 };
 
-exports.normalizeReturns = function(s) {
+exports.normalizeReturns = function (s) {
 	return s.replace(/\r\n/g, '\n');
 };
 
-exports.createHash = function(files) {
+exports.createHash = function (files) {
 	if (_.isString(files)) {
-		files = [files];
+		files = [ files ];
 	} else if (!_.isArray(files)) {
 		throw new TypeError('bad argument');
 	}
 
 	var source = '';
-	_.each(files, function(f) {
+	_.each(files, function (f) {
 		source += util.format('%s\n%s\n', f, fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : '');
 	});
 
 	return crypto.createHash('md5').update(source).digest('hex');
 };
 
-exports.createHashFromString = function(string) {
+exports.createHashFromString = function (string) {
 	if (!_.isString(string)) {
 		throw new TypeError('bad argument');
 	}
 	return crypto.createHash('md5').update(string).digest('hex');
 };
 
-exports.proxyPropertyNameFromFullname = function(fullname) {
+exports.proxyPropertyNameFromFullname = function (fullname) {
 	var nameParts = fullname.split('.');
 	return exports.lcfirst(nameParts[nameParts.length - 1]);
 };
@@ -527,23 +545,23 @@ exports.proxyPropertyNameFromFullname = function(fullname) {
 Two date-related functions for ALOY-263
 	- used by compile/parsers/Ti.UI.Picker.js and compile/styler.js
 */
-exports.isValidDate = function(d, dateField) {
+exports.isValidDate = function (d, dateField) {
 	// not using _.isDate() because it accepts some invalid date strings
 	if (!require('moment')(d).isValid()) {
-		exports.die('Invalid date string. ' + dateField + " must be a string that can be parsed by MomentJS's `moment()` constructor.");
+		exports.die('Invalid date string. ' + dateField + ' must be a string that can be parsed by MomentJS\'s `moment()` constructor.');
 	} else {
 		return true;
 	}
 };
-exports.createDate = function(val) {
+exports.createDate = function (val) {
 	return require('moment')(val).toDate();
 };
 
-exports.isLocaleAlias = function(string) {
-	return /^\s*L\((['\"])(.+)\1\)\s*$/.test(string);
+exports.isLocaleAlias = function (string) {
+	return /^\s*L\((['"])(.+)\1\)\s*$/.test(string);
 };
 
-exports.getDeploymentTargets = function(projDir) {
+exports.getDeploymentTargets = function (projDir) {
 	var tiappPath = path.join(projDir, 'tiapp.xml'),
 		tiappDoc,
 		targets;
