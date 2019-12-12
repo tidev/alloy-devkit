@@ -1,16 +1,21 @@
 // eslint-disable: quotes
 // eslint-disable: max-len
 
+const fs = require('fs');
+
 const { setupCompiler, resolveComponentPath } = require('./utils');
 
 describe('webpack compiler', () => {
 	it('should compile component correctly', () => {
 		expect.assertions(1);
 		const compiler = setupCompiler({ webpack: true });
+		const controllerPath = resolveComponentPath('controllers', 'index.js');
 		const result = compiler.compileComponent({
-			file: resolveComponentPath('controllers', 'index.js')
+			file: controllerPath,
+			content: fs.readFileSync(controllerPath, 'utf-8')
 		});
 
+		// eslint-disable-next-line jest/no-large-snapshots
 		expect(result.code).toMatchInlineSnapshot(`
 		"var Alloy = require('/alloy'),
 			Backbone = Alloy.Backbone,
@@ -67,7 +72,7 @@ describe('webpack compiler', () => {
 			$.index.open();
 
 			function sayHello() {
-			  alert('Hello World!');
+				alert('Hello World!');
 			}
 
 			// Generated code that must be executed after all UI and

@@ -11,6 +11,7 @@ describe('standalone compiler', () => {
 			file: resolveComponentPath('controllers', 'index.js')
 		});
 
+		// eslint-disable-next-line jest/no-large-snapshots
 		expect(result.code).toMatchInlineSnapshot(`
 		"var Alloy = require('/alloy'),
 		Backbone = Alloy.Backbone,
