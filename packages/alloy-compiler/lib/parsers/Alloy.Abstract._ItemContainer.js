@@ -1,6 +1,6 @@
 var _ = require('lodash'),
 	U = require('alloy-utils').utils,
-	CU = require('../../utils'),
+	CU = require('../compilerUtils'),
 	styler = require('../styler'),
 	logger = require('alloy-utils').logger;
 
