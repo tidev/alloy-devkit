@@ -17,10 +17,10 @@ describe('webpack compiler', () => {
 
 		// eslint-disable-next-line jest/no-large-snapshots
 		expect(result.code).toMatchInlineSnapshot(`
-		"var Alloy = require('/alloy'),
-			Backbone = Alloy.Backbone,
-			_ = Alloy._;
+		"import Alloy from '/alloy';
 
+		const Backbone = Alloy.Backbone;
+		const _ = Alloy._;
 
 
 
@@ -32,7 +32,7 @@ describe('webpack compiler', () => {
 			return arg;
 		}
 
-		function Controller() {
+		export default function Controller() {
 
 			require('/alloy/controllers/' + 'BaseController').apply(this, Array.prototype.slice.call(arguments));
 			this.__controllerPath = 'index';
@@ -72,7 +72,7 @@ describe('webpack compiler', () => {
 			$.index.open();
 
 			function sayHello() {
-				alert('Hello World!');
+			  alert('Hello World!');
 			}
 
 			// Generated code that must be executed after all UI and
@@ -85,8 +85,6 @@ describe('webpack compiler', () => {
 			// defined on the exports object.
 			_.extend($, exports);
 		}
-
-		export default Controller;
 		"
 	`);
 	});

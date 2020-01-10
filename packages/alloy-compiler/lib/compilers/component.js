@@ -57,19 +57,13 @@ class ComponentCompiler extends BaseCompiler {
 		template.parentController = (cCode.parentControllerName !== '')
 			? cCode.parentControllerName
 			: CU[CONST.DOCROOT_BASECONTROLLER_PROPERTY] || '\'BaseController\'';
-		if (this.compilationMeta.isWebpack) {
-			if (typeof options.content !== 'string') {
-				throw new TypeError('Expected "options.content" to be a string in Webpack mode.');
-			}
-			controllerCode = options.content.replace(/\s$/, '');
-		} else {
-			controllerCode += cCode.controller;
-			template.preCode += cCode.pre;
-			template.ES6Mod += cCode.es6mods;
-		}
+		controllerCode += cCode.controller;
+		template.preCode += cCode.pre;
+		template.ES6Mod += cCode.es6mods;
 
 		// create generated controller module code for this view/controller or widget
-		let codeTemplate = _.template(this.fs.readFileSync(path.join(this.config.dir.template, 'component.js'), 'utf8'))(template);
+		const templateName = this.compilationMeta.isWebpack ? 'component.es6.js' : 'component.js';
+		let codeTemplate = _.template(this.fs.readFileSync(path.join(this.config.dir.template, templateName), 'utf8'))(template);
 
 		let map;
 		if (options.inputSourceMap) {

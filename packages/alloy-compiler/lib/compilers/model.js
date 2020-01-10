@@ -12,7 +12,8 @@ class ModelCompiler extends BaseCompiler {
 	}
 
 	compile(options) {
-		const modelTemplateFile = path.join(this.config.dir.template, 'model.js');
+		const templateName = this.compilationMeta.isWebpack ? 'model.es6.js' : 'model.js';
+		const modelTemplateFile = path.join(this.config.dir.template, templateName);
 		const modelMeta = this.findModel(options.file);
 		const isWidget = !!modelMeta.widget;
 		const manifest = isWidget ? modelMeta.widget.manifest : undefined;
