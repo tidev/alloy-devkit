@@ -1,5 +1,6 @@
-const { constants: CONST, utils: U } = require('alloy-utils');
+const { constants: CONST, logger, utils: U } = require('alloy-utils');
 const _ = require('lodash');
+const path = require('path');
 
 const BaseCompiler = require('./base');
 const CU = require('../compilerUtils');
@@ -16,6 +17,7 @@ class ViewCompiler extends BaseCompiler {
 		const meta = this.resolveComponentMeta(options.file);
 		const {
 			componentName: viewName,
+			basePath,
 			subPath: dirname,
 			manifest,
 			files
@@ -24,6 +26,8 @@ class ViewCompiler extends BaseCompiler {
 		const state = { parent: {}, styles };
 
 		// Load view from file into an XML document root node
+		logger.info('  view:       "'
+			+ path.relative(path.join(basePath, CONST.DIR.VIEW), files.VIEW) + '"');
 		const docRoot = U.XML.getAlloyFromFile(files.VIEW);
 
 		// see if autoStyle is enabled for the view
