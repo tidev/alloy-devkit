@@ -45,9 +45,9 @@ Expects an `options` object with the following properties:
 - `compileConfig`
   - Type: `object`
 
-  Configuration that will be passed to the newly created Alloy compiler.
+  Configuration that will be passed to the Alloy compiler.
 
-  You can either pass an object returned by [`createCompileConfig`](#createCompileConfig) or directly pass the same options accepted by that function.
+  You can either pass an object returned by [`createCompileConfig`](#createCompileConfig) or directly pass the same options accepted by that function. The config object will then be created from the passed options.
 
 - `webpack`
   - Type: `boolean`
@@ -76,12 +76,12 @@ const compileConfig = createCompileConfig({
 
 Expects an `options` object with the following properties:
 
-- `options.projectDir`
+- `projectDir`
   - Type: `string`
 
   Path to the root directory of the Alloy project.
 
-- `options.alloyConfig`
+- `alloyConfig`
   - Type: `object`
 
   Alloy configuration. Expects an `object` with the following structure:
@@ -92,6 +92,16 @@ Expects an `options` object with the following properties:
       deploytype: string // 'development', 'test' or 'production'
     }
     ```
+
+- `logLevel`
+  - Type: `number`
+  - Default: [logger.ERROR](../alloy-utils/lib/logger.js#L8)
+
+  Log level for the internal logger.
+
+- `buildLog`
+  - Type: [`BuildLog`](./lib/build-log.js)
+  - Default: `BuildLog` for the specified `projectDir`
 
 ### compiler.compileComponent(options)
 
