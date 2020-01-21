@@ -14,7 +14,7 @@ const ViewCompiler = require('./view');
  */
 
 /**
- * Compiler factory for the specific individual parts of an Alloy components.
+ * Compiler factory for the specific individual parts of Alloy components.
  */
 class CompilerFactory {
 	/**
