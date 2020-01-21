@@ -13,6 +13,9 @@ const styler = require('../styler');
 
 const componentRegex = /(?:[/\\]widgets[/\\][^/\\]+)?[/\\](controllers|views|styles)[/\\](.*)/;
 
+const metaCache = new Map();
+const styleCache = new Map();
+
 /** @typedef {import("./meta")} CompilationMeta  */
 
 /**
@@ -49,8 +52,6 @@ class BaseCompiler {
 		this.theme = this.config.theme;
 		this.fs = options.fs;
 		this.compilationMeta = options.compilationMeta;
-		this.metaCache = new Map();
-		this.styleCache = new Map();
 	}
 
 	resolveComponentMeta(componentPath) {
@@ -58,8 +59,8 @@ class BaseCompiler {
 		const widget = this.findWidget(componentPath);
 		const manifest = widget ? widget.manifest : null;
 		const cacheIdentifier = `${manifest ? manifest.id : 'app'}/${componentIdentifier}`;
-		if (this.metaCache.has(cacheIdentifier)) {
-			return this.metaCache.get(cacheIdentifier);
+		if (metaCache.has(cacheIdentifier)) {
+			return metaCache.get(cacheIdentifier);
 		}
 
 		const meta = {
@@ -73,7 +74,7 @@ class BaseCompiler {
 		};
 		const files = this.generatePossibleFilePaths(meta);
 		meta.files = files;
-		this.metaCache.set(cacheIdentifier, meta);
+		metaCache.set(cacheIdentifier, meta);
 
 		return meta;
 	}
@@ -149,8 +150,8 @@ class BaseCompiler {
 			files: componentFiles
 		} = meta;
 
-		if (this.styleCache.has(cacheIdentifier)) {
-			return this.styleCache.get(cacheIdentifier);
+		if (styleCache.has(cacheIdentifier)) {
+			return styleCache.get(cacheIdentifier);
 		}
 
 		const { config: compileConfig, theme } = this;
@@ -212,7 +213,7 @@ class BaseCompiler {
 			styles,
 			files
 		};
-		this.styleCache.set(cacheIdentifier, styleMeta);
+		styleCache.set(cacheIdentifier, styleMeta);
 
 		return styleMeta;
 	}
