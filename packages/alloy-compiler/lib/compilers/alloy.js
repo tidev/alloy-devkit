@@ -48,7 +48,6 @@ class AlloyCompiler {
 		this.compilationMeta = compilationMeta;
 		this.config = compileConfig;
 		this.factory = new CompilerFactory({ ...options, compilationMeta });
-		this.compilers = new Map();
 
 		// This needs to be initialized before any compile command
 		tiapp.init(path.join(compileConfig.dir.project, 'tiapp.xml'));
@@ -61,29 +60,18 @@ class AlloyCompiler {
 		styler.loadGlobalStyles(compileConfig.dir.home, theme ? { theme } : {});
 	}
 
-	getCompiler(type) {
-		if (this.compilers.has(type)) {
-			return this.compilers.get(type);
-		}
-
-		const compiler = this.factory.createCompiler(type);
-		this.compilers.set(type, compiler);
-
-		return compiler;
-	}
-
 	compileComponent(options) {
-		const compiler = this.getCompiler('component');
+		const compiler = this.factory.createCompiler('component');
 		return compiler.compile(options);
 	}
 
 	compileModel(options) {
-		const compiler = this.getCompiler('model');
+		const compiler = this.factory.createCompiler('model');
 		return compiler.compile(options);
 	}
 
 	compileStyle(options) {
-		const compiler = this.getCompiler('style');
+		const compiler = this.factory.createCompiler('style');
 		return compiler.compile(options);
 	}
 }

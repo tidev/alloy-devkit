@@ -30,14 +30,22 @@ class CompilerFactory {
 		compilerClasses.set('style', TssCompiler);
 		compilerClasses.set('view', ViewCompiler);
 		this.compilerClasses = compilerClasses;
+		this.compilers = new Map();
 	}
 
 	createCompiler(type) {
+		if (this.compilers.has(type)) {
+			return this.compilers.get(type);
+		}
+
 		const compilerClass = this.compilerClasses.get(type);
-		return new compilerClass({
+		const compiler = new compilerClass({
 			...this.options,
 			factory: this
 		});
+		this.compilers.set(type, compiler);
+
+		return compiler;
 	}
 }
 
