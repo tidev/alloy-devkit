@@ -24,6 +24,7 @@ describe('webpack compiler', () => {
 
 
 
+
 		function __processArg(obj, key) {
 			var arg = null;
 			if (obj) {
