@@ -72,7 +72,7 @@ const compileConfig = createCompileConfig({
 });
 ```
 
-#### Options
+#### Parameters
 
 Expects an `options` object with the following properties:
 
@@ -125,7 +125,7 @@ const result = compiler.compileComponent({
 });
 ```
 
-#### Options
+#### Parameters
 
 Expects an `options` object with the following properties:
 
