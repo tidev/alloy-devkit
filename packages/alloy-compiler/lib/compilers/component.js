@@ -1,4 +1,4 @@
-const { constants: CONST } = require('alloy-utils');
+const { constants: CONST, logger } = require('alloy-utils');
 const _ = require('lodash');
 const path = require('path');
 const { SourceMapGenerator } = require('source-map');
@@ -52,7 +52,13 @@ class ComponentCompiler extends BaseCompiler {
 		}
 
 		// process the controller code
-		const cCode = CU.loadController(files.CONTROLLER);
+		let controllerContent;
+		try {
+			controllerContent = this.fs.readFileSync(files.CONTROLLER, 'utf-8');
+			logger.info('  controller: "'
+				+ path.relative(path.join(meta.basePath, CONST.DIR.CONTROLLER), files.CONTROLLER) + '"');
+		} catch (e) {}
+		const cCode = CU.loadController(files.CONTROLLER, controllerContent);
 		let controllerCode = '';
 		template.parentController = (cCode.parentControllerName !== '')
 			? cCode.parentControllerName

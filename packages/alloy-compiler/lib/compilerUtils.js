@@ -950,23 +950,24 @@ exports.parseConfig = function (file, alloyConfig, o) {
 	return o;
 };
 
-exports.loadController = function (file) {
+exports.loadController = function (file, contents) {
 	var code = {
-			parentControllerName: '',
-			controller: '',
-			pre: '',
-			es6mods: ''
-		},
-		contents;
+		parentControllerName: '',
+		controller: '',
+		pre: '',
+		es6mods: ''
+	};
 
 	// Read the controller file
-	try {
-		if (!fs.existsSync(file)) {
-			return code;
+	if (!contents) {
+		try {
+			if (!fs.existsSync(file)) {
+				return code;
+			}
+			contents = fs.readFileSync(file, 'utf8');
+		} catch (e) {
+			U.die('Error reading controller file "' + file + '".', e);
 		}
-		contents = fs.readFileSync(file, 'utf8');
-	} catch (e) {
-		U.die('Error reading controller file "' + file + '".', e);
 	}
 
 	// get the base controller for this controller, also process import/export statements
