@@ -8,6 +8,30 @@ const StandaloneCompiler = require('./compilers/standalone');
 const { configureBabelPlugins } = require('./compilers/utils');
 const WebpackCompiler = require('./compilers/webpack');
 
+/** @typedef {import("./compilers/alloy")} AlloyCompiler  */
+/** @typedef {import("./compilers/alloy").AlloyConfig} AlloyConfig  */
+/** @typedef {import("./compilers/alloy").CompileConfig} CompileConfig  */
+
+/**
+ * @typedef CreateCompileConfigOptions
+ * @property {string} projectDir Alloy project root
+ * @property {AlloyConfig} alloyConfig Alloy compile options
+ * @property {BuildLog} [buildLog] Project build log
+ * @property {number} [logLevel=0]
+ */
+
+/**
+ * @typedef CreateCompilerOptions
+ * @property {CompileConfig|CreateCompileConfigOptions} compileConfig Compile config to use
+ * @property {boolean} [webpack=false] Whether or not to create a Webpack compatible compiler
+ */
+
+/**
+ * Creates a new compile config object.
+ *
+ * @param {CreateCompileConfigOptions} options Options to create the compile config
+ * @return {CompileConfig}
+ */
 function createCompileConfig(options) {
 	const { projectDir } = options;
 	const appDir = path.join(projectDir, 'app');
@@ -17,18 +41,32 @@ function createCompileConfig(options) {
 	return utils.createCompileConfig(appDir, projectDir, alloyConfig, buildLog);
 }
 
+/**
+ * Creates a new compiler instance.
+ *
+ * @param {CreateCompilerOptions} options Compiler creates options
+ * @return {AlloyCompiler}
+ */
 function createCompiler(options) {
-	const compileConfig = options.compileConfig || createCompileConfig(options);
+	if (!options.compileConfig) {
+		throw new TypeError(`Missing "compileConfig" option. Either pass a config object returned from "createCompileConfig"
+or pass options directly via this property to create a new compile config object.`);
+	}
+	let compileConfig = options.compileConfig;
+	if (typeof compileConfig.dir === 'undefined') {
+		// If `compileConfig.dir` is undefined we got the raw options and neeed to
+		// create the config object from that.
+		compileConfig = createCompileConfig(compileConfig);
+	}
+	delete options.compileConfig;
+	const mergedOptions = {
+		...options,
+		compileConfig
+	};
 	if (options.webpack) {
-		return new WebpackCompiler({
-			...options,
-			compileConfig
-		});
+		return new WebpackCompiler(mergedOptions);
 	} else {
-		return new StandaloneCompiler({
-			...options,
-			compileConfig
-		});
+		return new StandaloneCompiler(mergedOptions);
 	}
 }
 
