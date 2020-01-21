@@ -49,8 +49,9 @@ function createCompileConfig(options) {
  */
 function createCompiler(options) {
 	if (!options.compileConfig) {
-		throw new TypeError(`Missing "compileConfig" option. Either pass a config object returned from "createCompileConfig"
-or pass options directly via this property to create a new compile config object.`);
+		throw new TypeError(`Missing "compileConfig" option. Either pass a config
+object returned from "createCompileConfig" or pass options directly via this
+property to create a new compile config object.`);
 	}
 	let compileConfig = options.compileConfig;
 	if (typeof compileConfig.dir === 'undefined') {
