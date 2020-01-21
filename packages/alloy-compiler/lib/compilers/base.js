@@ -13,6 +13,8 @@ const styler = require('../styler');
 
 const componentRegex = /(?:[/\\]widgets[/\\][^/\\]+)?[/\\](controllers|views|styles)[/\\](.*)/;
 
+/** @typedef {import("./meta")} CompilationMeta  */
+
 /**
  * @typedef InternalCompilerOptions
  * @property {CompileConfig} compileConfig
@@ -32,6 +34,11 @@ const componentRegex = /(?:[/\\]widgets[/\\][^/\\]+)?[/\\](controllers|views|sty
  * Abstract base compiler for the specific compiler implementations.
  */
 class BaseCompiler {
+	/**
+	 * Constructs a new compiler
+	 *
+	 * @param {InternalCompilerOptions} options Compiler options
+	 */
 	constructor(options) {
 		this.config = options.compileConfig;
 		this.projectDir = this.config.dir.project;
