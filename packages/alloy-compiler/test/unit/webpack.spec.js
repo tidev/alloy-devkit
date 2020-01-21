@@ -1,21 +1,26 @@
 // eslint-disable: quotes
 // eslint-disable: max-len
 
+const fs = require('fs');
+
 const { setupCompiler, resolveComponentPath } = require('./utils');
 
 describe('webpack compiler', () => {
 	it('should compile component correctly', () => {
 		expect.assertions(1);
 		const compiler = setupCompiler({ webpack: true });
+		const controllerPath = resolveComponentPath('controllers', 'index.js');
 		const result = compiler.compileComponent({
-			file: resolveComponentPath('controllers', 'index.js')
+			file: controllerPath,
+			content: fs.readFileSync(controllerPath, 'utf-8')
 		});
 
+		// eslint-disable-next-line jest/no-large-snapshots
 		expect(result.code).toMatchInlineSnapshot(`
-		"var Alloy = require('/alloy'),
-			Backbone = Alloy.Backbone,
-			_ = Alloy._;
+		"import Alloy from '/alloy';
 
+		const Backbone = Alloy.Backbone;
+		const _ = Alloy._;
 
 
 
@@ -27,7 +32,7 @@ describe('webpack compiler', () => {
 			return arg;
 		}
 
-		function Controller() {
+		export default function Controller() {
 
 			require('/alloy/controllers/' + 'BaseController').apply(this, Array.prototype.slice.call(arguments));
 			this.__controllerPath = 'index';
@@ -80,8 +85,6 @@ describe('webpack compiler', () => {
 			// defined on the exports object.
 			_.extend($, exports);
 		}
-
-		export default Controller;
 		"
 	`);
 	});
