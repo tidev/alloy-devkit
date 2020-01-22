@@ -142,4 +142,14 @@ Expects an `options` object with the following properties:
 - `file`
   - Type: `string`
 
-  Full path to the controller source file that should be compiled.
+  Full path to the controller or view file that should be compiled. The compiler will automatically look for all possible associated files of the component (controller/view/style) and process them.
+
+- `content`
+  - Type: `string`
+
+  Content of `file`, if already known. The compiler will automatically read the `file`'s content if this is omitted.
+
+- `inputSourceMap`
+  - Type: `object`
+
+  Input source map. The compiler will create a new source map if this is omitted.
