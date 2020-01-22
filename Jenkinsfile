@@ -25,6 +25,9 @@ timestamps {
         stage('Lint') {
           sh 'yarn lint'
         }
+        stage('Test') {
+          sh 'yarn test'
+        }
         if(publishableBranches.contains(env.BRANCH_NAME)) {
           stage('Publish') {
             gitRemoteWithCredentials {
