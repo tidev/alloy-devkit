@@ -1,6 +1,6 @@
 {
   "name": "alloy-compiler",
-  "version": "1.14.4",
+  "version": "0.0.0",
   "description": "Compiler for Alloy components",
   "main": "lib/index.js",
   "keywords": [
