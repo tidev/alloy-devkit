@@ -24,9 +24,11 @@ function setupCompilerFactory(options) {
 
 function setupCompiler(options) {
 	return createCompiler(Object.assign({}, {
-		projectDir: path.join(__dirname, 'fixtures', 'test-app'),
-		alloyConfig: {
-			platform: 'ios'
+		compileConfig: {
+			projectDir: path.join(__dirname, 'fixtures', 'test-app'),
+			alloyConfig: {
+				platform: 'ios'
+			}
 		}
 	}, options));
 }
