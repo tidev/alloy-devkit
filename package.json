@@ -3,7 +3,7 @@
   "description": "Tooling for Alloy",
   "private": true,
   "scripts": {
-    "lerna:bootsrap": "lerna bootsrap",
+    "lerna:bootstrap": "lerna bootstrap",
     "lerna:publish": "lerna publish --yes --conventional-commits",
     "lint": "eslint packages",
     "test": "jest"
