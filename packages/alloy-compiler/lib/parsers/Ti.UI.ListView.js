@@ -53,7 +53,6 @@ function parse(node, state, args) {
 			isRefreshControl = false,
 			isProxyProperty = false,
 			isControllerNode = false,
-			hasUiNodes = false,
 			parentSymbol, controllerSymbol;
 
 		if (!theNode) {
@@ -75,7 +74,7 @@ function parse(node, state, args) {
 		if (theNode !== 'Alloy.Abstract.Templates') {
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function (node, state, args) {
+				post: function (node, state) {
 					parentSymbol = state.parent.symbol;
 					controllerSymbol = state.controller;
 				}
@@ -91,8 +90,6 @@ function parse(node, state, args) {
 				if (_.includes(PROXY_PROPERTIES, name)) {
 					var propertyName = U.proxyPropertyNameFromFullname(name);
 					proxyProperties[propertyName] = controllerSymbol + '.getProxyPropertyEx("' + propertyName + '", {recurse:true})';
-				} else {
-					hasUiNodes = true;
 				}
 			});
 		}

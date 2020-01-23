@@ -4,7 +4,7 @@ exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
-function parse(node, state, args) {
+function parse(node, state) {
 	if (!state.itemsArray) {
 		U.die('A CoverFlowImageType element must the child of a CoverFlowImageTypes element');
 	}

@@ -13,7 +13,7 @@ module.exports = function (_ref) {
 	var isTitaniumPlatform = types.buildMatchMemberExpression('Titanium.Platform');
 
 	return {
-		pre: function (state) {
+		pre: function () {
 			var config = this.opts || {};
 			config.deploytype = config.deploytype || 'development';
 
@@ -37,6 +37,7 @@ module.exports = function (_ref) {
 				this.platform = { name: undefined, osname: undefined };
 			} else {
 				// create, transform, and validate the platform object
+				// eslint-disable-next-line security/detect-non-literal-require
 				this.platform = require(platformPath);
 				if (!_.isString(this.platform.name)) {
 					this.platform.name = undefined;
@@ -47,7 +48,7 @@ module.exports = function (_ref) {
 			}
 		},
 		visitor: {
-			MemberExpression: function (path, state) {
+			MemberExpression: function (path) {
 				// console.log(JSON.stringify(path.node));
 				var name = '';
 				if (types.isStringLiteral(path.node.property)) {

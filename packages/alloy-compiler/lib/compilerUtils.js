@@ -53,6 +53,7 @@ var RESERVED_ATTRIBUTES = [
 		'method',
 		'module'
 	],
+	// eslint-disable-next-line security/detect-non-literal-regexp
 	RESERVED_EVENT_REGEX =  new RegExp(`^(?:(${CONST.PLATFORMS.join('|')}):)?on([A-Z].+)`);
 
 // load CONDITION_MAP with platforms
@@ -127,8 +128,6 @@ exports.getParserArgs = function (node, state, opts) {
 		fullname = (ns && ns.length) ? (ns + '.' + name) : name,
 		id = node.getAttribute('id') || defaultId || exports.generateUniqueId(),
 		platform = node.getAttribute('platform'),
-		formFactor = node.getAttribute('formFactor'),
-		tssIf = node.getAttribute('if'),
 		platformObj;
 
 	// make sure we're not reusing the default ID for the first top level element
@@ -351,6 +350,7 @@ exports.generateNode = function (node, state, defaultId, isTopLevel, isModelOrCo
 	var isLocal = state.local;
 	// [ALOY-787] keeping track of widget id
 	var widgetId = state.widgetId;
+	// eslint-disable-next-line security/detect-non-literal-require
 	state = require('./parsers/' + parserRequire).parse(node, state) || { parent: {} };
 	code.content += state.code;
 	state.widgetId = widgetId;
@@ -465,6 +465,7 @@ exports.expandRequireNode = function (requireNode, doRecursive) {
 	var cloneNode = requireNode.cloneNode(true);
 
 	function getViewRequirePath(node) {
+		// eslint-disable-next-line security/detect-non-literal-regexp
 		var regex = new RegExp('\\.' + CONST.FILE_EXT.VIEW + '$'),
 			src = node.getAttribute('src'),
 			fullname = exports.getNodeFullname(node),
@@ -1081,6 +1082,7 @@ exports.updateFiles = function (srcDir, dstDir, opts) {
 	}
 
 	// don't process XML/controller files inside .svn folders (ALOY-839)
+	// eslint-disable-next-line security/detect-non-literal-regexp
 	var excludeRegex = new RegExp('(?:^|[\\/\\\\])(?:' + CONST.EXCLUDED_FILES.join('|') + ')(?:$|[\\/\\\\])');
 	var ordered = [];
 	_.each(walkSync(srcDir), function (file) {

@@ -1,11 +1,10 @@
-var U = require('alloy-utils').utils,
-	CU = require('../compilerUtils');
+var U = require('alloy-utils').utils;
 
 exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
-function parse(node, state, args) {
+function parse(node, state) {
 	if (!state.itemsArray) {
 		U.die('Invalid use of <ButtonName>. Must be the child of <ButtonNames>.');
 	}

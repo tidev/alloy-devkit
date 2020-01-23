@@ -1,9 +1,7 @@
 var _ = require('lodash'),
 	U = require('alloy-utils').utils,
 	CU = require('../compilerUtils'),
-	CONST = require('alloy-utils').constants,
-	logger = require('alloy-utils').logger,
-	util = require('util');
+	CONST = require('alloy-utils').constants;
 
 function fixDefinition(def) {
 	def = def || {};
@@ -18,7 +16,7 @@ exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
-function parse(node, state, args) {
+function parse(node, state) {
 	var def = fixDefinition(state.proxyPropertyDefinition),
 		proxyPropertyName = U.lcfirst(node.nodeName),
 		code = '',
@@ -36,8 +34,6 @@ function parse(node, state, args) {
 
 		// process children
 		_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
-			var childArgs = CU.getParserArgs(child, state);
-
 			// validate children
 			if (def.children.length > 0) {
 				if (!CU.validateNodeName(child, def.children)) {
@@ -48,7 +44,7 @@ function parse(node, state, args) {
 			// generate proxy property
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function (node, state, args) {
+				post: function (node, state) {
 					proxy = state.parent.symbol;
 				}
 			});

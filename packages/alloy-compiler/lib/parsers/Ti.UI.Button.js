@@ -1,6 +1,5 @@
 var _ = require('lodash'),
 	styler = require('../styler'),
-	CU = require('../compilerUtils'),
 	U = require('alloy-utils').utils,
 	tiapp = require('alloy-utils').tiapp,
 	iOSProxy;
@@ -18,7 +17,7 @@ exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
-function parse(node, state, args) {
+function parse(node, state) {
 	// Get button title from node text, if present
 	var nodeText = U.XML.getNodeText(node);
 	if (nodeText) {

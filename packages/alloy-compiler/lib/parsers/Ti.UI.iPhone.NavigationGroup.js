@@ -10,7 +10,7 @@ exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
-function parse(node, state, args) {
+function parse(node, state) {
 	if (tiapp.version.gte(tiapp.getSdkVersion(), DEPRECATED_VERSION)) {
 		logger.warn([
 			'Ti.UI.iPhone.NavigationGroup (line ' + node.lineNumber + ') is deprecated as of Titanium ' + DEPRECATED_VERSION,
@@ -36,7 +36,7 @@ function parse(node, state, args) {
 	if (theNode) {
 		code += CU.generateNodeExtended(child, state, {
 			parent: {},
-			post: function (node, state, args) {
+			post: function (node, state) {
 				windowSymbol = state.parent.symbol;
 			}
 		});

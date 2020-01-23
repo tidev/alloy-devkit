@@ -1,7 +1,5 @@
-var _ = require('lodash'),
-	styler = require('../styler'),
+var styler = require('../styler'),
 	U = require('alloy-utils').utils,
-	CU = require('../compilerUtils'),
 	tiapp = require('alloy-utils').tiapp;
 
 var MIN_VERSION = '3.6.0';

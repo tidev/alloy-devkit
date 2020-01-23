@@ -9,7 +9,7 @@ exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
-function parse(node, state, args) {
+function parse(node, state) {
 	var children = U.XML.getElementsFromNodes(node.childNodes),
 		subParents = [],
 		code = '',
@@ -33,7 +33,7 @@ function parse(node, state, args) {
 			var subParentSymbol;
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function (node, state, args) {
+				post: function (node, state) {
 					subParentSymbol = state.parent.symbol;
 					subParents.push(subParentSymbol);
 				}

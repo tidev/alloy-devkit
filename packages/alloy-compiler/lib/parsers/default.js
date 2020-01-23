@@ -24,6 +24,7 @@ function parse(node, state, args) {
 	}
 	// is this just a proxy property?
 	if (parts[0] === '_ProxyProperty') {
+		// eslint-disable-next-line security/detect-non-literal-require
 		return require('./_ProxyProperty.' + parts[1]).parse(node, state);
 	}
 
@@ -94,7 +95,7 @@ function parse(node, state, args) {
 					parent: {},
 					local: true,
 					isViewTemplate: true,
-					post: function (node, state, args) {
+					post: function (node, state) {
 						return childTemplates + '.push(' + state.item.symbol + ');';
 					}
 				});

@@ -1,5 +1,4 @@
-var _ = require('lodash')._,
-	styler = require('../styler'),
+var styler = require('../styler'),
 	U = require('alloy-utils').utils,
 	CU = require('../compilerUtils');
 
@@ -7,7 +6,7 @@ exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
-function parse(node, state, args) {
+function parse(node, state) {
 	var children = U.XML.getElementsFromNodes(node.childNodes),
 		err = [ 'Tab must have only one child element, which must be a Window' ],
 		code = '';
@@ -26,7 +25,7 @@ function parse(node, state, args) {
 	if (theNode) {
 		code += CU.generateNodeExtended(child, state, {
 			parent: {},
-			post: function (node, state, args) {
+			post: function (node, state) {
 				windowSymbol = state.parent.symbol;
 			}
 		});

@@ -24,7 +24,7 @@ module.exports = function (def) {
 };
 
 function runtimeCondition(osname, name) {
-	var output, map;
+	var map;
 	osname = osname || [];
 	name = name || [];
 

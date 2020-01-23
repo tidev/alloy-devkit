@@ -2,7 +2,7 @@ exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
-function parse(node, state, args) {
+function parse(node, state) {
 	var systemIcon = node.getAttribute('icon');
 	if (systemIcon.indexOf('.SystemIcon.') === -1) {
 		node.setAttribute('icon', 'Ti.UI.Windows.SystemIcon.' + systemIcon);

@@ -1,6 +1,5 @@
 var styler = require('../styler'),
-	CU = require('../compilerUtils'),
-	U = require('alloy-utils').utils;
+	CU = require('../compilerUtils');
 
 // regex for ALOY-895
 var BINDING_REGEX = /^\s*\{\s*([^\s]+)\s*\}\s*$/;
@@ -12,7 +11,7 @@ exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
-function parse(node, state, args) {
+function parse(node, state) {
 	if (node.hasAttribute('value')) {
 		var value = node.getAttribute('value');
 		if (!value.match(BINDING_REGEX)) {

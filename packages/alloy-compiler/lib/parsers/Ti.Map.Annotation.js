@@ -1,5 +1,4 @@
 var styler = require('../styler'),
-	CU = require('../compilerUtils'),
 	_ = require('lodash');
 
 exports.parse = function (node, state) {

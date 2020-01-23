@@ -209,9 +209,8 @@ exports.generateSourceMap = function (generator, compileConfig) {
 	// parse composite code into an AST
 	// TODO: Remove? This is a sanity check, I suppose, but is it necessary?
 	// Our classic build should blow up on bad JS files
-	var ast;
 	try {
-		ast = babylon.parse(genMap.code, {
+		babylon.parse(genMap.code, {
 			sourceFilename: genMap.file,
 			sourceType: 'unambiguous',
 			allowReturnOutsideFunction: true,

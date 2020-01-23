@@ -7,7 +7,7 @@ exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
-function parse(node, state, args) {
+function parse(node, state) {
 	var attributedStringsymbol,
 		attributedStringObj = {},
 		code = '';
@@ -16,7 +16,7 @@ function parse(node, state, args) {
 		if (CU.validateNodeName(child, 'Ti.UI.AttributedString')) {
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function (node, state, args) {
+				post: function (node, state) {
 					attributedStringsymbol = state.parent.symbol;
 				}
 			});

@@ -45,7 +45,7 @@ function parse(node, state, args) {
 			rowCode += CU.generateNodeExtended(child, state, {
 				parent: {},
 				model: localModel,
-				post: function (node, state, args) {
+				post: function (node, state) {
 					return 'rows.push(' + state.parent.symbol + ');\n';
 				}
 			});
@@ -55,7 +55,7 @@ function parse(node, state, args) {
 			// generate the code for each row and add it to the array
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function (node, state, a) {
+				post: function (node, state) {
 					return args.symbol + '.addRow(' + state.parent.symbol + ');\n';
 				}
 			});

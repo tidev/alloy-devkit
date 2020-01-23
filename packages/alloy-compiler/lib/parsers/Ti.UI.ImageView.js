@@ -2,7 +2,7 @@ exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
-function parse(node, state, args) {
+function parse(node, state) {
 	// Get image property from the
 	if (node.hasAttribute('image')) {
 		var attr = node.getAttribute('image');

@@ -144,9 +144,6 @@ function install(type, opts) {
 	type = type || 'module';
 	opts = opts || {};
 
-	var err = 'Project creation failed. Unable to install ' + type + ' "'
-		+ (opts.name || opts.id) + '"';
-
 	// read the tiapp.xml file
 	var collection = doc.documentElement.getElementsByTagName(type + 's');
 	var found = false;

@@ -13,19 +13,18 @@ exports.parse = function (node, state) {
 };
 
 function parse(node, state, args) {
-	var children = U.XML.getElementsFromNodes(node.childNodes),
-		arrayName = CU.generateUniqueId(),
+	var arrayName = CU.generateUniqueId(),
 		isCollectionBound = !!args[CONST.BIND_COLLECTION],
 		code = 'var ' + arrayName + '=[];\n';
 
 	// iterate through all children
 	if (!isCollectionBound) {
-		_.each(U.XML.getElementsFromNodes(node.childNodes), function (child, index) {
+		_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 			if (CU.validateNodeName(child, VALID)) {
 				// generate code for the DashboardItem
 				code += CU.generateNodeExtended(child, state, {
 					parent: {},
-					post: function (node, state, args) {
+					post: function (node, state) {
 						return arrayName + '.push(' + state.parent.symbol + ');\n';
 					}
 				});
@@ -60,7 +59,7 @@ function parse(node, state, args) {
 				parent: {},
 				local: true,
 				model: localModel,
-				post: function (node, state, args) {
+				post: function (node, state) {
 					return localArray + '.push(' + state.parent.symbol + ');\n';
 				}
 			});

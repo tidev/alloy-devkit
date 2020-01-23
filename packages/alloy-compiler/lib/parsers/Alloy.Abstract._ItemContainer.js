@@ -20,7 +20,7 @@ exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
-function parse(node, state, args) {
+function parse(node, state) {
 	var def = fixDefinition(state.itemContainerDefinition),
 		config = CU.getCompilerConfig(),
 		isAndroid = config && config.alloyConfig && config.alloyConfig.platform === 'android',
@@ -75,7 +75,7 @@ function parse(node, state, args) {
 				if (isAndroid) {
 					androidView = CU.generateNodeExtended(child, state, {
 						parent: {},
-						post: function (node, state, args) {
+						post: function (node, state) {
 							extras.push([ 'androidView', state.parent.symbol ]);
 						}
 					});
