@@ -21,6 +21,7 @@ timestamps {
         }
         stage('Prepare') {
           sh 'yarn'
+          sh 'yarn lerna:bootstrap'
         }
         stage('Lint') {
           sh 'yarn lint'
