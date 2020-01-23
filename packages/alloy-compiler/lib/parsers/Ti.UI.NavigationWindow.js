@@ -1,5 +1,4 @@
-var _ = require('lodash'),
-	styler = require('../styler'),
+var styler = require('../styler'),
 	U = require('alloy-utils').utils,
 	CU = require('../compilerUtils'),
 	tiapp = require('alloy-utils').tiapp;
@@ -11,7 +10,7 @@ exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
-function parse(node, state, args) {
+function parse(node, state) {
 	const tiappSdkVersion = tiapp.getSdkVersion();
 	if (tiapp.version.lt(tiappSdkVersion, MIN_VERSION_FOR_IOS)) {
 		U.die(`Ti.UI.iOS.NavigationWindow (line ${node.lineNumber}) requires Titanium ${MIN_VERSION_FOR_IOS}+`);
@@ -39,7 +38,7 @@ function parse(node, state, args) {
 	if (theNode) {
 		code += CU.generateNodeExtended(child, state, {
 			parent: {},
-			post: function (node, state, args) {
+			post: function (node, state) {
 				windowSymbol = state.parent.symbol;
 			}
 		});

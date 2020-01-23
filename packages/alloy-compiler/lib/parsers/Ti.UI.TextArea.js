@@ -20,7 +20,7 @@ exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
-function parse(node, state, args) {
+function parse(node, state) {
 	var code = '',
 		postCode = '',
 		extras = [],
@@ -51,7 +51,7 @@ function parse(node, state, args) {
 		// generate the node
 		code += CU.generateNodeExtended(child, state, {
 			parent: {},
-			post: function (node, state, args) {
+			post: function (node, state) {
 				controllerSymbol = state.controller;
 				parentSymbol = state.parent ? state.parent.symbol : null;
 			}

@@ -34,7 +34,7 @@ function parse(node, state, args) {
 				}
 
 				// render the code for adding the tab to the array
-				ext.post = function (node, state, args) {
+				ext.post = function (node, state) {
 					if (SUPPORTS_TABS) {
 						return tabArray + '.push(' + state.parent.symbol + ');';
 					} else {

@@ -58,7 +58,7 @@ function parse(node, state, args) {
 			if (!isCollectionBound) {
 				code += CU.generateNodeExtended(child, state, {
 					parent: {},
-					post: function (node, s, args) {
+					post: function (node, s) {
 						return state.itemsArray + '.push(' + s.parent.symbol + ');';
 					}
 				});
@@ -80,7 +80,7 @@ function parse(node, state, args) {
 				parent: {},
 				local: true,
 				model: localModel,
-				post: function (node, state, args) {
+				post: function (node, state) {
 					return itemsVar + '.push(' + state.parent.symbol + ');\n';
 				}
 			});

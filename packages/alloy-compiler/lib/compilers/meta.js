@@ -96,7 +96,7 @@ class CompilationMeta {
 	/**
 	 * Finds all available models.
 	 *
-	 * @return {Map<string, ModelMeta}
+	 * @return {Map<string, ModelMeta>}
 	 */
 	findAllModels() {
 		const widgetDirs = U.getWidgetDirectories(this.appDir);

@@ -17,7 +17,7 @@ exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
-function parse(node, state, args) {
+function parse(node, state) {
 	var code = '',
 		rowCode = '',
 		extras = [],
@@ -50,7 +50,7 @@ function parse(node, state, args) {
 			// generate the controller node
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function (node, state, args) {
+				post: function (node, state) {
 					parentSymbol = state.parent.symbol;
 					controllerSymbol = state.controller;
 				}
@@ -76,7 +76,7 @@ function parse(node, state, args) {
 		if (isProxyProperty) {
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function (node, state, args) {
+				post: function (node, state) {
 					proxyProperties[U.proxyPropertyNameFromFullname(theNode)] = state.parent.symbol;
 				}
 			});
@@ -85,7 +85,7 @@ function parse(node, state, args) {
 		} else if (!isControllerNode) {
 			rowCode += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function (node, state, args) {
+				post: function (node, state) {
 					return '<%= sectionSymbol %>.add(' + state.parent.symbol + ');';
 				}
 			});

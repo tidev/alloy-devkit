@@ -1,6 +1,5 @@
 var _ = require('lodash'),
 	U = require('alloy-utils').utils,
-	logger = require('alloy-utils').logger,
 	CU = require('../compilerUtils'),
 	CONST = require('alloy-utils').constants,
 	styler = require('../styler');
@@ -118,7 +117,7 @@ function parse(node, state, args) {
 		// generate the code for each column/row and add it to the array
 		code += CU.generateNodeExtended(child, state, {
 			parent: {},
-			post: function (node, state, a) {
+			post: function (node, state) {
 				return arrayName + '.push(' + state.parent.symbol + ');\n';
 			}
 		});

@@ -133,7 +133,6 @@ var NS_ALLOY = 'Alloy',
 	NS_TI_UI_IOS = 'Ti.UI.iOS',
 	NS_TI_UI_IPAD = 'Ti.UI.iPad',
 	NS_TI_UI_IPHONE = 'Ti.UI.iPhone',
-	NS_TI_UI_MOBILEWEB = 'Ti.UI.MobileWeb',
 	NS_TI_UI_WINDOWS = 'Ti.UI.Windows';
 
 exports.IMPLICIT_NAMESPACES = {

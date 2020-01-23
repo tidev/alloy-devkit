@@ -15,6 +15,7 @@ var GLOBAL_STYLE_CACHE = 'global_style_cache.json';
 var STYLE_ALLOY_TYPE = '__ALLOY_TYPE__';
 var STYLE_EXPR_PREFIX = exports.STYLE_EXPR_PREFIX = '__ALLOY_EXPR__--';
 var STYLE_REGEX = /^\s*([#.]{0,1})([^[]+)(?:\[([^\]]+)\])*\s*$/;
+// eslint-disable-next-line security/detect-non-literal-regexp
 var EXPR_REGEX = new RegExp('^' + STYLE_EXPR_PREFIX + '(.+)');
 var BINDING_SPLIT_REGEX = /(\{[^:}]+\}(?!\}))/;
 var BINDING_REFERENCE_REGEX = /^\{([^:}]+)\}$/;
@@ -548,7 +549,7 @@ exports.generateStyleParams = function (styles, classes, id, apiName, extraStyle
 
 			var bindingExpParts = [];
 
-			bindingStrParts.forEach(function (part, i) {
+			bindingStrParts.forEach(function (part) {
 
 				// empty string
 				if (part === '') {
@@ -693,10 +694,6 @@ exports.generateStyleParams = function (styles, classes, id, apiName, extraStyle
 
 	return code;
 };
-
-function getCacheFilePath(appPath, hash) {
-	return path.join(appPath, '..', CONST.DIR.BUILD, 'global_style_cache_' + hash + '.json');
-}
 
 // source: https://github.com/lodash/lodash/blob/3.8.1-npm-packages/lodash._topath/index.js
 function toPath(value) {

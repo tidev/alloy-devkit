@@ -4,7 +4,7 @@ const template = require('@babel/template').default;
 const buildRequire = template(`
 	var VARIABLE = REQUIRECALL;
 `);
-module.exports = function (babel) {
+module.exports = function () {
 	return {
 		name: 'app.js top level variables global transform',
 		visitor: {

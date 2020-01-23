@@ -57,7 +57,11 @@ class ComponentCompiler extends BaseCompiler {
 			controllerContent = this.fs.readFileSync(files.CONTROLLER, 'utf-8');
 			logger.info('  controller: "'
 				+ path.relative(path.join(meta.basePath, CONST.DIR.CONTROLLER), files.CONTROLLER) + '"');
-		} catch (e) {}
+		} catch (e) {
+			if (e.code !== 'ENOENT') {
+				throw e;
+			}
+		}
 		const cCode = CU.loadController(files.CONTROLLER, controllerContent);
 		let controllerCode = '';
 		template.parentController = (cCode.parentControllerName !== '')

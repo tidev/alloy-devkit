@@ -17,9 +17,9 @@ function parse(node, state, args) {
 
 	_.each(U.XML.getElementsFromNodes(node.childNodes), function (child) {
 		// process children, of which only ActionView is supported
-		var childArgs = CU.getParserArgs(child, state);
 		var parts = CU.getNodeFullname(child).split('.');
 		if (parts[0] === '_ProxyProperty') {
+			// eslint-disable-next-line security/detect-non-literal-require
 			actionView = require('./_ProxyProperty.' + parts[1]).parse(node, state);
 		}
 	});

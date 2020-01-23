@@ -7,17 +7,17 @@ exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };
 
-function parse(node, state, args) {
+function parse(node, state) {
 	var children = U.XML.getElementsFromNodes(node.childNodes),
 		code = '',
 		extras = [],
 		proxyProperties = {};
 
-	_.each(children, function (child, key) {
+	_.each(children, function (child) {
 		if (child.nodeName === 'RefreshControl') {
 			code += CU.generateNodeExtended(child, state, {
 				parent: { },
-				post: function (node, state, args) {
+				post: function (node, state) {
 					proxyProperties.refreshControl = state.parent.symbol;
 				}
 			});

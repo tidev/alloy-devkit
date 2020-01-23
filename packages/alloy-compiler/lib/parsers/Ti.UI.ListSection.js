@@ -67,7 +67,7 @@ function parse(node, state, args) {
 		if (isProxyProperty) {
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function (node, state, args) {
+				post: function (node, state) {
 					proxyProperties[U.proxyPropertyNameFromFullname(theNode)] = state.parent.symbol;
 				}
 			});
@@ -82,7 +82,7 @@ function parse(node, state, args) {
 					parent: {},
 					local: true,
 					model: localModel,
-					post: function (node, state, args) {
+					post: function (node, state) {
 						controllerSymbol = state.controller;
 						return itemsVar + '.push(' + state.parent.symbol + ');';
 					}
@@ -96,7 +96,7 @@ function parse(node, state, args) {
 				}
 				code += CU.generateNodeExtended(child, state, {
 					parent: {},
-					post: function (node, state, args) {
+					post: function (node, state) {
 						controllerSymbol = state.controller;
 						return itemsArray + '.push(' + state.parent.symbol + ');';
 					}
@@ -107,7 +107,7 @@ function parse(node, state, args) {
 		} else if (!hasUiNodes && isControllerNode) {
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function (node, state, args) {
+				post: function (node, state) {
 					controllerSymbol = state.controller;
 				}
 			});

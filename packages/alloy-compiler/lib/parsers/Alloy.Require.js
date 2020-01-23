@@ -4,9 +4,7 @@ var path = require('path'),
 	CU = require('../compilerUtils'),
 	U = require('alloy-utils').utils,
 	styler = require('../styler'),
-	CONST = require('alloy-utils').constants,
-	moduleRoot = path.join(__dirname, '..', '..', '..', '..'),
-	TYPES = [ 'view', 'widget' ];
+	CONST = require('alloy-utils').constants;
 
 exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
@@ -60,6 +58,7 @@ function parse(node, state, args) {
 	}
 
 	// check the extensions on the paths to check
+	// eslint-disable-next-line security/detect-non-literal-regexp
 	var regex = new RegExp('\\.' + CONST.FILE_EXT.VIEW + '$');
 	var found = false;
 	for (var i = 0; i < paths.length; i++) {
@@ -97,10 +96,9 @@ function parse(node, state, args) {
 		if (!CU.isNodeForCurrentPlatform(child)) {
 			return;
 		}
-		var childArgs = CU.getParserArgs(child);
 		code += CU.generateNodeExtended(child, state, {
 			parent: {},
-			post: function (node, state, args) {
+			post: function (node, state) {
 				if (state.parent.symbol) {
 					xChildren.push(state.parent.symbol);
 				}

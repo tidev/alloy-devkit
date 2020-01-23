@@ -22,7 +22,7 @@ function parse(node, state, args) {
 			// generate the code for the subview
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function (node, state, args) {
+				post: function (node, state) {
 					return (state && state.parent && state.parent.symbol) ? arrayName + '.push(' + state.parent.symbol + ');\n' : '';
 				}
 			});
@@ -48,7 +48,7 @@ function parse(node, state, args) {
 				parent: {},
 				local: true,
 				model: localModel,
-				post: function (node, state, args) {
+				post: function (node, state) {
 					return 'views.push(' + state.parent.symbol + ');\n';
 				}
 			});

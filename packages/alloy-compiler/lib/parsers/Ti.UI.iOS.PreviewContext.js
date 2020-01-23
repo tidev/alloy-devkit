@@ -24,7 +24,7 @@ function parse(node, state, args) {
 
 		code += CU.generateNodeExtended(child, state, {
 			parent: {},
-			post: function (node, state, args) {
+			post: function (node, state) {
 				if (child.nodeName === 'Preview') {
 					preview = state.parent.proxyProperty;
 				}

@@ -1,6 +1,4 @@
-var U = require('alloy-utils').utils,
-	CU = require('../compilerUtils'),
-	tiapp = require('alloy-utils').tiapp,
+var tiapp = require('alloy-utils').tiapp,
 	iOSProxy;
 
 var MIN_VERSION = '5.4.0';

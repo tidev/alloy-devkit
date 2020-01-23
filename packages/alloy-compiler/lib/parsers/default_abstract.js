@@ -1,7 +1,5 @@
 var CU = require('../compilerUtils'),
-	U = require('alloy-utils').utils,
 	styler = require('../styler'),
-	CONST = require('alloy-utils').constants,
 	_ = require('lodash');
 
 exports.parse = function (node, state) {

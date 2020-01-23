@@ -6,6 +6,8 @@ var path = require('path'),
 	_ = require('lodash'),
 	logger = require('alloy-utils').logger;
 
+const fs = require('fs');
+
 exports.parse = function (node, state) {
 	return require('./base').parse(node, state, parse);
 };

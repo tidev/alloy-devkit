@@ -563,7 +563,6 @@ exports.isLocaleAlias = function (string) {
 
 exports.getDeploymentTargets = function (projDir) {
 	var tiappPath = path.join(projDir, 'tiapp.xml'),
-		tiappDoc,
 		targets;
 
 	if (fs.existsSync(tiappPath)) {

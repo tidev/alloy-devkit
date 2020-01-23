@@ -1,3 +1,4 @@
 **/node_modules
-packages/alloy-compiler/template/*.js
+packages/alloy-compiler/template
+packages/alloy-compiler/builtins
 packages/alloy-utils/lib/grammar/tss.js

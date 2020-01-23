@@ -14,7 +14,7 @@ function parse(node, state, args) {
 		code = 'var ' + arrayName + ' = [];\n',
 		itemCode = '',
 		isCollectionBound = !!args[CONST.BIND_COLLECTION],
-		localModel, controllerSymbol;
+		localModel;
 
 	if (isCollectionBound) {
 		_.each(CONST.BIND_PROPERTIES, function (p) {
@@ -41,7 +41,7 @@ function parse(node, state, args) {
 			// generate code for the Annotation
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function (node, state, args) {
+				post: function (node, state) {
 					return arrayName + '.push(' + state.parent.symbol + ');\n';
 				}
 			});

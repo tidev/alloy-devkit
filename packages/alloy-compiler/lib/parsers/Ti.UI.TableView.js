@@ -120,7 +120,7 @@ function parse(node, state, args) {
 		} else if (isSearchBar) {
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function (node, state, args) {
+				post: function (node, state) {
 					proxyProperties.search = state.parent.symbol;
 				}
 			});
@@ -129,7 +129,7 @@ function parse(node, state, args) {
 		} else if (isRefreshControl) {
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function (node, state, args) {
+				post: function (node, state) {
 					proxyProperties.refreshControl = state.parent.symbol;
 				}
 			});
@@ -144,7 +144,7 @@ function parse(node, state, args) {
 					parent: {},
 					local: true,
 					model: localModel,
-					post: function (node, state, args) {
+					post: function (node, state) {
 						controllerSymbol = state.controller;
 						return 'rows.push(' + state.parent.symbol + ');\n';
 					}
@@ -158,7 +158,7 @@ function parse(node, state, args) {
 				}
 				code += CU.generateNodeExtended(child, state, {
 					parent: {},
-					post: function (node, state, args) {
+					post: function (node, state) {
 						controllerSymbol = state.controller;
 						return arrayName + '.push(' + state.parent.symbol + ');';
 					}
@@ -169,7 +169,7 @@ function parse(node, state, args) {
 		} else if (!hasUiNodes && isControllerNode) {
 			code += CU.generateNodeExtended(child, state, {
 				parent: {},
-				post: function (node, state, args) {
+				post: function (node, state) {
 					controllerSymbol = state.controller;
 				}
 			});

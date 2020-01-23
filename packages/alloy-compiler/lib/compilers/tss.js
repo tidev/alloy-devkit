@@ -18,6 +18,7 @@ class TssCompiler extends BaseCompiler {
 		const state = { styles: styleMeta.styles };
 
 		const STYLE_PLACEHOLDER = '__STYLE_PLACEHOLDER__';
+		// eslint-disable-next-line security/detect-non-literal-regexp
 		const STYLE_REGEX = new RegExp('[\'"]' + STYLE_PLACEHOLDER + '[\'"]');
 		const processedStyles = [];
 		for (const s of state.styles) {
