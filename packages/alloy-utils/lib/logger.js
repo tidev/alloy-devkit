@@ -1,5 +1,6 @@
-var colors = require('colors'),
-	U = require('./utils');
+require('colors');
+
+var U = require('./utils');
 
 exports.TRACE = 4;
 exports.DEBUG = 3;
