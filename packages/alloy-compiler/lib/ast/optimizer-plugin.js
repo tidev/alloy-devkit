@@ -1,7 +1,8 @@
-var CONST = require('alloy-utils').constants,
-	_ = require('lodash'),
+var _ = require('lodash'),
 	path = require('path'),
 	fs = require('fs');
+
+const { constants: CONST, platforms } = require('alloy-utils');
 
 // Walk tree transformer changing (Ti|Titanium).Platform.(osname|name)
 // into static strings where possible. This will allow the following
@@ -31,14 +32,13 @@ module.exports = function (_ref) {
 			this.defines = defines;
 
 			// make sure the platform require includes
-			var platformString = config.platform.toLowerCase();
-			var platformPath = path.join(__dirname, '..', '..', '..', '..', 'platforms', platformString, 'index');
-			if (!fs.existsSync(platformPath + '.js')) {
+			var platformName = config.platform.toLowerCase();
+
+			if (!platforms[platformName]) {
 				this.platform = { name: undefined, osname: undefined };
 			} else {
 				// create, transform, and validate the platform object
-				// eslint-disable-next-line security/detect-non-literal-require
-				this.platform = require(platformPath);
+				this.platform = platforms[platformName];
 				if (!_.isString(this.platform.name)) {
 					this.platform.name = undefined;
 				}
