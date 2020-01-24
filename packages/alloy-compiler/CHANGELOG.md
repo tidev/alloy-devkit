@@ -1,0 +1,22 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# 0.1.0 (2020-01-24)
+
+
+### Bug Fixes
+
+* **compiler:** properly concat dependency file list ([cd8a812](https://github.com/appcelerator/alloy-devkit/commit/cd8a8128793f2728c09eece36928c8ff9daf9dc2))
+* **compiler:** set log level to error by default ([b2c9c56](https://github.com/appcelerator/alloy-devkit/commit/b2c9c567aa9b4abf9dc06a5c2d85f08be6fbf371))
+* **utils:** titanium runtime compatible constants ([ccb7e32](https://github.com/appcelerator/alloy-devkit/commit/ccb7e324eca2441aa7ab4cb533f6bf8a1465e68c))
+* add missing logs ([1bcb31d](https://github.com/appcelerator/alloy-devkit/commit/1bcb31d5ef068008d288e210b7ae2e930ac50af9))
+* create compile config from matching option property ([b10f8df](https://github.com/appcelerator/alloy-devkit/commit/b10f8df98dd45d5166771fbddca8bd301814a460))
+* replace path.existsSync usage ([5b15968](https://github.com/appcelerator/alloy-devkit/commit/5b1596877a6bec3f5988c55550d0872370b1a2cf))
+* use single cache across instances ([65f53b5](https://github.com/appcelerator/alloy-devkit/commit/65f53b5fcacded16ff668a36e93e489509fd4472))
+
+
+### Features
+
+* **compiler:** export function to configure babel plugins ([4d2b086](https://github.com/appcelerator/alloy-devkit/commit/4d2b086d0a0697a97ad95211c97e89561a19950d))
