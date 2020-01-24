@@ -10,10 +10,10 @@
   "author": "Axway Appcelerator",
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/generator": "^7.7.2",
-    "@babel/parser": "^7.7.3",
-    "@babel/traverse": "^7.7.2",
-    "@babel/types": "^7.7.2",
+    "@babel/generator": "^7.8.3",
+    "@babel/parser": "^7.8.3",
+    "@babel/traverse": "^7.8.3",
+    "@babel/types": "^7.8.3",
     "alloy-utils": "^0.0.0",
     "chmodr": "^1.2.0",
     "fs-extra": "^8.1.0",
@@ -21,7 +21,7 @@
     "lodash": "^4.17.15",
     "node.extend": "^2.0.2",
     "walk-sync": "^2.0.2",
-    "xmldom": "^0.1.27"
+    "xmldom": "^0.2.1"
   },
   "engines": {
     "node": ">=10.0.0"
