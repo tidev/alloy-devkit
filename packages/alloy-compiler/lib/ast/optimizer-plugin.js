@@ -1,6 +1,4 @@
-var _ = require('lodash'),
-	path = require('path'),
-	fs = require('fs');
+var _ = require('lodash');
 
 const { constants: CONST, platforms } = require('alloy-utils');
 
