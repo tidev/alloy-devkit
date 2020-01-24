@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/appcelerator/alloy-devkit/compare/v0.1.0...v0.1.1) (2020-01-24)
+
+
+### Bug Fixes
+
+* **compiler:** look up correct platform during optimization ([70d0cdc](https://github.com/appcelerator/alloy-devkit/commit/70d0cdcf922d28c956eca83e601223e20cb9ab3c))
+
+
+
+
+
 # 0.1.0 (2020-01-24)
 
 
