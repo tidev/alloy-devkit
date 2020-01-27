@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2](https://github.com/appcelerator/alloy-devkit/compare/v0.1.1...v0.1.2) (2020-01-27)
+
+
+### Bug Fixes
+
+* access build platform from alloy config ([dcd141a](https://github.com/appcelerator/alloy-devkit/commit/dcd141abe4529c4197c6ededd1fdea7fe44e70b2))
+* add missing templates ([5779a29](https://github.com/appcelerator/alloy-devkit/commit/5779a29a0d2cbafcc58d24d7ed32d910ee83bd63))
+* path to builtins ([f78527a](https://github.com/appcelerator/alloy-devkit/commit/f78527a7b5f10b38e26b6f21fa0c7d47383bb979))
+
+
+
+
+
 ## [0.1.1](https://github.com/appcelerator/alloy-devkit/compare/v0.1.0...v0.1.1) (2020-01-24)
 
 
