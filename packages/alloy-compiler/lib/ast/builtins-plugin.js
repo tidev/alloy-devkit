@@ -5,7 +5,7 @@ var path = require('path'),
 	U = require('alloy-utils').utils;
 
 var EXCLUDE = [ 'backbone', 'CFG', 'underscore' ];
-var BUILTINS_PATH = path.join(__dirname, '..', 'builtins');
+var BUILTINS_PATH = path.join(__dirname, '..', '..', 'builtins');
 var loaded = [];
 
 function appendExtension(file, extension) {
