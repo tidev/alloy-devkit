@@ -3,3 +3,4 @@ packages/alloy-compiler/template
 packages/alloy-compiler/builtins
 packages/alloy-compiler/test/unit/fixtures/test-app/Resources
 packages/alloy-utils/lib/grammar/tss.js
+packages/alloy-utils/template
