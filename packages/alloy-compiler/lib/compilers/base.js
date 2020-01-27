@@ -155,7 +155,7 @@ class BaseCompiler {
 		}
 
 		const { config: compileConfig, theme } = this;
-		const buildPlatform = compileConfig.platform;
+		const buildPlatform = compileConfig.alloyConfig.platform;
 		let styles = styler.globalStyle || [];
 		const files = [ path.join(this.appDir, 'styles', 'app.tss') ];
 		let message = '';
