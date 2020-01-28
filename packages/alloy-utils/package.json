@@ -1,6 +1,6 @@
 {
   "name": "alloy-utils",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Common utils for Alloy",
   "main": "lib/index.js",
   "keywords": [

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.3](https://github.com/appcelerator/alloy-devkit/compare/v0.1.2...v0.1.3) (2020-01-28)
+
+
+### Bug Fixes
+
+* **utils:** add missing moment dependency ([1e9a92c](https://github.com/appcelerator/alloy-devkit/commit/1e9a92cbf9045f3a72e0f55a7b7a1a8a0a27e403))
+* **utils:** read template from correct folder ([e673a4e](https://github.com/appcelerator/alloy-devkit/commit/e673a4ed8fff1ee4e8a88c350cb4c17b378663ec))
+
+
+
+
+
 ## [0.1.2](https://github.com/appcelerator/alloy-devkit/compare/v0.1.1...v0.1.2) (2020-01-27)
 
 
