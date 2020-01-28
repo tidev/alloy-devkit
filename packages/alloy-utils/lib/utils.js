@@ -121,7 +121,7 @@ exports.XML = {
 };
 
 exports.readTemplate = function (name) {
-	return fs.readFileSync(path.join(__dirname, 'template', name), 'utf8');
+	return fs.readFileSync(path.join(__dirname, '..', 'template', name), 'utf8');
 };
 
 exports.evaluateTemplate = function (name, o) {
