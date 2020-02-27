@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4](https://github.com/appcelerator/alloy-devkit/compare/v0.1.3...v0.1.4) (2020-02-27)
+
+
+### Bug Fixes
+
+* **compiler:** use function to disable replacement patterns ([792240f](https://github.com/appcelerator/alloy-devkit/commit/792240fc808b0495b578e298d0261faeb3f2575c))
+
+
+
+
+
 ## [0.1.3](https://github.com/appcelerator/alloy-devkit/compare/v0.1.2...v0.1.3) (2020-01-28)
 
 **Note:** Version bump only for package alloy-compiler
