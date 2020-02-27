@@ -230,7 +230,6 @@ exports.getWidgetDirectories = function (appDir) {
 	var dirs = [];
 	var collections = [];
 	var widgetPaths = [];
-	widgetPaths.push(path.join(__dirname, '..', 'widgets'));
 	widgetPaths.push(path.join(appDir, 'widgets'));
 
 	_.each(widgetPaths, function (widgetPath) {
