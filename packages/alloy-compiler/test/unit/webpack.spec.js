@@ -73,7 +73,7 @@ describe('webpack compiler', () => {
 			$.index.open();
 
 			function sayHello() {
-			  alert('Hello World!');
+			  alert('Hello World$');
 			}
 
 			// Generated code that must be executed after all UI and

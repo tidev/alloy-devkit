@@ -103,7 +103,7 @@ class ComponentCompiler extends BaseCompiler {
 			paddedControllerCode += `${line}${i < controllerCodeLines.length - 1 ? '\n\t' : ''}`;
 		}
 		map.setSourceContent(files.CONTROLLER, controllerCode);
-		let code = codeTemplate.replace('__MAPMARKER_CONTROLLER_CODE__', paddedControllerCode);
+		let code = codeTemplate.replace('__MAPMARKER_CONTROLLER_CODE__', () => paddedControllerCode);
 		code = code.replace(/^\t\n/gm, '\n');
 
 		return {
