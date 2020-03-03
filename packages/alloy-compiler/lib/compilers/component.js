@@ -28,12 +28,19 @@ class ComponentCompiler extends BaseCompiler {
 		// reset the bindings map
 		this.resetState(meta);
 
-		let hasView = true;
-		let viewContent = '';
-		try {
-			viewContent = this.fs.readFileSync(files.VIEW, 'utf-8');
-		} catch (e) {
-			hasView = false;
+		let hasView = false;
+		let viewContent = options.viewContent;
+		if (!viewContent) {
+			try {
+				viewContent = this.fs.readFileSync(files.VIEW, 'utf-8');
+				hasView = true;
+			} catch (e) {
+				if (e.code !== 'ENOENT') {
+					throw e;
+				}
+			}
+		} else {
+			hasView = true;
 		}
 		if (hasView) {
 			const {
@@ -52,16 +59,18 @@ class ComponentCompiler extends BaseCompiler {
 		}
 
 		// process the controller code
-		let controllerContent;
-		try {
-			controllerContent = this.fs.readFileSync(files.CONTROLLER, 'utf-8');
-			logger.info('  controller: "'
-				+ path.relative(path.join(meta.basePath, CONST.DIR.CONTROLLER), files.CONTROLLER) + '"');
-		} catch (e) {
-			if (e.code !== 'ENOENT') {
-				throw e;
+		let controllerContent = options.controllerContent;
+		if (!controllerContent) {
+			try {
+				controllerContent = this.fs.readFileSync(files.CONTROLLER, 'utf-8');
+			} catch (e) {
+				if (e.code !== 'ENOENT') {
+					throw e;
+				}
 			}
 		}
+		logger.info('  controller: "'
+			+ path.relative(path.join(meta.basePath, CONST.DIR.CONTROLLER), files.CONTROLLER) + '"');
 		const cCode = CU.loadController(files.CONTROLLER, controllerContent);
 		let controllerCode = '';
 		template.parentController = (cCode.parentControllerName !== '')
