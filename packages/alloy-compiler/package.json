@@ -1,6 +1,6 @@
 {
   "name": "alloy-compiler",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Compiler for Alloy components",
   "main": "lib/index.js",
   "keywords": [
@@ -19,7 +19,7 @@
     "@babel/parser": "^7.8.3",
     "@babel/traverse": "^7.8.3",
     "@babel/types": "^7.8.3",
-    "alloy-utils": "^0.1.4",
+    "alloy-utils": "^0.2.0",
     "chmodr": "^1.2.0",
     "fs-extra": "^8.1.0",
     "jsonlint": "^1.6.3",

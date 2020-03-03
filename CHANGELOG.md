@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/appcelerator/alloy-devkit/compare/v0.1.4...v0.2.0) (2020-03-03)
+
+
+### Features
+
+* pass file content in options ([a1ba8a0](https://github.com/appcelerator/alloy-devkit/commit/a1ba8a09aa46d404de7794b44aee9d2d1165e03d))
+
+
+
+
+
 ## [0.1.4](https://github.com/appcelerator/alloy-devkit/compare/v0.1.3...v0.1.4) (2020-02-27)
 
 
