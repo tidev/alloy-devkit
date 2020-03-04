@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/appcelerator/alloy-devkit/compare/v0.2.0...v0.2.1) (2020-03-04)
+
+
+### Bug Fixes
+
+* **compiler:** remove unused babel plugin ([047575b](https://github.com/appcelerator/alloy-devkit/commit/047575b72ecaf15ca7b73cd19cd756d8caf14fb9))
+
+
+
+
+
 # [0.2.0](https://github.com/appcelerator/alloy-devkit/compare/v0.1.4...v0.2.0) (2020-03-03)
 
 
