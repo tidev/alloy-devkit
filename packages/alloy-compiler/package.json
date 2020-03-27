@@ -21,7 +21,7 @@
     "@babel/types": "^7.8.3",
     "alloy-utils": "^0.2.0",
     "chmodr": "^1.2.0",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.0",
     "jsonlint": "^1.6.3",
     "lodash": "^4.17.15",
     "node.extend": "^2.0.2",
