@@ -1,9 +1,11 @@
-const { tiapp } = require('alloy-utils');
-const fs = require('fs');
+const babel = require('@babel/core');
+const { constants: CONST, tiapp, utils: U } = require('alloy-utils');
+const fs = require('fs-extra');
 const path = require('path');
 
 const CompilerFactory = require('./factory');
 const CompilationMeta = require('./meta');
+const { configureBabelPlugins } = require('./utils');
 const styler = require('../styler');
 
 /**
@@ -42,8 +44,9 @@ class AlloyCompiler {
 	constructor(options) {
 		const { compileConfig } = options;
 		if (!options.fs) {
-			options.fs = fs;
+			options.fs = require('fs');
 		}
+
 		const compilationMeta = new CompilationMeta(options);
 		this.compilationMeta = compilationMeta;
 		this.config = compileConfig;
@@ -54,15 +57,35 @@ class AlloyCompiler {
 		// validate the current Titanium SDK version, exit on failure
 		tiapp.validateSdkVersion();
 
+		// make sure `build/alloy` exists
+		fs.ensureDirSync(path.join(compileConfig.dir.project, CONST.DIR.BUILD));
+
 		// Load global styles
 		styler.setPlatform(compileConfig.alloyConfig.platform);
-		const theme = options.compileConfig.theme;
+		const theme = compileConfig.theme;
 		styler.loadGlobalStyles(compileConfig.dir.home, theme ? { theme } : {});
 	}
 
 	compileComponent(options) {
 		const compiler = this.factory.createCompiler('component');
-		return compiler.compile(options);
+		const result = compiler.compile(options);
+		if (this.compilationMeta.isWebpack) {
+			return result;
+		}
+
+		const babelOptions = {
+			babelrc: false,
+			retainLines: true,
+			plugins: configureBabelPlugins(this.config),
+			inputSourceMap: result.map
+		};
+		try {
+			result.code = babel.transformSync(result.code, babelOptions).code;
+		} catch (e) {
+			U.die('Error transforming JS file', e);
+		}
+
+		return result;
 	}
 
 	compileModel(options) {

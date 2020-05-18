@@ -4,9 +4,8 @@ const path = require('path');
 const BuildLog = require('./build-log');
 const utils = require('./compilerUtils');
 const sourceMapper = require('./sourceMapper');
-const StandaloneCompiler = require('./compilers/standalone');
+const AlloyCompiler = require('./compilers/alloy');
 const { configureBabelPlugins } = require('./compilers/utils');
-const WebpackCompiler = require('./compilers/webpack');
 
 /** @typedef {import("./compilers/alloy")} AlloyCompiler  */
 /** @typedef {import("./compilers/alloy").AlloyConfig} AlloyConfig  */
@@ -64,11 +63,7 @@ property to create a new compile config object.`);
 		...options,
 		compileConfig
 	};
-	if (options.webpack) {
-		return new WebpackCompiler(mergedOptions);
-	} else {
-		return new StandaloneCompiler(mergedOptions);
-	}
+	return new AlloyCompiler(mergedOptions);
 }
 
 module.exports = {
