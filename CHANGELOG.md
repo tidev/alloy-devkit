@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/appcelerator/alloy-devkit/compare/v0.2.1...v0.2.2) (2020-05-18)
+
+
+### Bug Fixes
+
+* **compiler:** correct looping of style keys ([#61](https://github.com/appcelerator/alloy-devkit/issues/61)) ([e76394b](https://github.com/appcelerator/alloy-devkit/commit/e76394b70152b0e3dd8c6678d84d26c08b04b420))
+
+
+
+
+
 ## [0.2.1](https://github.com/appcelerator/alloy-devkit/compare/v0.2.0...v0.2.1) (2020-03-04)
 
 
