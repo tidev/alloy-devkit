@@ -24,10 +24,7 @@ module.exports = class BuildLog {
 		this.data = {};
 
 		// make sure the alloy build folder exists
-		if (!fs.existsSync(dir)) {
-			fs.mkdirpSync(dir);
-			chmodr.sync(dir, 0o755);
-		}
+		fs.ensureDirSync(dir);
 
 		// load it up
 		this.read();
