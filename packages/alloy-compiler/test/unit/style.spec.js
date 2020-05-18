@@ -13,7 +13,7 @@ describe('style compiler', () => {
 			file: resolveComponentPath('styles', 'index.tss')
 		});
 		expect(code).toMatchInlineSnapshot(
-			'"module.exports = [{\\"style\\":{color:\\"#000\\",font:{fontSize:\\"18dp\\",fontWeight:\\"bold\\",},height:Ti.UI.SIZE,width:Ti.UI.SIZE,}},{\\"style\\":{backgroundColor:\\"#fff\\",fullscreen:false,exitOnClose:true,}}];"'
+			'"module.exports = [{\\"isApi\\":true,\\"priority\\":1000.0002,\\"key\\":\\"Label\\",\\"style\\":{color:\\"#000\\",font:{fontSize:\\"18dp\\",fontWeight:\\"bold\\",},height:Ti.UI.SIZE,width:Ti.UI.SIZE,}},{\\"isId\\":true,\\"priority\\":100000.0001,\\"key\\":\\"index\\",\\"style\\":{backgroundColor:\\"#fff\\",fullscreen:false,exitOnClose:true,}}];"'
 		);
 	});
 });
