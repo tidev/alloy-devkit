@@ -34,13 +34,13 @@ class TssCompiler extends BaseCompiler {
 			const processed = '{' + styler.processStyle(s.style, state) + '}';
 
 			// create a temporary style object, sans style key
-			Object.keys(s, k => {
+			for (const k of Object.keys(s)) {
 				const v = s[k];
 				if (k === 'queries') {
 					const queriesMap = new Map();
 
 					// optimize style conditionals for runtime
-					Object.keys(v, queryKey => {
+					for (const queryKey of Object.keys(v)) {
 						const query = v[queryKey];
 						if (queryKey === 'platform') {
 							// do nothing, we don't need the platform key anymore
@@ -51,7 +51,7 @@ class TssCompiler extends BaseCompiler {
 						} else {
 							this.emitWarning(`Unknown device query "${queryKey}"`);
 						}
-					});
+					}
 
 					// add the queries object, if not empty
 					if (queriesMap.size > 0) {
@@ -62,7 +62,7 @@ class TssCompiler extends BaseCompiler {
 				} else if (k !== 'style') {
 					o[k] = v;
 				}
-			});
+			}
 
 			// Create a full processed style string by inserting the processed style
 			// into the JSON stringifed temporary style object
