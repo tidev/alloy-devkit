@@ -1,5 +1,4 @@
 const fs = require('fs-extra');
-const chmodr = require('chmodr');
 const path = require('path');
 const CONST = require('alloy-utils').constants;
 const logger = require('alloy-utils').Logger;
