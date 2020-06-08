@@ -15,16 +15,18 @@
     "url": "git+https://github.com/appcelerator/alloy-devkit.git"
   },
   "dependencies": {
-    "@babel/generator": "^7.8.3",
-    "@babel/parser": "^7.8.3",
-    "@babel/traverse": "^7.8.3",
-    "@babel/types": "^7.8.3",
+    "@babel/core": "^7.9.6",
+    "@babel/generator": "^7.9.6",
+    "@babel/parser": "^7.9.6",
+    "@babel/traverse": "^7.9.6",
+    "@babel/types": "^7.9.6",
     "alloy-utils": "^0.2.2",
     "chmodr": "^1.2.0",
     "fs-extra": "^9.0.0",
     "jsonlint": "^1.6.3",
     "lodash": "^4.17.15",
     "node.extend": "^2.0.2",
+    "source-map": "^0.7.3",
     "walk-sync": "^2.0.2",
     "xmldom": "^0.3.0"
   },
