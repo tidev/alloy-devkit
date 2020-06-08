@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](https://github.com/appcelerator/alloy-devkit/compare/v0.2.2...v0.2.3) (2020-06-08)
+
+
+### Bug Fixes
+
+* add missing direct dependencies ([56e44ab](https://github.com/appcelerator/alloy-devkit/commit/56e44ab314d7500ead0591f74d54300251751e4b))
+
+
+
+
+
 ## [0.2.2](https://github.com/appcelerator/alloy-devkit/compare/v0.2.1...v0.2.2) (2020-05-18)
 
 
