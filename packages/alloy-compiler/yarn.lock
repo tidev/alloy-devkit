@@ -32,11 +32,11 @@
     source-map "^0.5.0"
 
 "@babel/generator@^7.10.1", "@babel/generator@^7.10.2", "@babel/generator@^7.9.6":
-  version "7.10.2"
-  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.10.2.tgz#0fa5b5b2389db8bfdfcc3492b551ee20f5dd69a9"
-  integrity sha512-AxfBNHNu99DTMvlUPlt1h2+Hn7knPpH5ayJ8OqDWSeLld+Fi2AYBTC/IejWDM9Edcii4UzZRCsbUt0WlSDsDsA==
+  version "7.10.3"
+  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.10.3.tgz#32b9a0d963a71d7a54f5f6c15659c3dbc2a523a5"
+  integrity sha512-drt8MUHbEqRzNR0xnF8nMehbY11b1SDkRw03PSNH/3Rb2Z35oxkddVSi3rcaak0YJQ86PCuE7Qx1jSFhbLNBMA==
   dependencies:
-    "@babel/types" "^7.10.2"
+    "@babel/types" "^7.10.3"
     jsesc "^2.5.1"
     lodash "^4.17.13"
     source-map "^0.5.0"
@@ -168,7 +168,7 @@
     globals "^11.1.0"
     lodash "^4.17.13"
 
-"@babel/types@^7.10.1", "@babel/types@^7.10.2", "@babel/types@^7.9.6":
+"@babel/types@^7.10.1", "@babel/types@^7.10.2", "@babel/types@^7.10.3", "@babel/types@^7.9.6":
   version "7.10.3"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.10.3.tgz#6535e3b79fea86a6b09e012ea8528f935099de8e"
   integrity sha512-nZxaJhBXBQ8HVoIcGsf9qWep3Oh3jCENK54V4mRF7qaJabVsAYdbTtmSD8WmAp1R6ytPiu5apMwSXyxB1WlaBA==
