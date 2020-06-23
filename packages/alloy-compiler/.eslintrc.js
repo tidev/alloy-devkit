@@ -3,7 +3,7 @@ module.exports = {
 	overrides: [
 		{
 			files: [ 'test/**/*.js' ],
-			extends: [ 'plugin:jest/all', 'plugin:jest/recommended' ],
+			extends: [ 'plugin:jest/recommended' ],
 			globals: {
 				'jest/globals': true
 			}
