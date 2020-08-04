@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.4](https://github.com/appcelerator/alloy-devkit/compare/v0.2.3...v0.2.4) (2020-08-04)
+
+
+### Bug Fixes
+
+* add missing methods to purge style cache ([0c44683](https://github.com/appcelerator/alloy-devkit/commit/0c446833f7fc4936e5530f10a6e5d2219c8f996b))
+
+
+
+
+
 ## [0.2.3](https://github.com/appcelerator/alloy-devkit/compare/v0.2.2...v0.2.3) (2020-06-08)
 
 
