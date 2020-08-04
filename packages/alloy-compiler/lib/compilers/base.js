@@ -140,6 +140,12 @@ class BaseCompiler {
 		return null;
 	}
 
+	/**
+	 * Loads the styles object for the given component.
+	 *
+	 * @param {object} meta Component metadata
+	 * @return {object} Object that contains styles and file dependencies
+	 */
 	loadStyles(meta) {
 		const {
 			cacheIdentifier,
@@ -157,7 +163,7 @@ class BaseCompiler {
 		const { config: compileConfig, theme } = this;
 		const buildPlatform = compileConfig.alloyConfig.platform;
 		let styles = styler.globalStyle || [];
-		const files = [ path.join(this.appDir, 'styles', 'app.tss') ];
+		const files = [];
 		let message = '';
 
 		if (componentFiles.STYLE) {
@@ -271,6 +277,20 @@ class BaseCompiler {
 		}
 
 		return {};
+	}
+
+	/**
+	 * Purges the style cache for a given component.
+	 *
+	 * @param {string} componentPath Path of component to purge style cache for
+	 */
+	purgeStyleCache(componentPath) {
+		try {
+			const meta = this.resolveComponentMeta(componentPath);
+			styleCache.delete(meta.cacheIdentifier);
+		} catch (e) {
+			// silently ignore possible component lookup errors
+		}
 	}
 }
 
