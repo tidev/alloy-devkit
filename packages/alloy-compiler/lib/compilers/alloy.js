@@ -97,6 +97,10 @@ class AlloyCompiler {
 		const compiler = this.factory.createCompiler('style');
 		return compiler.compile(options);
 	}
+
+	purgeStyleCache(componentPath) {
+		this.factory.createCompiler('style').purgeStyleCache(componentPath);
+	}
 }
 
 module.exports = AlloyCompiler;
