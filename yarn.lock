@@ -2905,9 +2905,9 @@ escodegen@^1.14.1:
     source-map "~0.6.1"
 
 eslint-config-axway@^4.5.0:
-  version "4.7.2"
-  resolved "https://registry.yarnpkg.com/eslint-config-axway/-/eslint-config-axway-4.7.2.tgz#8a1fe4d4480cc7e94476d8dc648aa192d5677016"
-  integrity sha512-cUCJ4JTz+ZT7jB6gHlO7ZfcQ9XHODG5yaTSzvNciTPLnBjPMtoU4xQSTZLQXHRVz6Kkb/qVajtxX+lRC/407UQ==
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/eslint-config-axway/-/eslint-config-axway-4.7.3.tgz#c6a3aa9362e2474a10e4278a674d91e7d3fff453"
+  integrity sha512-L/ULVxLeQUIrSx+xARrOnGg65nxPHytXQWTf20MTc0+iX7zbiyeqpGEqA+TykM8CzV9Pd9L1+rnBXvlpMWBvug==
   dependencies:
     eslint-plugin-chai-expect "^2.1.0"
     eslint-plugin-import "^2.20.2"
