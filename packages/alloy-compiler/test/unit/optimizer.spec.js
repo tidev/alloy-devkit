@@ -127,12 +127,13 @@ describe('optimizer.js', () => {
 						expect.assertions(1);
 						const passFor = test[2];
 						const expected = _.template(test[1])(platforms[platform]);
-						// eslint-disable-next-line jest/no-if
+						/* eslint-disable jest/no-conditional-expect */
 						if (!passFor || _.includes(passFor, platform)) {
 							expect(code).toBe(expected);
 						} else {
 							expect(code).not.toBe(expected);
 						}
+						/* eslint-enable jest/no-conditional-expect */
 					});
 				});
 			});
