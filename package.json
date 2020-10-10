@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "eslint": "^7.0.0",
-    "eslint-config-axway": "^4.5.0",
+    "eslint-config-axway": "^5.0.0",
     "eslint-plugin-alloy": "^1.1.1",
     "eslint-plugin-jest": "^24.0.1",
     "jest": "^26.0.0",
