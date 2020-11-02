@@ -16,7 +16,11 @@ function __processArg(obj, key) {
 
 export default function Controller() {
 	<%= Widget %>
-	require('/alloy/controllers/' + <%= parentController %>).apply(this, Array.prototype.slice.call(arguments));
+	let BaseController = require('/alloy/controllers/' + <%= parentController %>);
+	if (BaseController.__esModule && BaseController.default) {
+		BaseController = BaseController.default;
+	}
+	BaseController.apply(this, Array.prototype.slice.call(arguments));
 	this.__controllerPath = '<%= controllerPath %>';
 	this.args = arguments[0] || {};
 

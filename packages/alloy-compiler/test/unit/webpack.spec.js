@@ -35,7 +35,11 @@ describe('webpack compiler', () => {
 
 		export default function Controller() {
 
-			require('/alloy/controllers/' + 'BaseController').apply(this, Array.prototype.slice.call(arguments));
+			let BaseController = require('/alloy/controllers/' + 'BaseController');
+			if (BaseController.__esModule && BaseController.default) {
+				BaseController = BaseController.default;
+			}
+			BaseController.apply(this, Array.prototype.slice.call(arguments));
 			this.__controllerPath = 'index';
 			this.args = arguments[0] || {};
 
