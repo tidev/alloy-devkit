@@ -163,7 +163,7 @@ function parse(node, state, args) {
 			items: itemCode,
 			post: 'opts.animation ? '
 				+ sps + '.setItems(' + itemsVar + ', opts.animation) : '
-				+ sps + '.setItems(' + itemsVar + ');'
+				+ sps + '.items = ' + itemsVar + ';'
 		});
 	}
 
