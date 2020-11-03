@@ -134,15 +134,21 @@ function parse(node, state, args) {
 		type === 'widget' ? 'Alloy.Widget' : 'Alloy.Require',
 		args.createArgs,
 		state
-	) + ');\n';
+	) + ')';
+	let parent = {
+		symbol: args.symbol + '.getViewEx({recurse:true})'
+	};
 	if (args.parent.symbol && !state.templateObject && !state.androidMenu) {
-		code += args.symbol + '.setParent(' + args.parent.symbol + ');\n';
+		code += ';\n' + args.symbol + '.setParent(' + args.parent.symbol + ');\n';
+	} else if (type === 'widget' && (node.parentNode && node.parentNode.nodeName === 'Alloy')) {
+		code += '.getViewEx({recurse:true});\n';
+		parent = { symbol: args.symbol };
+	} else {
+		code += ';\n';
 	}
 
 	return {
-		parent: {
-			symbol: args.symbol + '.getViewEx({recurse:true})'
-		},
+		parent: parent,
 		controller: args.symbol,
 		styles: state.styles,
 		code: code
