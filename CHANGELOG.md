@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.5](https://github.com/appcelerator/alloy-devkit/compare/v0.2.4...v0.2.5) (2020-11-03)
+
+
+### Bug Fixes
+
+* use default export for es6 base controller ([1f307fc](https://github.com/appcelerator/alloy-devkit/commit/1f307fc80316690bcf505da45973eff7048043d9))
+
+
+
+
+
 ## [0.2.4](https://github.com/appcelerator/alloy-devkit/compare/v0.2.3...v0.2.4) (2020-08-04)
 
 
