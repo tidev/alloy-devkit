@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.6](https://github.com/appcelerator/alloy-devkit/compare/v0.2.5...v0.2.6) (2020-11-05)
+
+
+### Bug Fixes
+
+* widget controller assigned wrong widget id ([050178d](https://github.com/appcelerator/alloy-devkit/commit/050178d993abf599b20fd9717b0004752fb3494e))
+
+
+
+
+
 ## [0.2.5](https://github.com/appcelerator/alloy-devkit/compare/v0.2.4...v0.2.5) (2020-11-03)
 
 
