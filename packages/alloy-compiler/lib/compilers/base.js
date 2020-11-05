@@ -133,7 +133,7 @@ class BaseCompiler {
 
 	findWidget(componentPath) {
 		for (const widgetDir of this.compilationMeta.widgets.keys()) {
-			if (componentPath.startsWith(widgetDir)) {
+			if (componentPath.startsWith(`${widgetDir}${path.sep}`)) {
 				return this.compilationMeta.widgets.get(widgetDir);
 			}
 		}
