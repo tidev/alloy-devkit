@@ -28,7 +28,7 @@
     "node.extend": "^2.0.2",
     "source-map": "^0.7.3",
     "walk-sync": "^2.0.2",
-    "xmldom": "^0.4.0"
+    "xmldom": "^0.6.0"
   },
   "engines": {
     "node": ">=10.0.0"
