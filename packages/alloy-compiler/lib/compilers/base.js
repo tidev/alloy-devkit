@@ -12,6 +12,8 @@ const optimizer = require('../optimizer');
 const styler = require('../styler');
 
 const componentRegex = /(?:[/\\]widgets[/\\][^/\\]+)?[/\\](controllers|views|styles)[/\\](.*)/;
+// eslint-disable-next-line security/detect-non-literal-regexp
+const dirRegex = new RegExp('^(?:' + platforms.constants.PLATFORM_FOLDERS_ALLOY.join('|') + ')[\\\\\\/]*');
 
 const metaCache = new Map();
 const styleCache = new Map();
@@ -66,7 +68,7 @@ class BaseCompiler {
 		const meta = {
 			componentIdentifier,
 			basePath: widget ? widget.dir : this.appDir,
-			subPath: path.dirname(componentIdentifier),
+			subPath: path.dirname(componentIdentifier).replace(dirRegex, ''),
 			componentName: path.basename(componentIdentifier),
 			widget,
 			manifest,
