@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.7](https://github.com/appcelerator/alloy-devkit/compare/v0.2.6...v0.2.7) (2021-06-02)
+
+
+### Bug Fixes
+
+* strip platfrom prefix from component dirname ([4d065e7](https://github.com/appcelerator/alloy-devkit/commit/4d065e7a60815119aeff572f70ad063b2bf5d413))
+* **compiler:** allow tabgroup as a child of navigationwindow ([#222](https://github.com/appcelerator/alloy-devkit/issues/222)) ([fbe453c](https://github.com/appcelerator/alloy-devkit/commit/fbe453ce48849ab2ec2a32bf06221dcce0f01c41))
+* improve check around whether widget is only node in the view ([#194](https://github.com/appcelerator/alloy-devkit/issues/194)) ([d32c819](https://github.com/appcelerator/alloy-devkit/commit/d32c81913c155d0fd6953bdf717d4cd28581e57b))
+
+
+
+
+
 ## [0.2.6](https://github.com/appcelerator/alloy-devkit/compare/v0.2.5...v0.2.6) (2020-11-05)
 
 
