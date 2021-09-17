@@ -22,7 +22,7 @@
     "@babel/types": "^7.9.6",
     "alloy-utils": "^0.2.7",
     "chmodr": "^1.2.0",
-    "fs-extra": "^9.0.0",
+    "fs-extra": "^10.0.0",
     "jsonlint": "^1.6.3",
     "lodash": "^4.17.15",
     "node.extend": "^2.0.2",
