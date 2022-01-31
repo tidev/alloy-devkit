@@ -12,7 +12,7 @@
     "eslint": "^7.0.0",
     "eslint-config-axway": "^6.0.1",
     "eslint-plugin-alloy": "^1.1.1",
-    "eslint-plugin-jest": "^24.0.1",
+    "eslint-plugin-jest": "^26.0.0",
     "jest": "^27.0.3",
     "lerna": "^4.0.0",
     "prettier": "^2.0.2"
