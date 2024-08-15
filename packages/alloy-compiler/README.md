@@ -2,7 +2,7 @@
 
 > Compiler for Alloy components
 
-This packages contains the standalone [Alloy](https://github.com/appcelerator/alloy) compiler. In most cases you should be using it in Webpack powered Alloy projects, you will only need it separately if you are writing build tools with very specific needs.
+This package contains the standalone [Alloy](https://github.com/appcelerator/alloy) compiler.
 
 ## Installation
 
