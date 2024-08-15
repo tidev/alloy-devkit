@@ -3,12 +3,12 @@ var path = require('path'),
 	fs = require('fs-extra'),
 	walkSync = require('walk-sync'),
 	chmodr = require('chmodr'),
-	jsonlint = require('jsonlint'),
+	jsonlint = require('@prantlf/jsonlint'),
 	astController = require('./ast/controller'),
 	sourceMapper = require('./sourceMapper'),
 	styler = require('./styler'),
 	_ = require('lodash'),
-	XMLSerializer = require('xmldom').XMLSerializer;
+	XMLSerializer = require('@xmldom/xmldom').XMLSerializer;
 
 const {
 	constants: CONST,

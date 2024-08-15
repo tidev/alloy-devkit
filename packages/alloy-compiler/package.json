@@ -20,15 +20,15 @@
     "@babel/parser": "^7.9.6",
     "@babel/traverse": "^7.9.6",
     "@babel/types": "^7.9.6",
+    "@prantlf/jsonlint": "^16.0.0",
+    "@xmldom/xmldom": "^0.8.10",
     "alloy-utils": "^0.2.7",
     "chmodr": "^1.2.0",
     "fs-extra": "^9.0.0",
-    "jsonlint": "^1.6.3",
     "lodash": "^4.17.15",
     "node.extend": "^2.0.2",
     "source-map": "^0.7.3",
-    "walk-sync": "^2.0.2",
-    "xmldom": "^0.6.0"
+    "walk-sync": "^2.0.2"
   },
   "engines": {
     "node": ">=10.0.0"
