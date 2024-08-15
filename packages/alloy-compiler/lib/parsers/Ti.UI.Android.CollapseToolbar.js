@@ -1,4 +1,5 @@
 const _ = require('lodash'),
+	styler = require('../styler'),
 	U = require('alloy-utils').utils,
 	tiapp = require('alloy-utils').tiapp,
 	MIN_VERSION = '12.1.0';
@@ -30,7 +31,7 @@ function parse(node, state, args) {
 		state.extraStyle = styler.createVariableStyle(extras);
 	}
 
-	viewState = require('./default').parse(node, state);
+	const viewState = require('./default').parse(node, state);
 	viewState.code = code + viewState.code;
 
 	return viewState;
