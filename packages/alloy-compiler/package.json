@@ -27,7 +27,7 @@
     "lodash": "^4.17.15",
     "node.extend": "^2.0.2",
     "source-map": "^0.7.3",
-    "walk-sync": "^2.0.2",
+    "walk-sync": "^3.0.0",
     "xmldom": "^0.6.0"
   },
   "engines": {
