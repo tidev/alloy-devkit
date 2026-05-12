@@ -1,6 +1,6 @@
 {
   "name": "alloy-compiler",
-  "version": "0.2.7",
+  "version": "1.0.0",
   "description": "Compiler for Alloy components",
   "main": "lib/index.js",
   "keywords": [
@@ -15,22 +15,21 @@
     "url": "git+https://github.com/appcelerator/alloy-devkit.git"
   },
   "dependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/generator": "^7.9.6",
-    "@babel/parser": "^7.9.6",
-    "@babel/traverse": "^7.9.6",
-    "@babel/types": "^7.9.6",
+    "@babel/core": "^7.19.6",
+    "@babel/generator": "^7.20.0",
+    "@babel/parser": "^7.20.0",
+    "@babel/traverse": "^7.18.15",
+    "@babel/types": "^7.20.0",
     "@prantlf/jsonlint": "^16.0.0",
     "@xmldom/xmldom": "^0.8.10",
-    "alloy-utils": "^0.2.7",
-    "chmodr": "^1.2.0",
-    "fs-extra": "^9.0.0",
-    "lodash": "^4.17.15",
-    "node.extend": "^2.0.2",
-    "source-map": "^0.7.3",
+    "alloy-utils": "^1.0.0",
+    "fs-extra": "^10.1.0",
+    "lodash": "^4.17.21",
+    "node.extend": "^2.0.3",
+    "source-map": "^0.7.4",
     "walk-sync": "^2.0.2"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=20.18.1"
   }
 }

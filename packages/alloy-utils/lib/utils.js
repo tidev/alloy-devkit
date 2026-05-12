@@ -2,7 +2,6 @@
 
 var path = require('path'),
 	fs = require('fs-extra'),
-	chmodr = require('chmodr'),
 	crypto = require('crypto'),
 	util = require('util'),
 	jsonlint = require('@prantlf/jsonlint'),
@@ -163,7 +162,6 @@ exports.getAndValidateProjectPaths = function (argPath, opts) {
 	var appjs = path.join(paths.resources, 'app.js');
 	if (!fs.existsSync(appjs)) {
 		fs.mkdirpSync(paths.resources);
-		chmodr.sync(paths.resources, 0o755);
 		fs.writeFileSync(appjs, '');
 	}
 
@@ -419,7 +417,6 @@ exports.copyFileSync = function (srcFile, destFile) {
 exports.ensureDir = function (p) {
 	if (!fs.existsSync(p)) {
 		fs.mkdirpSync(p);
-		chmodr.sync(p, 0o755);
 	}
 };
 

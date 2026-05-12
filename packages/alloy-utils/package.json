@@ -1,6 +1,6 @@
 {
   "name": "alloy-utils",
-  "version": "0.2.7",
+  "version": "1.0.0",
   "description": "Common utils for Alloy",
   "main": "lib/index.js",
   "keywords": [
@@ -16,18 +16,17 @@
     "url": "git+https://github.com/appcelerator/alloy-devkit.git"
   },
   "dependencies": {
-    "@babel/code-frame": "^7.8.3",
-    "chmodr": "^1.2.0",
+    "@babel/code-frame": "^7.18.6",
+    "@prantlf/jsonlint": "^16.0.0",
+    "@xmldom/xmldom": "^0.8.10",
     "colors": "^1.4.0",
-    "fs-extra": "^9.0.0",
+    "fs-extra": "^10.1.0",
     "global-paths": "^1.0.0",
-    "jsonlint": "^1.6.3",
-    "lodash": "^4.17.15",
-    "moment": "^2.24.0",
-    "resolve": "^1.12.0",
-    "xmldom": "^0.6.0"
+    "lodash": "^4.17.21",
+    "moment": "^2.30.1",
+    "resolve": "^1.22.1"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=20.18.1"
   }
 }

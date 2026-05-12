@@ -2,7 +2,6 @@ var path = require('path'),
 	os = require('os'),
 	fs = require('fs-extra'),
 	walkSync = require('walk-sync'),
-	chmodr = require('chmodr'),
 	jsonlint = require('@prantlf/jsonlint'),
 	astController = require('./ast/controller'),
 	sourceMapper = require('./sourceMapper'),
@@ -654,7 +653,6 @@ exports.copyWidgetResources = function (resources, resourceDir, widgetId, opts) 
 				var dest = path.join(destDir, path.basename(file));
 				if (!fs.existsSync(destDir)) {
 					fs.mkdirpSync(destDir);
-					chmodr.sync(destDir, 0o755);
 				}
 
 				logger.trace('Copying ' + file.yellow + ' --> '
@@ -738,8 +736,9 @@ exports.mergeI18N = function mergeI18N(src, dest, opts) {
 			}
 
 			if (fs.statSync(srcFile).isDirectory()) {
-				fs.existsSync(destFile) || fs.mkdirpSync(destFile);
-				chmodr.sync(destFile, 0o755);
+				if (!fs.existsSync(destFile)) {
+					fs.mkdirpSync(destFile);
+				}
 				return walk(srcFile, destFile);
 			}
 
@@ -907,7 +906,6 @@ function generateConfig(obj) {
 		buildLog.data.cfgHash = hash;
 		// write out the config runtime module
 		fs.mkdirpSync(resourcesBase);
-		chmodr.sync(resourcesBase, 0o755);
 
 		// logger.debug('Writing "Resources/' + (platform ? platform + '/' : '') + 'alloy/CFG.js"...');
 		var output = 'module.exports=' + JSON.stringify(o) + ';';
@@ -917,7 +915,6 @@ function generateConfig(obj) {
 		var baseFolder = path.join(obj.dir.resources, 'alloy');
 		if (!fs.existsSync(baseFolder)) {
 			fs.mkdirpSync(baseFolder);
-			chmodr.sync(baseFolder, 0o755);
 		}
 		fs.writeFileSync(path.join(baseFolder, 'CFG.js'), output);
 	}
@@ -1093,7 +1090,6 @@ exports.updateFiles = function (srcDir, dstDir, opts) {
 
 	if (!fs.existsSync(dstDir)) {
 		fs.mkdirpSync(dstDir);
-		chmodr.sync(dstDir, 0o755);
 	}
 
 	// don't process XML/controller files inside .svn folders (ALOY-839)
@@ -1157,7 +1153,6 @@ exports.updateFiles = function (srcDir, dstDir, opts) {
 		} else if (srcStat.isDirectory()) {
 			logger.trace('Creating directory ' + path.relative(opts.rootDir, dst).yellow);
 			fs.mkdirpSync(dst);
-			chmodr.sync(dst, 0o755);
 		} else {
 			logger.trace('Copying ' + path.join('SRC_DIR', path.relative(srcDir, src)).yellow
 					+ ' --> ' + path.relative(opts.rootDir, dst).yellow);

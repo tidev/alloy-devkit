@@ -4,7 +4,6 @@
 */
 var SM = require('source-map'),
 	fs = require('fs-extra'),
-	chmodr = require('chmodr'),
 	path = require('path'),
 	babylon = require('@babel/parser'),
 	babel = require('@babel/core'),
@@ -156,7 +155,6 @@ exports.generateCodeAndSourceMap = function (generator, compileConfig) {
 
 	// write the generated controller code
 	fs.mkdirpSync(path.dirname(outfile));
-	chmodr.sync(path.dirname(outfile), 0o755);
 	fs.writeFileSync(outfile, outputResult.code.toString());
 	logger.info('  created:    "' + relativeOutfile + '"');
 
@@ -166,7 +164,6 @@ exports.generateCodeAndSourceMap = function (generator, compileConfig) {
 		outfile = path.join(mapDir, relativeOutfile) + '.' + CONST.FILE_EXT.MAP;
 		relativeOutfile = path.relative(compileConfig.dir.project, outfile);
 		fs.mkdirpSync(path.dirname(outfile));
-		chmodr.sync(path.dirname(outfile), 0o755);
 		fs.writeFileSync(outfile, JSON.stringify(sourceMap));
 	}
 };
@@ -241,7 +238,6 @@ exports.generateSourceMap = function (generator, compileConfig) {
 	var mapDir = path.join(compileConfig.dir.project, CONST.DIR.MAP);
 	var outfile = path.join(mapDir, relativeOutfile) + '.' + CONST.FILE_EXT.MAP;
 	fs.mkdirpSync(path.dirname(outfile));
-	chmodr.sync(path.dirname(outfile), 0o755);
 	fs.writeFileSync(outfile, JSON.stringify(mapper.toJSON()));
 	logger.debug('  map:        "' + outfile + '"');
 };
