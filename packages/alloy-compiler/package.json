@@ -7,7 +7,7 @@
     "alloy",
     "compiler"
   ],
-  "author": "Axway Appcelerator",
+  "author": "TiDev, Inc. <npm@tidev.io>",
   "license": "Apache-2.0",
   "homepage": "https://github.com/appcelerator/alloy-devkit/tree/develop/packages/alloy-compiler#readme",
   "repository": {
