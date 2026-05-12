@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.0 (2026-05-12)
+
+Sync with upstream [Alloy v3.0.0](https://github.com/tidev/alloy/tree/3.0.0). Both `alloy-compiler` and `alloy-utils` jump from `0.2.7` to `1.0.0` to mark the alignment.
+
+### BREAKING CHANGES
+
+* **node:** Minimum Node.js version is now `20.18.1` (was `10.0.0`).
+* **compiler:** Generated controller code shape changed in production builds (`retainLines: false`, ES6 module trimming, collection-binding null-safety). Compiled output of every component will differ from previous versions.
+* **compiler:** Babel transform now receives a `filename` argument, enabling `.babelrc` / `babel.config.js` discovery in downstream Alloy projects. Projects with one in scope will see their build behavior change.
+* **runtime:** Default Backbone version constant bumped to `1.6.0` (`SUPPORTED_BACKBONE_VERSIONS` updated in `alloy-utils`).
+* **runtime:** Vendored `moment` updated to 2.30.x; lang catalog expanded to 137 files (matches upstream).
+* **deps:** `chmodr` dependency removed; `lodash`, `@babel/*`, `fs-extra`, `source-map`, `moment`, `resolve`, `node.extend` version ranges bumped to match upstream v3.
+* **deps:** Legacy `jsonlint` and `xmldom` dependencies dropped from `alloy-utils` in favor of `@prantlf/jsonlint` and `@xmldom/xmldom`.
+
+### Features
+
+* Sync with Alloy v3.0.0 across `compile/parsers`, `compile/ast`, `compile/sourceMapper`, `compile/compilerUtils`, `compilers/component`, `builtins`, and `common/constants`.
+* Add 10 missing parser pass-throughs from upstream `31328743`: `Ti.UI.ActivityIndicator`, `Column`, `MaskedImage`, `Notification`, `ProgressBar`, `RefreshControl`, `Row`, `SearchBar`, `Shortcut`, `ShortcutItem`. Includes regression tests.
+* Generate source maps for widget library files (`ba8d4c22`).
+* Add end-to-end smoke snapshot test (`smoke.spec.js`) covering the `test-app` fixture component compile.
+
+### Bug Fixes
+
+* Restore `isNodeForCurrentPlatform` guard in `Alloy.Abstract._ItemContainer` so platform-filtered children are skipped correctly (`4f86263c`).
+* Use `path.join` in `sourceMapper.js` instead of manual string concat (`537107de`).
+* Skip widget sourcemap emission when sourcemaps are disabled (`b1259b1f`).
+* Fix broken `require('../../../tiapp')` import in `Ti.UI.OptionBar` parser (devkit-local pre-existing latent bug, surfaced during sync prep).
+* `Alloy.Abstract.Option.js` emits `const` declarations to avoid implicit-global assignment under strict mode (devkit delta on top of `93c2df14`; supersedes upstream `ce5b4b13`).
+
+### Chores
+
+* Rebrand attribution to TiDev, Inc. (`LICENSE` copyright, `package.json` author fields, repo URLs).
+* Delete stray `Ti.UI.OptionBar copy.js` parser file (accidental copy in tree).
+* Delete `Ti.UI.iPhone.NavigationGroup.js` parser (removed upstream prior to v3).
+* Document devkit-local divergences from upstream in `docs/DEVKIT_DELTAS.md`.
+* Ignore `.DS_Store` files and local `references/` directory.
+
+### Out-of-scope upstream commits
+
+For traceability, the following upstream commits since 1.15.2 were intentionally NOT ported because they touch files outside devkit's mirrored surface (CLI commands, app templates, runtime BaseController shipped with Titanium SDK, etc.): `e45d9300`, `f5cbdd5e`, `30d9f88c`, `9f273a67`, `fb845f73`, `36b2fc87`, `29a8a54c`, `86791bc5`. See commit messages on the sync branch for per-SHA justification.
+
 ## [0.2.7](https://github.com/appcelerator/alloy-devkit/compare/v0.2.6...v0.2.7) (2021-06-02)
 
 

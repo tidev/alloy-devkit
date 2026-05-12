@@ -10,10 +10,10 @@
   ],
   "author": "TiDev, Inc. <npm@tidev.io>",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/appcelerator/alloy-devkit/tree/develop/packages/alloy-utils#readme",
+  "homepage": "https://github.com/tidev/alloy-devkit/tree/develop/packages/alloy-utils#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/appcelerator/alloy-devkit.git"
+    "url": "git+https://github.com/tidev/alloy-devkit.git"
   },
   "dependencies": {
     "@babel/code-frame": "^7.18.6",
