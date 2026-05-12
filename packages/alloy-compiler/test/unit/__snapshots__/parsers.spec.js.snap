@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`wave 1 parsers compiles a view using wave-1 tags without error: wave1-parsers 1`] = `
+"$.__views[\\"wave1-parsers\\"] = Ti.UI.createWindow(
+{id:\\"wave1-parsers\\",}
+);
+$.__views[\\"wave1-parsers\\"] && $.addTopLevelView($.__views[\\"wave1-parsers\\"]);
+$.__views[\\"__alloyId0\\"] = Ti.UI.createActivityIndicator(
+{id:\\"__alloyId0\\",}
+);
+$.__views[\\"wave1-parsers\\"].add($.__views[\\"__alloyId0\\"]);
+$.__views[\\"__alloyId1\\"] = Ti.UI.createProgressBar(
+{id:\\"__alloyId1\\",}
+);
+$.__views[\\"wave1-parsers\\"].add($.__views[\\"__alloyId1\\"]);
+$.__views[\\"__alloyId2\\"] = Ti.UI.createRefreshControl(
+{id:\\"__alloyId2\\",}
+);
+$.__views[\\"wave1-parsers\\"].add($.__views[\\"__alloyId2\\"]);
+$.__views[\\"__alloyId3\\"] = Ti.UI.createSearchBar(
+{id:\\"__alloyId3\\",}
+);
+$.__views[\\"wave1-parsers\\"].add($.__views[\\"__alloyId3\\"]);
+$.__views[\\"__alloyId4\\"] = Ti.UI.createView(
+{id:\\"__alloyId4\\",}
+);
+$.__views[\\"wave1-parsers\\"].add($.__views[\\"__alloyId4\\"]);
+$.__views[\\"__alloyId5\\"] = Ti.UI.createColumn(
+{id:\\"__alloyId5\\",}
+);
+$.__views[\\"__alloyId4\\"].add($.__views[\\"__alloyId5\\"]);
+$.__views[\\"__alloyId6\\"] = Ti.UI.createRow(
+{id:\\"__alloyId6\\",}
+);
+$.__views[\\"__alloyId5\\"].add($.__views[\\"__alloyId6\\"]);
+$.__views[\\"__alloyId7\\"] = Ti.UI.createMaskedImage(
+{id:\\"__alloyId7\\",}
+);
+$.__views[\\"wave1-parsers\\"].add($.__views[\\"__alloyId7\\"]);
+$.__views[\\"__alloyId8\\"] = Ti.UI.createNotification(
+{id:\\"__alloyId8\\",}
+);
+$.__views[\\"wave1-parsers\\"].add($.__views[\\"__alloyId8\\"]);
+$.__views[\\"__alloyId9\\"] = Ti.UI.createShortcut(
+{id:\\"__alloyId9\\",}
+);
+$.__views[\\"wave1-parsers\\"].add($.__views[\\"__alloyId9\\"]);
+$.__views[\\"__alloyId10\\"] = Ti.UI.createShortcutItem(
+{id:\\"__alloyId10\\",}
+);
+$.__views[\\"__alloyId9\\"].add($.__views[\\"__alloyId10\\"]);
+exports.destroy = function () {};"
+`;

@@ -1,0 +1,18 @@
+<Alloy>
+	<Window>
+		<ActivityIndicator />
+		<ProgressBar />
+		<RefreshControl />
+		<SearchBar />
+		<View>
+			<Column>
+				<Row />
+			</Column>
+		</View>
+		<MaskedImage />
+		<Notification />
+		<Shortcut>
+			<ShortcutItem />
+		</Shortcut>
+	</Window>
+</Alloy>
