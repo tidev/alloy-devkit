@@ -23,11 +23,13 @@ function parse(node, state, args) {
 
 	let code = codePush;
 
+	// DEVKIT DELTA: emit `const` declarations to avoid implicit-global assignment
+	// in strict mode. See docs/DEVKIT_DELTAS.md item 3.
 	if (attrName) {
 		if (args.createArgs[attrName]) {
-			code = `${attrVarName} = ${codePush} - 1`;
+			code = `const ${attrVarName} = ${codePush} - 1`;
 		} else {
-			code = `${attrVarName} = undefined; ${codePush}`;
+			code = `const ${attrVarName} = undefined; ${codePush}`;
 		}
 	}
 
