@@ -78,7 +78,7 @@ class ComponentCompiler extends BaseCompiler {
 			: CU[CONST.DOCROOT_BASECONTROLLER_PROPERTY] || '\'BaseController\'';
 		controllerCode += cCode.controller;
 		template.preCode += cCode.pre;
-		template.ES6Mod += cCode.es6mods;
+		template.ES6Mod += cCode.es6mods.trim();
 
 		// create generated controller module code for this view/controller or widget
 		const templateName = this.compilationMeta.isWebpack ? 'component.es6.js' : 'component.js';
