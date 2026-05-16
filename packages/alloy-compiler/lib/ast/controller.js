@@ -10,13 +10,34 @@ let GENCODE_OPTIONS = {
 	retainLines: true
 };
 
-exports.processController = function (code, file, isProduction = false) {
+exports.processController = function (code, file, options = {}) {
+	if (typeof options === 'boolean') {
+		options = { isProduction: options };
+	}
+
 	var baseController = '',
 		moduleCodes = '',
-		newCode = '',
-		exportSpecifiers = [];
+		newCode = '';
 
-	if (isProduction) {
+	const controllerExportTarget = options.controllerExportTarget || 'exports';
+
+	function buildExportTargetMember(exportedName) {
+		return types.isValidIdentifier(exportedName)
+			? types.memberExpression(types.identifier(controllerExportTarget), types.identifier(exportedName))
+			: types.memberExpression(types.identifier(controllerExportTarget), types.stringLiteral(exportedName), true);
+	}
+
+	function buildExportAssignment(exportedName, localName) {
+		return types.expressionStatement(
+			types.assignmentExpression(
+				'=',
+				buildExportTargetMember(exportedName),
+				types.identifier(localName)
+			)
+		);
+	}
+
+	if (options.isProduction) {
 		GENCODE_OPTIONS.retainLines = false;
 	}
 
@@ -55,37 +76,68 @@ exports.processController = function (code, file, isProduction = false) {
 
 			ExportNamedDeclaration: function (path) {
 				var node = path.node;
-				var specifiers = node.specifiers;
-				if (specifiers && specifiers.length !== 0) {
-					specifiers.forEach(function (specifier) {
-						if (specifier.local && specifier.local.name) {
-							exportSpecifiers.push(specifier.local.name);
+
+				if (node.source) {
+					if (node.specifiers && node.specifiers.length !== 0) {
+						const importSpecifiers = node.specifiers
+							.filter(function (specifier) { return specifier.local && specifier.local.name; })
+							.map(function (specifier) {
+								return types.importSpecifier(
+									types.identifier(specifier.local.name),
+									types.identifier(specifier.local.name)
+								);
+							});
+						if (importSpecifiers.length > 0) {
+							moduleCodes += generate(types.importDeclaration(importSpecifiers, node.source), GENCODE_OPTIONS).code;
 						}
-					});
+						path.replaceWithMultiple(node.specifiers
+							.filter(function (specifier) { return specifier.local && specifier.local.name; })
+							.map(function (specifier) {
+								var localName = specifier.local.name;
+								var exportedName = specifier.exported && (specifier.exported.name || specifier.exported.value) || localName;
+								return buildExportAssignment(exportedName, localName);
+							}));
+						return;
+					}
+
+					moduleCodes += generate(node, GENCODE_OPTIONS).code;
+					path.remove();
+					return;
 				}
+
+				if (node.declaration) {
+					var decl = node.declaration;
+					var replacements = [ decl ];
+					if (decl.type === 'FunctionDeclaration' || decl.type === 'ClassDeclaration') {
+						if (decl.id && decl.id.name) {
+							replacements.push(buildExportAssignment(decl.id.name, decl.id.name));
+						}
+					} else if (decl.type === 'VariableDeclaration') {
+						decl.declarations.forEach(function (d) {
+							if (d.id && d.id.name) {
+								replacements.push(buildExportAssignment(d.id.name, d.id.name));
+							}
+						});
+					}
+					path.replaceWithMultiple(replacements);
+					return;
+				}
+
+				if (node.specifiers && node.specifiers.length !== 0) {
+					path.replaceWithMultiple(node.specifiers
+						.filter(function (specifier) { return specifier.local && specifier.local.name; })
+						.map(function (specifier) {
+							var localName = specifier.local.name;
+							var exportedName = specifier.exported && (specifier.exported.name || specifier.exported.value) || localName;
+							return buildExportAssignment(exportedName, localName);
+						}));
+					return;
+				}
+
 				moduleCodes += generate(node, GENCODE_OPTIONS).code;
 				path.remove();
 			}
 		}, path.scope);
-
-		if (exportSpecifiers.length > 0) {
-			traverse(ast, {
-				enter: function (path) {
-					var node = path.node,
-						name;
-					if (node.type === 'VariableDeclaration') {
-						name = node.declarations[0].id.name;
-					} else if (node.type === 'FunctionDeclaration' || node.type === 'ClassDeclaration') {
-						name = node.id.name;
-					}
-
-					if (exportSpecifiers.indexOf(name) !== -1) {
-						moduleCodes += generate(node, GENCODE_OPTIONS).code;
-						path.remove();
-					}
-				}
-			});
-		}
 
 		newCode = generate(ast, GENCODE_OPTIONS).code;
 	} catch (e) {

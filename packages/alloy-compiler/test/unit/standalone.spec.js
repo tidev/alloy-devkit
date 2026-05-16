@@ -8,14 +8,14 @@ describe('standalone compiler', () => {
 		expect.assertions(1);
 		const compiler = setupCompiler();
 		const result = compiler.compileComponent({
-			file: resolveComponentPath('controllers', 'index.js')
+			file: resolveComponentPath('controllers', 'index.js'),
 		});
 
 		// eslint-disable-next-line jest/no-large-snapshots
 		expect(result.code).toMatchInlineSnapshot(`
 		"var Alloy = require('/alloy'),
-		Backbone = Alloy.Backbone,
-		_ = Alloy._;
+		  Backbone = Alloy.Backbone,
+		  _ = Alloy._;
 
 
 
@@ -50,12 +50,12 @@ describe('standalone compiler', () => {
 
 		  // Generated UI code
 		  $.__views[\\"index\\"] = Ti.UI.createWindow(
-		  { backgroundColor: \\"#fff\\", fullscreen: false, exitOnClose: true, id: \\"index\\" });
-
+		    { backgroundColor: \\"#fff\\", fullscreen: false, exitOnClose: true, id: \\"index\\" }
+		  );
 		  $.__views[\\"index\\"] && $.addTopLevelView($.__views[\\"index\\"]);
 		  $.__views[\\"label\\"] = Ti.UI.createLabel(
-		  { color: \\"#000\\", font: { fontSize: \\"18dp\\", fontWeight: \\"bold\\" }, height: Ti.UI.SIZE, width: Ti.UI.SIZE, text: 'Hello, World!', id: \\"label\\" });
-
+		    { color: \\"#000\\", font: { fontSize: \\"18dp\\", fontWeight: \\"bold\\" }, height: Ti.UI.SIZE, width: Ti.UI.SIZE, text: 'Hello, World!', id: \\"label\\" }
+		  );
 		  $.__views[\\"index\\"].add($.__views[\\"label\\"]);
 		  sayHello ? $.addListener($.__views[\\"label\\"], 'click', sayHello) : __defers['$.__views[\\"label\\"]!click!sayHello'] = true;exports.destroy = function () {};
 

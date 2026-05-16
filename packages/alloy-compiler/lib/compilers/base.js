@@ -24,7 +24,7 @@ const styleCache = new Map();
  * @typedef InternalCompilerOptions
  * @property {CompileConfig} compileConfig
  * @property {fs} fs
- * @property {webpack} webpack
+ * @property {'cjs'|'esm'} moduleFormat
  * @property {CompilationMeta} compilationMeta
  */
 

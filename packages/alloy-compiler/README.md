@@ -34,7 +34,7 @@ const compiler = createCompiler({
       deploytype: 'development'
     }
   },
-  webpack: true
+  moduleFormat: 'esm'
 });
 ```
 
@@ -49,11 +49,11 @@ Expects an `options` object with the following properties:
 
   You can either pass an object returned by [`createCompileConfig`](#createCompileConfig) or directly pass the same options accepted by that function. The config object will then be created from the passed options.
 
-- `webpack`
-  - Type: `boolean`
-  - Default: `false`
+- `moduleFormat`
+  - Type: `'cjs' | 'esm'`
+  - Default: `'cjs'`
 
-  Whether or not to create a special compiler instance that creates optimized output Webpack.
+  JavaScript module format to emit for generated components and models.
 
 ### createCompileConfig(options)
 

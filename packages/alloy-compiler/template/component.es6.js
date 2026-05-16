@@ -30,7 +30,7 @@ export default function Controller() {
 		var <%= itemTemplateVariable %> = __processArg(arguments[0], '<%= itemTemplateVariable %>');
 	}
 	var $ = this;
-	var exports = {};
+	var controllerExports = {};
 	var __defers = {};
 
 	// Generated code that must be executed before all UI and/or
@@ -56,6 +56,6 @@ export default function Controller() {
 	<%= postCode %>
 
 	// Extend the $ instance with all functions and properties
-	// defined on the exports object.
-	_.extend($, exports);
+	// defined on the controller exports object.
+	_.extend($, controllerExports);
 }

@@ -962,7 +962,7 @@ exports.parseConfig = function (file, alloyConfig, o) {
 	return o;
 };
 
-exports.loadController = function (file, contents) {
+exports.loadController = function (file, contents, options = {}) {
 	var code = {
 		parentControllerName: '',
 		controller: '',
@@ -982,9 +982,12 @@ exports.loadController = function (file, contents) {
 		}
 	}
 
-	var isProduction = compilerConfig.alloyConfig?.deploytype === 'production';
+	var isProduction = compilerConfig.alloyConfig && compilerConfig.alloyConfig.deploytype === 'production';
 	// get the base controller for this controller, also process import/export statements
-	var controller = astController.processController(contents, file, isProduction);
+	var controller = astController.processController(contents, file, {
+		isProduction,
+		controllerExportTarget: options.controllerExportTarget
+	});
 	code.controller = controller.code;
 	code.parentControllerName = controller.base;
 	code.es6mods = controller.es6mods;

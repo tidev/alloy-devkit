@@ -136,7 +136,8 @@ class ViewCompiler extends BaseCompiler {
 		});
 
 		// add destroy() function to view for cleaning up bindings
-		viewCode += 'exports.destroy = function () {' + CU.destroyCode + '};';
+		const controllerExportTarget = this.compilationMeta.isEsm ? 'controllerExports' : 'exports';
+		viewCode += controllerExportTarget + '.destroy = function () {' + CU.destroyCode + '};';
 
 		// add dataFunction of original name (if data-binding with form factor has been used)
 		if (!_.isEmpty(CU.dataFunctionNames)) {

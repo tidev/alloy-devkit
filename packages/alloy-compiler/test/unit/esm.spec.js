@@ -5,14 +5,38 @@ const fs = require('fs');
 
 const { setupCompiler, resolveComponentPath } = require('./utils');
 
-describe('webpack compiler', () => {
-	it('should compile component correctly', () => {
-		expect.assertions(1);
-		const compiler = setupCompiler({ webpack: true });
+describe('ESM compiler', () => {
+	it('should attach controller ESM exports to the public controller interface', () => {
+		expect.assertions(8);
+		const compiler = setupCompiler({ moduleFormat: 'esm' });
 		const controllerPath = resolveComponentPath('controllers', 'index.js');
 		const result = compiler.compileComponent({
 			file: controllerPath,
-			content: fs.readFileSync(controllerPath, 'utf-8')
+			controllerContent: `
+export function show() {}
+export const hide = () => {};
+const localName = 'value';
+export { localName as publicName };
+`,
+		});
+
+		expect(result.code).toContain('export default function Controller()');
+		expect(result.code).not.toContain('module.exports');
+		expect(result.code).not.toContain('var exports = {};');
+		expect(result.code).toContain('var controllerExports = {};');
+		expect(result.code).toContain('function show() {}');
+		expect(result.code).toContain('controllerExports.show = show;');
+		expect(result.code).toContain('controllerExports.hide = hide;');
+		expect(result.code).toContain('controllerExports.publicName = localName;');
+	});
+
+	it('should compile component correctly', () => {
+		expect.assertions(1);
+		const compiler = setupCompiler({ moduleFormat: 'esm' });
+		const controllerPath = resolveComponentPath('controllers', 'index.js');
+		const result = compiler.compileComponent({
+			file: controllerPath,
+			content: fs.readFileSync(controllerPath, 'utf-8'),
 		});
 
 		// eslint-disable-next-line jest/no-large-snapshots
@@ -49,7 +73,7 @@ describe('webpack compiler', () => {
 				var __itemTemplate = __processArg(arguments[0], '__itemTemplate');
 			}
 			var $ = this;
-			var exports = {};
+			var controllerExports = {};
 			var __defers = {};
 
 			// Generated code that must be executed before all UI and/or
@@ -66,7 +90,7 @@ describe('webpack compiler', () => {
 		{color:\\"#000\\",font:{fontSize:\\"18dp\\",fontWeight:\\"bold\\",},height:Ti.UI.SIZE,width:Ti.UI.SIZE,text:'Hello, World!',id:\\"label\\",}
 		);
 		$.__views[\\"index\\"].add($.__views[\\"label\\"]);
-		sayHello?$.addListener($.__views[\\"label\\"],'click',sayHello):__defers['$.__views[\\"label\\"]!click!sayHello']=true;exports.destroy = function () {};
+		sayHello?$.addListener($.__views[\\"label\\"],'click',sayHello):__defers['$.__views[\\"label\\"]!click!sayHello']=true;controllerExports.destroy = function () {};
 
 			// make all IDed elements in $.__views available right on the $ in a
 			// controller's internal code. Externally the IDed elements will
@@ -87,8 +111,8 @@ describe('webpack compiler', () => {
 			__defers['$.__views[\\"label\\"]!click!sayHello'] && $.addListener($.__views[\\"label\\"],'click',sayHello);
 
 			// Extend the $ instance with all functions and properties
-			// defined on the exports object.
-			_.extend($, exports);
+			// defined on the controller exports object.
+			_.extend($, controllerExports);
 		}
 		"
 	`);

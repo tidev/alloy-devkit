@@ -71,7 +71,9 @@ class ComponentCompiler extends BaseCompiler {
 		}
 		logger.info('  controller: "'
 			+ path.relative(path.join(meta.basePath, CONST.DIR.CONTROLLER), files.CONTROLLER) + '"');
-		const cCode = CU.loadController(files.CONTROLLER, controllerContent);
+		const cCode = CU.loadController(files.CONTROLLER, controllerContent, {
+			controllerExportTarget: this.compilationMeta.isEsm ? 'controllerExports' : 'exports'
+		});
 		let controllerCode = '';
 		template.parentController = (cCode.parentControllerName !== '')
 			? cCode.parentControllerName
@@ -81,7 +83,7 @@ class ComponentCompiler extends BaseCompiler {
 		template.ES6Mod += cCode.es6mods.trim();
 
 		// create generated controller module code for this view/controller or widget
-		const templateName = this.compilationMeta.isWebpack ? 'component.es6.js' : 'component.js';
+		const templateName = this.compilationMeta.isEsm ? 'component.es6.js' : 'component.js';
 		let codeTemplate = _.template(this.fs.readFileSync(path.join(this.config.dir.template, templateName), 'utf8'))(template);
 
 		let map;

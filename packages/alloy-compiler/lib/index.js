@@ -22,7 +22,7 @@ const { configureBabelPlugins } = require('./compilers/utils');
 /**
  * @typedef CreateCompilerOptions
  * @property {CompileConfig|CreateCompileConfigOptions} compileConfig Compile config to use
- * @property {boolean} [webpack=false] Whether or not to create a Webpack compatible compiler
+ * @property {'cjs'|'esm'} [moduleFormat=cjs] JavaScript module format to emit
  */
 
 /**

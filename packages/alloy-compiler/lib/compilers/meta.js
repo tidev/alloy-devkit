@@ -54,11 +54,18 @@ class CompilationMeta {
 		this.fs = fs;
 
 		/**
-		 * Whether the current compilation is run within webpack or not
+		 * Module format emitted by component and model templates.
+		 *
+		 * @type {'cjs'|'esm'}
+		 */
+		this.moduleFormat = options.moduleFormat || 'cjs';
+
+		/**
+		 * Whether the current compilation emits native ES modules.
 		 *
 		 * @type {boolean}
 		 */
-		this.isWebpack = options.webpack || false;
+		this.isEsm = this.moduleFormat === 'esm';
 
 		/** @type {Map<string, WidgetMeta>} */
 		this.widgets = new Map();

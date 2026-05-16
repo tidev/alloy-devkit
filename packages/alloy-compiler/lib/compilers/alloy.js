@@ -29,7 +29,7 @@ const styler = require('../styler');
  * @typedef {Object} CompilerOptions
  * @property {CompileConfig} compileConfig Compile config from compilerUtils
  * @property {fs} fs Compiler file system to use
- * @property {boolean} [webpack=false] Whether or not the compiler is used withing Webpack
+ * @property {'cjs'|'esm'} [moduleFormat=cjs] JavaScript module format to emit
  */
 
 /**
@@ -69,7 +69,7 @@ class AlloyCompiler {
 	compileComponent(options) {
 		const compiler = this.factory.createCompiler('component');
 		const result = compiler.compile(options);
-		if (this.compilationMeta.isWebpack) {
+		if (this.compilationMeta.isEsm) {
 			return result;
 		}
 
