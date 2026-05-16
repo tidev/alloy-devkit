@@ -1,6 +1,5 @@
 const _ = require('lodash');
-const tiapp = require('../../../tiapp');
-const U = require('../../../utils');
+const { tiapp, utils: U } = require('alloy-utils');
 const MIN_VERSION = '10.0.0';
 
 exports.parse = function (node, state) {

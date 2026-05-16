@@ -29,7 +29,7 @@ exports.SKIP_EVENT_HANDLING = [ 'Ti.UI.ListItem', 'Alloy.Abstract.ItemTemplate' 
 exports.ADAPTERS = [ 'localStorage', 'properties', 'sql' ];
 exports.CONTROLLER_NODES = [ 'Alloy.Require', 'Alloy.Widget' ];
 exports.DEFAULT_BACKBONE_VERSION = '0.9.2';
-exports.SUPPORTED_BACKBONE_VERSIONS = [ '0.9.2', '1.1.2', '1.3.3', '1.4.0' ];
+exports.SUPPORTED_BACKBONE_VERSIONS = [ '0.9.2', '1.1.2', '1.3.3', '1.4.0', '1.6.0' ];
 
 // property names
 exports.CLASS_PROPERTY = 'classes';
@@ -134,8 +134,7 @@ var NS_ALLOY = 'Alloy',
 	NS_TI_MEDIA = 'Ti.Media',
 	NS_TI_UI_IOS = 'Ti.UI.iOS',
 	NS_TI_UI_IPAD = 'Ti.UI.iPad',
-	NS_TI_UI_IPHONE = 'Ti.UI.iPhone',
-	NS_TI_UI_WINDOWS = 'Ti.UI.Windows';
+	NS_TI_UI_IPHONE = 'Ti.UI.iPhone';
 
 exports.IMPLICIT_NAMESPACES = {
 	// Alloy
@@ -200,12 +199,6 @@ exports.IMPLICIT_NAMESPACES = {
 	// Ti.UI.iPhone
 	NavigationGroup: NS_TI_UI_IPHONE,
 	StatusBar: NS_TI_UI_IPHONE,
-
-	// Ti.UI.Windows
-	CommandBar: NS_TI_UI_WINDOWS,
-	AppBarButton: NS_TI_UI_WINDOWS,
-	AppBarToggleButton: NS_TI_UI_WINDOWS,
-	AppBarSeparator: NS_TI_UI_WINDOWS,
 
 	// Ti.UI.Window
 	LeftNavButton: 'Ti.UI.Window',

@@ -2,7 +2,6 @@ var path = require('path'),
 	os = require('os'),
 	fs = require('fs-extra'),
 	walkSync = require('walk-sync'),
-	chmodr = require('chmodr'),
 	jsonlint = require('@prantlf/jsonlint'),
 	astController = require('./ast/controller'),
 	sourceMapper = require('./sourceMapper'),
@@ -654,12 +653,25 @@ exports.copyWidgetResources = function (resources, resourceDir, widgetId, opts) 
 				var dest = path.join(destDir, path.basename(file));
 				if (!fs.existsSync(destDir)) {
 					fs.mkdirpSync(destDir);
-					chmodr.sync(destDir, 0o755);
 				}
 
 				logger.trace('Copying ' + file.yellow + ' --> '
 					+ path.relative(compilerConfig.dir.project, dest).yellow + '...');
 				U.copyFileSync(source, dest);
+
+				if (path.extname(source) === '.js' && compilerConfig.sourcemap) {
+					sourceMapper.generateSourceMap({
+						target: {
+							filename: file,
+							filepath: dest,
+						},
+						data: {},
+						origFile: {
+							filename: file,
+							filepath: source
+						}
+					}, compilerConfig);
+				}
 			}
 		});
 
@@ -724,8 +736,9 @@ exports.mergeI18N = function mergeI18N(src, dest, opts) {
 			}
 
 			if (fs.statSync(srcFile).isDirectory()) {
-				fs.existsSync(destFile) || fs.mkdirpSync(destFile);
-				chmodr.sync(destFile, 0o755);
+				if (!fs.existsSync(destFile)) {
+					fs.mkdirpSync(destFile);
+				}
 				return walk(srcFile, destFile);
 			}
 
@@ -893,7 +906,6 @@ function generateConfig(obj) {
 		buildLog.data.cfgHash = hash;
 		// write out the config runtime module
 		fs.mkdirpSync(resourcesBase);
-		chmodr.sync(resourcesBase, 0o755);
 
 		// logger.debug('Writing "Resources/' + (platform ? platform + '/' : '') + 'alloy/CFG.js"...');
 		var output = 'module.exports=' + JSON.stringify(o) + ';';
@@ -903,7 +915,6 @@ function generateConfig(obj) {
 		var baseFolder = path.join(obj.dir.resources, 'alloy');
 		if (!fs.existsSync(baseFolder)) {
 			fs.mkdirpSync(baseFolder);
-			chmodr.sync(baseFolder, 0o755);
 		}
 		fs.writeFileSync(path.join(baseFolder, 'CFG.js'), output);
 	}
@@ -971,8 +982,9 @@ exports.loadController = function (file, contents) {
 		}
 	}
 
+	var isProduction = compilerConfig.alloyConfig?.deploytype === 'production';
 	// get the base controller for this controller, also process import/export statements
-	var controller = astController.processController(contents, file);
+	var controller = astController.processController(contents, file, isProduction);
 	code.controller = controller.code;
 	code.parentControllerName = controller.base;
 	code.es6mods = controller.es6mods;
@@ -1043,7 +1055,7 @@ exports.generateCollectionBindingTemplate = function (args) {
 	code += '   if (e && e.fromAdapter) { return; }';
 	code += '   var opts = ' + handlerFunc + '.opts || {};';
 	code += '	var models = ' + whereCode + ';';
-	code += '	var len = models.length;';
+	code += '	var len = models ? models.length : 0;';
 	code += '<%= pre %>';
 	code += '	for (var i = 0; i < len; i++) {';
 	code += '		var <%= localModel %> = models[i];';
@@ -1078,7 +1090,6 @@ exports.updateFiles = function (srcDir, dstDir, opts) {
 
 	if (!fs.existsSync(dstDir)) {
 		fs.mkdirpSync(dstDir);
-		chmodr.sync(dstDir, 0o755);
 	}
 
 	// don't process XML/controller files inside .svn folders (ALOY-839)
@@ -1142,7 +1153,6 @@ exports.updateFiles = function (srcDir, dstDir, opts) {
 		} else if (srcStat.isDirectory()) {
 			logger.trace('Creating directory ' + path.relative(opts.rootDir, dst).yellow);
 			fs.mkdirpSync(dst);
-			chmodr.sync(dst, 0o755);
 		} else {
 			logger.trace('Copying ' + path.join('SRC_DIR', path.relative(srcDir, src)).yellow
 					+ ' --> ' + path.relative(opts.rootDir, dst).yellow);
