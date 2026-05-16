@@ -3,9 +3,9 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## 1.0.0 (2026-05-12)
+## 1.0.0-beta.0 (2026-05-12)
 
-Sync with upstream [Alloy v3.0.0](https://github.com/tidev/alloy/tree/3.0.0). Both `alloy-compiler` and `alloy-utils` jump from `0.2.7` to `1.0.0` to mark the alignment.
+Sync with upstream [Alloy v3.0.0](https://github.com/tidev/alloy/tree/3.0.0). Both `alloy-compiler` and `alloy-utils` jump from `0.2.7` to `1.0.0-beta.0` as the pre-release line for the v3 alignment.
 
 ### BREAKING CHANGES
 

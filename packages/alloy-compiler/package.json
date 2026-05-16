@@ -1,6 +1,6 @@
 {
   "name": "alloy-compiler",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.0",
   "description": "Compiler for Alloy components",
   "main": "lib/index.js",
   "keywords": [
@@ -22,7 +22,7 @@
     "@babel/types": "^7.20.0",
     "@prantlf/jsonlint": "^16.0.0",
     "@xmldom/xmldom": "^0.8.10",
-    "alloy-utils": "^1.0.0",
+    "alloy-utils": "^1.0.0-beta.0",
     "fs-extra": "^10.1.0",
     "lodash": "^4.17.21",
     "node.extend": "^2.0.3",
