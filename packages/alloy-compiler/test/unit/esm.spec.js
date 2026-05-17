@@ -117,4 +117,19 @@ export { localName as publicName };
 		"
 	`);
 	});
+
+	it('should compile ESM model definitions as ESM', () => {
+		expect.assertions(4);
+		const compiler = setupCompiler({ moduleFormat: 'esm' });
+		const modelPath = resolveComponentPath('models', 'book.js');
+		const result = compiler.compileModel({
+			file: modelPath,
+			content: fs.readFileSync(modelPath, 'utf-8')
+		});
+
+		expect(result.code).not.toContain('const exports =');
+		expect(result.code).toContain('export const definition = {');
+		expect(result.code).toContain('export const Model = Alloy.M(\'book\',\n\tdefinition,');
+		expect(result.code).toContain('export const Collection = Alloy.C(\'book\',\n\tdefinition,');
+	});
 });

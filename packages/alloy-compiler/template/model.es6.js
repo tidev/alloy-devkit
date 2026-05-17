@@ -1,5 +1,5 @@
 import Alloy from '/alloy';
-import _ from '/alloy/underscore'
+import _ from '/alloy/underscore';
 
 <%= modelJs %>
 
