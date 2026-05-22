@@ -6,4 +6,4 @@ This repo contains the Alloy [compiler](packages/alloy-compiler#readme) and [uti
 
 It is a mirror and refactor of the contents from Alloy's [compile](https://github.com/appcelerator/alloy/tree/master/Alloy/commands/compile) command.
 
-Based on [Alloy v1.14.5](https://github.com/appcelerator/alloy/tree/1.14.5).
+Based on [Alloy v3.0.0](https://github.com/tidev/alloy/tree/3.0.0).
