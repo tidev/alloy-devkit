@@ -5,6 +5,7 @@
   "scripts": {
     "lerna:bootstrap": "lerna bootstrap",
     "lerna:publish": "lerna publish --yes --conventional-commits",
+    "lerna:publish:from-package": "lerna publish from-package --yes",
     "lint": "eslint packages",
     "test": "jest"
   },

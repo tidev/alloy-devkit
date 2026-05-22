@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.0-beta.0 (2026-05-12)
+
+### BREAKING CHANGES
+
+* **node:** Minimum Node.js version is now `20.18.1` (was `10.0.0`).
+* **compiler:** Generated controller code shape changed in production builds (`retainLines: false`, ES6 module trimming, collection-binding null-safety).
+* **compiler:** Babel transform now receives a `filename` argument, enabling `.babelrc` / `babel.config.js` discovery in downstream Alloy projects.
+* **deps:** Dependency ranges were bumped to align with upstream Alloy v3.0.0.
+
+### Features
+
+* Sync compiler sources with upstream Alloy v3.0.0 across parsers, AST transforms, source maps, compiler utilities, component compilation, and builtins.
+* Add missing parser pass-throughs from upstream Alloy v3.0.0.
+* Generate source maps for widget library files.
+* Add end-to-end smoke snapshot coverage for the `test-app` fixture component compile.
+
+### Bug Fixes
+
+* Restore platform filtering for `Alloy.Abstract._ItemContainer` children.
+* Skip widget sourcemap emission when sourcemaps are disabled.
+* Fix the `Ti.UI.OptionBar` parser import path.
+* Emit valid strict-mode declarations from `Alloy.Abstract.Option.js`.
+
 ## [0.2.7](https://github.com/appcelerator/alloy-devkit/compare/v0.2.6...v0.2.7) (2021-06-02)
 
 

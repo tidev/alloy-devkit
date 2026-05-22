@@ -2,6 +2,8 @@
 // This file is used by Alloy during runtime so its dependencies must be
 // compatible with the Titanium runtime.
 
+/* global Ti */
+
 const isTitanium = typeof Titanium !== 'undefined';
 
 // General default values

@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.0.0-beta.0 (2026-05-12)
+
+### BREAKING CHANGES
+
+* **node:** Minimum Node.js version is now `20.18.1` (was `10.0.0`).
+* **runtime:** Default Backbone version constant bumped to `1.6.0`.
+* **runtime:** Vendored `moment` updated to 2.30.x and the locale catalog expanded to match upstream Alloy v3.0.0.
+* **deps:** Legacy `jsonlint` and `xmldom` dependencies were replaced with `@prantlf/jsonlint` and `@xmldom/xmldom`.
+
+### Features
+
+* Sync shared constants and runtime utilities with upstream Alloy v3.0.0.
+
+### Chores
+
+* Rebrand package metadata to TiDev, Inc.
+* Remove the obsolete `chmodr` dependency.
+
 ## [0.2.7](https://github.com/appcelerator/alloy-devkit/compare/v0.2.6...v0.2.7) (2021-06-02)
 
 **Note:** Version bump only for package alloy-utils

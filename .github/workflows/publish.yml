@@ -17,15 +17,49 @@ jobs:
     - name: Setup node
       uses: actions/setup-node@v2
       with:
-        node-version: '16'
+        node-version: '20.18.1'
         registry-url: 'https://registry.npmjs.org'
 
     - name: Install dependencies
-      run: npm ci
-      if: steps.node-cache.outputs.cache-hit != 'true'
+      run: yarn install --frozen-lockfile
+
+    - name: Resolve npm dist-tag
+      id: npm-dist-tag
+      shell: bash
+      env:
+        RELEASE_BODY: ${{ github.event.release.body }}
+        RELEASE_TAG: ${{ github.event.release.tag_name }}
+      run: |
+        set -euo pipefail
+
+        explicit_tag="$(
+          printf '%s\n' "$RELEASE_BODY" \
+            | sed -nE 's/^[[:space:]]*npm-dist-tag:[[:space:]]*([A-Za-z0-9._-]+)[[:space:]]*$/\1/p' \
+            | head -n 1
+        )"
+
+        if [ -n "$explicit_tag" ]; then
+          dist_tag="$explicit_tag"
+        elif [[ "$RELEASE_TAG" =~ ^v?[0-9]+\.[0-9]+\.[0-9]+-([A-Za-z0-9]+)([.-][A-Za-z0-9]+)*$ ]]; then
+          dist_tag="${BASH_REMATCH[1]}"
+        elif [[ "$RELEASE_TAG" =~ ^v?[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          dist_tag="latest"
+        else
+          echo "::error::Release tag '$RELEASE_TAG' is not a supported semver tag."
+          exit 1
+        fi
+
+        if [[ ! "$dist_tag" =~ ^[A-Za-z][A-Za-z0-9._-]*$ ]]; then
+          echo "::error::Invalid npm dist-tag '$dist_tag'."
+          exit 1
+        fi
+
+        echo "dist-tag=$dist_tag" >> "$GITHUB_OUTPUT"
+        echo "Resolved npm dist-tag: $dist_tag"
 
     - name: Publish to npm
       env:
         GH_TOKEN: ${{ github.token }}
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: npm publish
+        NPM_DIST_TAG: ${{ steps.npm-dist-tag.outputs.dist-tag }}
+      run: yarn lerna:publish:from-package --dist-tag "$NPM_DIST_TAG"
