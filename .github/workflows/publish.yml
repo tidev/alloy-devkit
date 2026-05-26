@@ -14,14 +14,18 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+
     - name: Setup node
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v4
       with:
-        node-version: '20.18.1'
+        node-version: '22.13.0'
         registry-url: 'https://registry.npmjs.org'
+        cache: 'pnpm'
 
     - name: Install dependencies
-      run: yarn install --frozen-lockfile
+      run: pnpm install --frozen-lockfile
 
     - name: Resolve npm dist-tag
       id: npm-dist-tag
@@ -62,4 +66,4 @@ jobs:
         GH_TOKEN: ${{ github.token }}
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         NPM_DIST_TAG: ${{ steps.npm-dist-tag.outputs.dist-tag }}
-      run: yarn lerna:publish:from-package --dist-tag "$NPM_DIST_TAG"
+      run: pnpm lerna:publish:from-package --dist-tag "$NPM_DIST_TAG"
