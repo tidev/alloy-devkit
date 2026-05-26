@@ -2,8 +2,8 @@
   "name": "alloy-devkit",
   "description": "Tooling for Alloy",
   "private": true,
+  "packageManager": "pnpm@11.3.0",
   "scripts": {
-    "lerna:bootstrap": "lerna bootstrap",
     "lerna:publish": "lerna publish --yes --conventional-commits",
     "lerna:publish:from-package": "lerna publish from-package --yes",
     "lint": "eslint packages",
@@ -15,10 +15,10 @@
     "eslint-plugin-alloy": "^1.1.1",
     "eslint-plugin-jest": "^24.0.1",
     "jest": "^27.0.3",
-    "lerna": "^4.0.0",
+    "lerna": "^9.0.7",
     "prettier": "^2.0.2"
   },
   "engines": {
-    "node": ">=20.18.1"
+    "node": "^22.13.0 || >=24.0.0"
   }
 }
