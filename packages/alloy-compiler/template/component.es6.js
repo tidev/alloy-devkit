@@ -1,5 +1,7 @@
 import Alloy from '/alloy';
+import BaseController from '/alloy/controllers/<%= parentControllerPath %>';
 
+<%= generatedImports %>
 const Backbone = Alloy.Backbone;
 const _ = Alloy._;
 
@@ -16,10 +18,6 @@ function __processArg(obj, key) {
 
 export default function Controller() {
 	<%= Widget %>
-	let BaseController = require('/alloy/controllers/' + <%= parentController %>);
-	if (BaseController.__esModule && BaseController.default) {
-		BaseController = BaseController.default;
-	}
 	BaseController.apply(this, Array.prototype.slice.call(arguments));
 	this.__controllerPath = '<%= controllerPath %>';
 	this.args = arguments[0] || {};

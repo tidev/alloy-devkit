@@ -21,6 +21,8 @@ export { localName as publicName };
 		});
 
 		expect(result.code).toContain('export default function Controller()');
+		expect(result.code).toContain('import BaseController from \'/alloy/controllers/BaseController\';');
+		expect(result.code).not.toContain('require(\'/alloy/controllers/\' + \'BaseController\')');
 		expect(result.code).not.toContain('module.exports');
 		expect(result.code).not.toContain('var exports = {};');
 		expect(result.code).toContain('var controllerExports = {};');
@@ -42,6 +44,7 @@ export { localName as publicName };
 		// eslint-disable-next-line jest/no-large-snapshots
 		expect(result.code).toMatchInlineSnapshot(`
 		"import Alloy from '/alloy';
+		import BaseController from '/alloy/controllers/BaseController';
 
 		const Backbone = Alloy.Backbone;
 		const _ = Alloy._;
@@ -59,10 +62,6 @@ export { localName as publicName };
 
 		export default function Controller() {
 
-			let BaseController = require('/alloy/controllers/' + 'BaseController');
-			if (BaseController.__esModule && BaseController.default) {
-				BaseController = BaseController.default;
-			}
 			BaseController.apply(this, Array.prototype.slice.call(arguments));
 			this.__controllerPath = 'index';
 			this.args = arguments[0] || {};
@@ -116,6 +115,48 @@ export { localName as publicName };
 		}
 		"
 	`);
+	});
+
+	it('should compile static Require nodes as ESM controller imports', () => {
+		expect.assertions(3);
+		const compiler = setupCompiler({ moduleFormat: 'esm' });
+		const controllerPath = resolveComponentPath('controllers', 'index.js');
+		const result = compiler.compileComponent({
+			file: controllerPath,
+			viewContent: `
+<Alloy>
+	<Window>
+		<Require src="child" id="child" />
+	</Window>
+</Alloy>
+`,
+		});
+
+		expect(result.code).toContain('import __AlloyController_child from \'/alloy/controllers/child\';');
+		expect(result.code).toContain('$.__views["child"] = new __AlloyController_child(');
+		expect(result.code).not.toContain('Alloy.createController(\'child\'');
+	});
+
+	it('should compile static model and collection nodes as ESM model imports', () => {
+		expect.assertions(5);
+		const compiler = setupCompiler({ moduleFormat: 'esm' });
+		const controllerPath = resolveComponentPath('controllers', 'index.js');
+		const result = compiler.compileComponent({
+			file: controllerPath,
+			viewContent: `
+<Alloy>
+	<Model src="book" instance="true" id="book" />
+	<Collection src="book" instance="true" id="books" />
+	<Window />
+</Alloy>
+`,
+		});
+
+		expect(result.code).toContain('import { Model as __AlloyModel_book, Collection as __AlloyCollection_book } from \'/alloy/models/book\';');
+		expect(result.code).toContain('$.book = new __AlloyModel_book();');
+		expect(result.code).toContain('$.books = new __AlloyCollection_book();');
+		expect(result.code).not.toContain('Alloy.createModel(\'book\')');
+		expect(result.code).not.toContain('Alloy.createCollection(\'book\')');
 	});
 
 	it('should compile ESM model definitions as ESM', () => {

@@ -63,6 +63,14 @@ function parse(node, state, args) {
 		}
 	}
 	var createCall = root + '.create' + nodeName + '(\'' + src + '\')';
+	var useEsmModelImport = CU.isEsm && !manifest;
+	var modelImportName;
+	var collectionImportName;
+	if (useEsmModelImport) {
+		modelImportName = createModelImportName(src);
+		collectionImportName = createCollectionImportName(src);
+		CU.addGeneratedImport('/alloy/models/' + src, '{ Model as ' + modelImportName + ', Collection as ' + collectionImportName + ' }');
+	}
 
 	// create code based on whether the collection is a singleton or instance
 	if (isSingleton) {
@@ -77,14 +85,23 @@ function parse(node, state, args) {
 			]);
 		}
 
-		code += root + '.' + nodeName + 's.instance(\'' + src + '\');';
+		if (useEsmModelImport) {
+			code += root + '.' + nodeName + 's[\'' + src + '\'] || (' + root + '.' + nodeName + 's[\'' + src + '\'] = new '
+				+ (nodeName === 'Model' ? modelImportName : collectionImportName) + '());';
+		} else {
+			code += root + '.' + nodeName + 's.instance(\'' + src + '\');';
+		}
 		backboneVar = root + '.' + nodeName + 's.' + src;
 
 		// code += backboneVar + ' || (' + backboneVar + ' = ' + createCall + ');';
 	} else {
 		id = id || args.id;
 		backboneVar = '$.' + id;
-		code += backboneVar + ' = ' + createCall + ';';
+		if (useEsmModelImport) {
+			code += backboneVar + ' = new ' + (nodeName === 'Model' ? modelImportName : collectionImportName) + '();';
+		} else {
+			code += backboneVar + ' = ' + createCall + ';';
+		}
 	}
 
 	return {
@@ -94,4 +111,12 @@ function parse(node, state, args) {
 			symbol: backboneVar
 		}
 	};
+}
+
+function createModelImportName(src) {
+	return '__AlloyModel_' + src.replace(/[^A-Za-z0-9_$]/g, '_');
+}
+
+function createCollectionImportName(src) {
+	return '__AlloyCollection_' + src.replace(/[^A-Za-z0-9_$]/g, '_');
 }

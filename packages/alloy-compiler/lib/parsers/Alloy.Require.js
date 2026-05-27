@@ -126,15 +126,22 @@ function parse(node, state, args) {
 	args.createArgs = _.extend(args.createArgs || {}, xArgs);
 
 	// Generate runtime code
-	code += (state.local ? 'var ' : '') + args.symbol + ' = Alloy.' + method + '(\'' + src
-		+ '\',' + extraArgs + styler.generateStyleParams(
+	var styleParams = styler.generateStyleParams(
 		state.styles,
 		args.classes,
 		args.id,
 		type === 'widget' ? 'Alloy.Widget' : 'Alloy.Require',
 		args.createArgs,
 		state
-	) + ')';
+	);
+	if (CU.isEsm && type === 'view') {
+		var controllerImportName = createControllerImportName(src);
+		CU.addGeneratedImport('/alloy/controllers/' + src, controllerImportName);
+		code += (state.local ? 'var ' : '') + args.symbol + ' = new ' + controllerImportName + '(' + styleParams + ')';
+	} else {
+		code += (state.local ? 'var ' : '') + args.symbol + ' = Alloy.' + method + '(\'' + src
+			+ '\',' + extraArgs + styleParams + ')';
+	}
 	let parent = {
 		symbol: args.symbol + '.getViewEx({recurse:true})'
 	};
@@ -153,6 +160,10 @@ function parse(node, state, args) {
 		styles: state.styles,
 		code: code
 	};
+}
+
+function createControllerImportName(src) {
+	return '__AlloyController_' + src.replace(/[^A-Za-z0-9_$]/g, '_');
 }
 
 /**

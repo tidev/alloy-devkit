@@ -78,12 +78,14 @@ class ComponentCompiler extends BaseCompiler {
 		template.parentController = (cCode.parentControllerName !== '')
 			? cCode.parentControllerName
 			: CU[CONST.DOCROOT_BASECONTROLLER_PROPERTY] || '\'BaseController\'';
+		template.parentControllerPath = template.parentController.replace(/^['"]|['"]$/g, '');
 		controllerCode += cCode.controller;
 		template.preCode += cCode.pre;
 		template.ES6Mod += cCode.es6mods.trim();
 
 		// create generated controller module code for this view/controller or widget
 		const templateName = this.compilationMeta.isEsm ? 'component.es6.js' : 'component.js';
+		template.generatedImports = this.compilationMeta.isEsm ? CU.renderGeneratedImports() : '';
 		let codeTemplate = _.template(this.fs.readFileSync(path.join(this.config.dir.template, templateName), 'utf8'))(template);
 
 		let map;
@@ -142,7 +144,9 @@ class ComponentCompiler extends BaseCompiler {
 				+ ` = new (require('/alloy/widget'))('${manifest.id}');this.__widgetId='`
 				+ manifest.id + '\';',
 			WPATH: !manifest ? '' : _.template(this.fs.readFileSync(path.join(this.config.dir.template, 'wpath.js'), 'utf8'))({ WIDGETID: manifest.id }),
-			ES6Mod: ''
+			ES6Mod: '',
+			generatedImports: '',
+			parentControllerPath: 'BaseController'
 		};
 	}
 
@@ -151,6 +155,8 @@ class ComponentCompiler extends BaseCompiler {
 		styler.bindingsMap = {};
 		CU.destroyCode = '';
 		CU.postCode = '';
+		CU.resetGeneratedImports();
+		CU.isEsm = this.compilationMeta.isEsm;
 		CU[CONST.AUTOSTYLE_PROPERTY] = this.config[CONST.AUTOSTYLE_PROPERTY];
 		CU.currentManifest = manifest;
 		CU.currentDefaultId = componentName;

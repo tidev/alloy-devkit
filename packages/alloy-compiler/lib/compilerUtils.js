@@ -73,6 +73,8 @@ exports.destroyCode = '';
 exports.postCode = '';
 exports.models = [];
 exports.dataFunctionNames = {};
+exports.generatedImports = [];
+exports.isEsm = false;
 
 // ////////////////////////////////////
 // //////// public interface //////////
@@ -94,6 +96,28 @@ exports.generateVarName = function (id, name) {
 
 exports.generateUniqueId = function () {
 	return alloyUniqueIdPrefix + alloyUniqueIdCounter++;
+};
+
+exports.resetGeneratedImports = function () {
+	exports.generatedImports = [];
+};
+
+exports.addGeneratedImport = function (specifier, binding) {
+	var existing = _.find(exports.generatedImports, function (entry) {
+		return entry.specifier === specifier && entry.binding === binding;
+	});
+	if (!existing) {
+		exports.generatedImports.push({
+			specifier: specifier,
+			binding: binding
+		});
+	}
+};
+
+exports.renderGeneratedImports = function () {
+	return exports.generatedImports.map(function (entry) {
+		return 'import ' + entry.binding + ' from \'' + entry.specifier + '\';';
+	}).join('\n');
 };
 
 exports.getNodeFullname = function (node) {
