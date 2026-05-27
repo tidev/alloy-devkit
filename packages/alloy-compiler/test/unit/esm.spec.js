@@ -269,4 +269,16 @@ const child = Alloy.createController(name);
 		expect(result.code).toContain('export const Model = Alloy.M(\'book\',\n\tdefinition,');
 		expect(result.code).toContain('export const Collection = Alloy.C(\'book\',\n\tdefinition,');
 	});
+
+	it('should compile standalone ESM model imports without model metadata', () => {
+		expect.assertions(1);
+		const compiler = setupCompiler({ moduleFormat: 'esm' });
+		const modelPath = resolveComponentPath('models', 'standalone.js');
+		const result = compiler.compileModel({
+			file: modelPath,
+			content: 'export const definition = { config: {} };'
+		});
+
+		expect(result.code).toContain('export const Model = Alloy.M(\'standalone\',');
+	});
 });

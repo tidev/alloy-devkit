@@ -15,7 +15,7 @@ class ModelCompiler extends BaseCompiler {
 		const templateName = this.compilationMeta.isEsm ? 'model.es6.js' : 'model.js';
 		const modelTemplateFile = path.join(this.config.dir.template, templateName);
 		const modelMeta = this.findModel(options.file);
-		const isWidget = !!modelMeta.widget;
+		const isWidget = !!modelMeta?.widget;
 		const manifest = isWidget ? modelMeta.widget.manifest : undefined;
 		const baseDir = isWidget ? modelMeta.widget.dir : this.appDir;
 		const pathPrefix = isWidget ? 'widgets/' + manifest.id + '/' : '';
