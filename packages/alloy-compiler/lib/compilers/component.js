@@ -72,7 +72,8 @@ class ComponentCompiler extends BaseCompiler {
 		logger.info('  controller: "'
 			+ path.relative(path.join(meta.basePath, CONST.DIR.CONTROLLER), files.CONTROLLER) + '"');
 		const cCode = CU.loadController(files.CONTROLLER, controllerContent, {
-			controllerExportTarget: this.compilationMeta.isEsm ? 'controllerExports' : 'exports'
+			controllerExportTarget: this.compilationMeta.isEsm ? 'controllerExports' : 'exports',
+			transformAlloyCreate: this.compilationMeta.isEsm
 		});
 		let controllerCode = '';
 		template.parentController = (cCode.parentControllerName !== '')

@@ -1,0 +1,5 @@
+<Alloy>
+	<Model src="book" instance="true" id="book" />
+	<Collection src="book" instance="true" id="books" />
+	<Window />
+</Alloy>

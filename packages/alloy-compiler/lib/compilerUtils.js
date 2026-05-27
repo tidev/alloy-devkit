@@ -1010,7 +1010,8 @@ exports.loadController = function (file, contents, options = {}) {
 	// get the base controller for this controller, also process import/export statements
 	var controller = astController.processController(contents, file, {
 		isProduction,
-		controllerExportTarget: options.controllerExportTarget
+		controllerExportTarget: options.controllerExportTarget,
+		transformAlloyCreate: options.transformAlloyCreate
 	});
 	code.controller = controller.code;
 	code.parentControllerName = controller.base;

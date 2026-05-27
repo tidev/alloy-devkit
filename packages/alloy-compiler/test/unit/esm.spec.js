@@ -7,7 +7,7 @@ const { setupCompiler, resolveComponentPath } = require('./utils');
 
 describe('ESM compiler', () => {
 	it('should attach controller ESM exports to the public controller interface', () => {
-		expect.assertions(8);
+		expect.assertions(10);
 		const compiler = setupCompiler({ moduleFormat: 'esm' });
 		const controllerPath = resolveComponentPath('controllers', 'index.js');
 		const result = compiler.compileComponent({
@@ -45,6 +45,7 @@ export { localName as publicName };
 		expect(result.code).toMatchInlineSnapshot(`
 		"import Alloy from '/alloy';
 		import BaseController from '/alloy/controllers/BaseController';
+
 
 		const Backbone = Alloy.Backbone;
 		const _ = Alloy._;
@@ -120,16 +121,9 @@ export { localName as publicName };
 	it('should compile static Require nodes as ESM controller imports', () => {
 		expect.assertions(3);
 		const compiler = setupCompiler({ moduleFormat: 'esm' });
-		const controllerPath = resolveComponentPath('controllers', 'index.js');
+		const viewPath = resolveComponentPath('views', 'require-child.xml');
 		const result = compiler.compileComponent({
-			file: controllerPath,
-			viewContent: `
-<Alloy>
-	<Window>
-		<Require src="child" id="child" />
-	</Window>
-</Alloy>
-`,
+			file: viewPath,
 		});
 
 		expect(result.code).toContain('import __AlloyController_child from \'/alloy/controllers/child\';');
@@ -140,16 +134,9 @@ export { localName as publicName };
 	it('should compile static model and collection nodes as ESM model imports', () => {
 		expect.assertions(5);
 		const compiler = setupCompiler({ moduleFormat: 'esm' });
-		const controllerPath = resolveComponentPath('controllers', 'index.js');
+		const viewPath = resolveComponentPath('views', 'model-nodes.xml');
 		const result = compiler.compileComponent({
-			file: controllerPath,
-			viewContent: `
-<Alloy>
-	<Model src="book" instance="true" id="book" />
-	<Collection src="book" instance="true" id="books" />
-	<Window />
-</Alloy>
-`,
+			file: viewPath,
 		});
 
 		expect(result.code).toContain('import { Model as __AlloyModel_book, Collection as __AlloyCollection_book } from \'/alloy/models/book\';');
@@ -157,6 +144,49 @@ export { localName as publicName };
 		expect(result.code).toContain('$.books = new __AlloyCollection_book();');
 		expect(result.code).not.toContain('Alloy.createModel(\'book\')');
 		expect(result.code).not.toContain('Alloy.createCollection(\'book\')');
+	});
+
+	it('should compile literal authored Alloy create calls as ESM imports', () => {
+		expect.assertions(9);
+		const compiler = setupCompiler({ moduleFormat: 'esm' });
+		const controllerPath = resolveComponentPath('controllers', 'index.js');
+		const result = compiler.compileComponent({
+			file: controllerPath,
+			controllerContent: `
+const child = Alloy.createController('child', { title: 'Child' });
+const book = Alloy.createModel('Book', { title: 'Book' });
+const books = Alloy.createCollection('Book');
+`,
+		});
+
+		expect(result.code).toContain('import __AlloyController_child from "/alloy/controllers/child";');
+		expect(result.code).toContain('import { Model as __AlloyModel_Book } from "/alloy/models/Book";');
+		expect(result.code).toContain('import { Collection as __AlloyCollection_Book } from "/alloy/models/Book";');
+		expect(result.code).toContain('const child = new __AlloyController_child({');
+		expect(result.code).toContain('const book = new __AlloyModel_Book({');
+		expect(result.code).toContain('const books = new __AlloyCollection_Book();');
+		expect(result.code).not.toContain('Alloy.createController(\'child\'');
+		expect(result.code).not.toContain('Alloy.createModel(\'Book\'');
+		expect(result.code).not.toContain('Alloy.createCollection(\'Book\'');
+	});
+
+	it('should reject dynamic authored Alloy create calls in ESM mode', () => {
+		expect.assertions(1);
+		const compiler = setupCompiler({ moduleFormat: 'esm' });
+		const controllerPath = resolveComponentPath('controllers', 'index.js');
+		const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+		try {
+			expect(() => compiler.compileComponent({
+				file: controllerPath,
+				controllerContent: `
+const name = 'child';
+const child = Alloy.createController(name);
+`,
+			})).toThrow('Alloy.createController(name) is not statically loadable in Alloy ESM mode.');
+		} finally {
+			errorSpy.mockRestore();
+		}
 	});
 
 	it('should compile ESM model definitions as ESM', () => {

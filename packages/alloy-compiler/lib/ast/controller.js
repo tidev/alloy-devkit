@@ -37,6 +37,98 @@ exports.processController = function (code, file, options = {}) {
 		);
 	}
 
+	var alloyCreateImports = [];
+
+	function addAlloyCreateImport(specifier, specifiers) {
+		var existing = alloyCreateImports.find(function (entry) {
+			return entry.specifier === specifier && entry.specifiers.join('|') === specifiers.join('|');
+		});
+		if (!existing) {
+			alloyCreateImports.push({
+				specifier: specifier,
+				specifiers: specifiers
+			});
+		}
+	}
+
+	function createImportName(prefix, name) {
+		return prefix + name.replace(/[^A-Za-z0-9_$]/g, '_');
+	}
+
+	function createModelModuleName(name) {
+		if (!name) {
+			return name;
+		}
+
+		return name[0].toUpperCase() + name.substr(1);
+	}
+
+	function buildNamedImport(specifier, importedName, localName) {
+		addAlloyCreateImport(specifier, [
+			importedName + ' as ' + localName
+		]);
+	}
+
+	function renderAlloyCreateImports() {
+		return alloyCreateImports.map(function (entry) {
+			var importSpecifiers = entry.specifiers.map(function (specifier) {
+				var parts = specifier.split(' as ');
+				if (parts.length === 2) {
+					return types.importSpecifier(types.identifier(parts[1]), types.identifier(parts[0]));
+				}
+
+				return types.importDefaultSpecifier(types.identifier(specifier));
+			});
+			return generate(types.importDeclaration(importSpecifiers, types.stringLiteral(entry.specifier)), GENCODE_OPTIONS).code;
+		}).join('\n');
+	}
+
+	function getAlloyCreateMethod(node) {
+		if (!types.isCallExpression(node) || !types.isMemberExpression(node.callee)) {
+			return null;
+		}
+		if (!types.isIdentifier(node.callee.object, { name: 'Alloy' }) || !types.isIdentifier(node.callee.property)) {
+			return null;
+		}
+		var method = node.callee.property.name;
+		return method === 'createController' || method === 'createModel' || method === 'createCollection'
+			? method
+			: null;
+	}
+
+	function transformAlloyCreateCall(path) {
+		var method = getAlloyCreateMethod(path.node);
+		if (!method) {
+			return;
+		}
+
+		var nameArg = path.node.arguments[0];
+		if (!types.isStringLiteral(nameArg)) {
+			throw path.buildCodeFrameError(
+				'Alloy.' + method + '(name) is not statically loadable in Alloy ESM mode. Use an ESM import for literal names or Vite-compatible dynamic import() for dynamic names.'
+			);
+		}
+
+		var name = nameArg.value;
+		var args = path.node.arguments.slice(1);
+		var constructorName;
+
+		if (method === 'createController') {
+			constructorName = createImportName('__AlloyController_', name);
+			addAlloyCreateImport('/alloy/controllers/' + name, [ constructorName ]);
+		} else if (method === 'createModel') {
+			var modelName = createModelModuleName(name);
+			constructorName = createImportName('__AlloyModel_', modelName);
+			buildNamedImport('/alloy/models/' + modelName, 'Model', constructorName);
+		} else {
+			var collectionName = createModelModuleName(name);
+			constructorName = createImportName('__AlloyCollection_', collectionName);
+			buildNamedImport('/alloy/models/' + collectionName, 'Collection', constructorName);
+		}
+
+		path.replaceWith(types.newExpression(types.identifier(constructorName), args));
+	}
+
 	if (options.isProduction) {
 		GENCODE_OPTIONS.retainLines = false;
 	}
@@ -136,12 +228,22 @@ exports.processController = function (code, file, options = {}) {
 
 				moduleCodes += generate(node, GENCODE_OPTIONS).code;
 				path.remove();
+			},
+
+			CallExpression: function (path) {
+				if (options.transformAlloyCreate) {
+					transformAlloyCreateCall(path);
+				}
 			}
 		}, path.scope);
 
 		newCode = generate(ast, GENCODE_OPTIONS).code;
+		moduleCodes += renderAlloyCreateImports();
 	} catch (e) {
-		U.dieWithCodeFrame('Error generating AST for "' + file + '". Unexpected token at line ' + e.loc.line + ' column ' + e.loc.column, e.loc, code);
+		if (e.loc) {
+			U.dieWithCodeFrame(e.message, e.loc, code);
+		}
+		U.die('Error generating AST for "' + file + '". ' + e.message, e);
 	}
 
 	return {
