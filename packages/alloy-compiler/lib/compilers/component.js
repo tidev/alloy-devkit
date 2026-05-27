@@ -73,7 +73,8 @@ class ComponentCompiler extends BaseCompiler {
 			+ path.relative(path.join(meta.basePath, CONST.DIR.CONTROLLER), files.CONTROLLER) + '"');
 		const cCode = CU.loadController(files.CONTROLLER, controllerContent, {
 			controllerExportTarget: this.compilationMeta.isEsm ? 'controllerExports' : 'exports',
-			transformAlloyCreate: this.compilationMeta.isEsm
+			transformAlloyCreate: this.compilationMeta.isEsm,
+			widgetId: meta.manifest ? meta.manifest.id : undefined
 		});
 		let controllerCode = '';
 		template.parentController = (cCode.parentControllerName !== '')
@@ -141,10 +142,12 @@ class ComponentCompiler extends BaseCompiler {
 			controllerPath: (dirname ? path.join(dirname, viewName) : viewName).replace(/\\/g, '/'),
 			preCode: '',
 			postCode: '',
-			Widget: !manifest ? '' : 'const ' + CONST.WIDGET_OBJECT
-				+ ` = new (require('/alloy/widget'))('${manifest.id}');this.__widgetId='`
-				+ manifest.id + '\';',
-			WPATH: !manifest ? '' : _.template(this.fs.readFileSync(path.join(this.config.dir.template, 'wpath.js'), 'utf8'))({ WIDGETID: manifest.id }),
+			Widget: !manifest ? '' : this.compilationMeta.isEsm
+				? 'this.__widgetId=\'' + manifest.id + '\';'
+				: 'const ' + CONST.WIDGET_OBJECT
+					+ ` = new (require('/alloy/widget'))('${manifest.id}');this.__widgetId='`
+					+ manifest.id + '\';',
+			WPATH: !manifest || this.compilationMeta.isEsm ? '' : _.template(this.fs.readFileSync(path.join(this.config.dir.template, 'wpath.js'), 'utf8'))({ WIDGETID: manifest.id }),
 			ES6Mod: '',
 			generatedImports: '',
 			parentControllerPath: 'BaseController'

@@ -91,9 +91,45 @@ exports.processController = function (code, file, options = {}) {
 			return null;
 		}
 		var method = node.callee.property.name;
+		return method === 'createController' || method === 'createModel' || method === 'createCollection' || method === 'createWidget'
+			? method
+			: null;
+	}
+
+	function getWidgetCreateMethod(node) {
+		if (!types.isCallExpression(node) || !types.isMemberExpression(node.callee)) {
+			return null;
+		}
+		if (!types.isIdentifier(node.callee.object, { name: 'Widget' }) || !types.isIdentifier(node.callee.property)) {
+			return null;
+		}
+		var method = node.callee.property.name;
 		return method === 'createController' || method === 'createModel' || method === 'createCollection'
 			? method
 			: null;
+	}
+
+	function createWidgetImportName(widgetId, name) {
+		return createImportName('__AlloyCreatedWidget_', widgetId + '_' + name);
+	}
+
+	function createWidgetModuleImportName(widgetId, name) {
+		return createImportName('__AlloyWidgetModule_', widgetId + '_' + name);
+	}
+
+	function createWpathValue(widgetId, name) {
+		var index = name.lastIndexOf('/');
+		var widgetPath = index === -1
+			? widgetId + '/' + name
+			: name.substring(0, index) + '/' + widgetId + '/' + name.substring(index + 1);
+
+		return widgetPath.indexOf('/') !== 0 ? '/' + widgetPath : widgetPath;
+	}
+
+	function buildWidgetControllerImport(widgetId, name) {
+		var constructorName = createWidgetImportName(widgetId, name);
+		addAlloyCreateImport('/alloy/widgets/' + widgetId + '/controllers/' + name, [ constructorName ]);
+		return constructorName;
 	}
 
 	function transformAlloyCreateCall(path) {
@@ -116,6 +152,15 @@ exports.processController = function (code, file, options = {}) {
 		if (method === 'createController') {
 			constructorName = createImportName('__AlloyController_', name);
 			addAlloyCreateImport('/alloy/controllers/' + name, [ constructorName ]);
+		} else if (method === 'createWidget') {
+			var widgetControllerName = 'widget';
+			var widgetArgsStart = 1;
+			if (types.isStringLiteral(path.node.arguments[1])) {
+				widgetControllerName = path.node.arguments[1].value;
+				widgetArgsStart = 2;
+			}
+			constructorName = buildWidgetControllerImport(name, widgetControllerName);
+			args = path.node.arguments.slice(widgetArgsStart);
 		} else if (method === 'createModel') {
 			var modelName = createModelModuleName(name);
 			constructorName = createImportName('__AlloyModel_', modelName);
@@ -127,6 +172,95 @@ exports.processController = function (code, file, options = {}) {
 		}
 
 		path.replaceWith(types.newExpression(types.identifier(constructorName), args));
+	}
+
+	function transformWidgetCreateCall(path) {
+		var method = getWidgetCreateMethod(path.node);
+		if (!method) {
+			return;
+		}
+		if (!options.widgetId) {
+			throw path.buildCodeFrameError('Widget.' + method + '(name) can only be used inside a widget controller.');
+		}
+
+		var nameArg = path.node.arguments[0];
+		if (!types.isStringLiteral(nameArg)) {
+			throw path.buildCodeFrameError(
+				'Widget.' + method + '(name) is not statically loadable in Alloy ESM mode. Use an ESM import for literal names or Vite-compatible dynamic import() for dynamic names.'
+			);
+		}
+
+		var name = nameArg.value;
+		var args = path.node.arguments.slice(1);
+		var constructorName;
+
+		if (method === 'createController') {
+			constructorName = buildWidgetControllerImport(options.widgetId, name);
+		} else if (method === 'createModel') {
+			var modelName = createModelModuleName(name);
+			constructorName = createImportName('__AlloyWidgetModel_', options.widgetId + '_' + modelName);
+			buildNamedImport('/alloy/widgets/' + options.widgetId + '/models/' + modelName, 'Model', constructorName);
+		} else {
+			var collectionName = createModelModuleName(name);
+			constructorName = createImportName('__AlloyWidgetCollection_', options.widgetId + '_' + collectionName);
+			buildNamedImport('/alloy/widgets/' + options.widgetId + '/models/' + collectionName, 'Collection', constructorName);
+		}
+
+		path.replaceWith(types.newExpression(types.identifier(constructorName), args));
+	}
+
+	function getLiteralWpathArgument(node) {
+		if (!types.isCallExpression(node) || !types.isIdentifier(node.callee, { name: 'WPATH' })) {
+			return null;
+		}
+		var nameArg = node.arguments[0];
+		if (!types.isStringLiteral(nameArg)) {
+			return false;
+		}
+		return nameArg.value;
+	}
+
+	function transformWpathCall(path) {
+		var wpathValue = getLiteralWpathArgument(path.node);
+		if (wpathValue === null) {
+			return false;
+		}
+		if (!options.widgetId) {
+			throw path.buildCodeFrameError('WPATH() can only be used inside a widget controller.');
+		}
+		if (wpathValue === false) {
+			throw path.buildCodeFrameError(
+				'WPATH(path) is not statically loadable in Alloy ESM mode. Use a literal path or migrate to an ESM import.'
+			);
+		}
+
+		path.replaceWith(types.stringLiteral(createWpathValue(options.widgetId, wpathValue)));
+		return true;
+	}
+
+	function transformRequireWpathCall(path) {
+		if (!types.isCallExpression(path.node) || !types.isIdentifier(path.node.callee, { name: 'require' })) {
+			return false;
+		}
+
+		var wpathValue = getLiteralWpathArgument(path.node.arguments[0]);
+		if (wpathValue === null) {
+			return false;
+		}
+		if (!options.widgetId) {
+			throw path.buildCodeFrameError('require(WPATH()) can only be used inside a widget controller.');
+		}
+		if (wpathValue === false) {
+			throw path.buildCodeFrameError(
+				'require(WPATH(path)) is not statically loadable in Alloy ESM mode. Use a literal path or migrate to an ESM import.'
+			);
+		}
+
+		var localName = createWidgetModuleImportName(options.widgetId, wpathValue);
+		addAlloyCreateImport('/alloy/widgets/' + options.widgetId + '/lib/' + wpathValue, [ localName ]);
+		path.replaceWith(types.identifier(localName));
+		path.skip();
+		return true;
 	}
 
 	if (options.isProduction) {
@@ -232,7 +366,12 @@ exports.processController = function (code, file, options = {}) {
 
 			CallExpression: function (path) {
 				if (options.transformAlloyCreate) {
+					if (transformRequireWpathCall(path)) {
+						return;
+					}
 					transformAlloyCreateCall(path);
+					transformWidgetCreateCall(path);
+					transformWpathCall(path);
 				}
 			}
 		}, path.scope);

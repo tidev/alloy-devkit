@@ -1011,7 +1011,8 @@ exports.loadController = function (file, contents, options = {}) {
 	var controller = astController.processController(contents, file, {
 		isProduction,
 		controllerExportTarget: options.controllerExportTarget,
-		transformAlloyCreate: options.transformAlloyCreate
+		transformAlloyCreate: options.transformAlloyCreate,
+		widgetId: options.widgetId
 	});
 	code.controller = controller.code;
 	code.parentControllerName = controller.base;

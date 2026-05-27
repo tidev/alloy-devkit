@@ -146,6 +146,20 @@ export { localName as publicName };
 		expect(result.code).not.toContain('Alloy.createCollection(\'book\')');
 	});
 
+	it('should compile static Widget nodes as ESM widget controller imports', () => {
+		expect.assertions(4);
+		const compiler = setupCompiler({ moduleFormat: 'esm' });
+		const viewPath = resolveComponentPath('views', 'widget-node.xml');
+		const result = compiler.compileComponent({
+			file: viewPath,
+		});
+
+		expect(result.code).toContain('import __AlloyWidget_com_appc_grid_widget from \'/alloy/widgets/com.appc.grid/controllers/widget\';');
+		expect(result.code).toContain('$.__views["grid"] = new __AlloyWidget_com_appc_grid_widget(');
+		expect(result.code).not.toContain('Alloy.createWidget(\'com.appc.grid\'');
+		expect(result.code).not.toContain('require(\'/alloy/widget\')');
+	});
+
 	it('should compile literal authored Alloy create calls as ESM imports', () => {
 		expect.assertions(9);
 		const compiler = setupCompiler({ moduleFormat: 'esm' });
@@ -168,6 +182,58 @@ const books = Alloy.createCollection('Book');
 		expect(result.code).not.toContain('Alloy.createController(\'child\'');
 		expect(result.code).not.toContain('Alloy.createModel(\'Book\'');
 		expect(result.code).not.toContain('Alloy.createCollection(\'Book\'');
+	});
+
+	it('should compile literal authored Alloy createWidget calls as ESM imports', () => {
+		expect.assertions(4);
+		const compiler = setupCompiler({ moduleFormat: 'esm' });
+		const controllerPath = resolveComponentPath('controllers', 'index.js');
+		const result = compiler.compileComponent({
+			file: controllerPath,
+			controllerContent: `
+const grid = Alloy.createWidget('com.appc.grid', { title: 'Grid' });
+`,
+		});
+
+		expect(result.code).toContain('import __AlloyCreatedWidget_com_appc_grid_widget from "/alloy/widgets/com.appc.grid/controllers/widget";');
+		expect(result.code).toContain('const grid = new __AlloyCreatedWidget_com_appc_grid_widget({');
+		expect(result.code).not.toContain('Alloy.createWidget(\'com.appc.grid\'');
+		expect(result.code).not.toContain('require(\'/alloy/widget\')');
+	});
+
+	it('should compile literal widget child controller calls as ESM imports', () => {
+		expect.assertions(4);
+		const compiler = setupCompiler({ moduleFormat: 'esm' });
+		const controllerPath = resolveComponentPath('widgets/com.appc.grid/controllers', 'widget.js');
+		const result = compiler.compileComponent({
+			file: controllerPath,
+			controllerContent: `
+const child = Widget.createController('child', { title: 'Child' });
+`,
+		});
+
+		expect(result.code).toContain('import __AlloyCreatedWidget_com_appc_grid_child from "/alloy/widgets/com.appc.grid/controllers/child";');
+		expect(result.code).toContain('const child = new __AlloyCreatedWidget_com_appc_grid_child({');
+		expect(result.code).not.toContain('Widget.createController(\'child\'');
+		expect(result.code).not.toContain('require(\'/alloy/widget\')');
+	});
+
+	it('should compile literal WPATH requires as ESM imports', () => {
+		expect.assertions(5);
+		const compiler = setupCompiler({ moduleFormat: 'esm' });
+		const controllerPath = resolveComponentPath('widgets/com.appc.grid/controllers', 'widget.js');
+		const result = compiler.compileComponent({
+			file: controllerPath,
+			controllerContent: `
+const Button = require(WPATH('button'));
+`,
+		});
+
+		expect(result.code).toContain('import __AlloyWidgetModule_com_appc_grid_button from "/alloy/widgets/com.appc.grid/lib/button";');
+		expect(result.code).toContain('const Button = __AlloyWidgetModule_com_appc_grid_button;');
+		expect(result.code).not.toContain('require(WPATH(\'button\'))');
+		expect(result.code).not.toContain('function WPATH(s)');
+		expect(result.code).not.toContain('require(\'/alloy/widget\')');
 	});
 
 	it('should reject dynamic authored Alloy create calls in ESM mode', () => {

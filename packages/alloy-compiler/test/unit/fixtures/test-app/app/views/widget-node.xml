@@ -1,0 +1,5 @@
+<Alloy>
+	<Window>
+		<Widget src="com.appc.grid" id="grid" />
+	</Window>
+</Alloy>

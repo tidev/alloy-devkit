@@ -138,6 +138,10 @@ function parse(node, state, args) {
 		var controllerImportName = createControllerImportName(src);
 		CU.addGeneratedImport('/alloy/controllers/' + src, controllerImportName);
 		code += (state.local ? 'var ' : '') + args.symbol + ' = new ' + controllerImportName + '(' + styleParams + ')';
+	} else if (CU.isEsm && type === 'widget') {
+		var widgetImportName = createWidgetImportName(src, name);
+		CU.addGeneratedImport('/alloy/widgets/' + src + '/controllers/' + name, widgetImportName);
+		code += (state.local ? 'var ' : '') + args.symbol + ' = new ' + widgetImportName + '(' + styleParams + ')';
 	} else {
 		code += (state.local ? 'var ' : '') + args.symbol + ' = Alloy.' + method + '(\'' + src
 			+ '\',' + extraArgs + styleParams + ')';
@@ -164,6 +168,10 @@ function parse(node, state, args) {
 
 function createControllerImportName(src) {
 	return '__AlloyController_' + src.replace(/[^A-Za-z0-9_$]/g, '_');
+}
+
+function createWidgetImportName(src, name) {
+	return '__AlloyWidget_' + (src + '_' + name).replace(/[^A-Za-z0-9_$]/g, '_');
 }
 
 /**
