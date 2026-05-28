@@ -23,6 +23,7 @@ const { configureBabelPlugins } = require('./compilers/utils');
  * @typedef CreateCompilerOptions
  * @property {CompileConfig|CreateCompileConfigOptions} compileConfig Compile config to use
  * @property {'cjs'|'esm'} [moduleFormat=cjs] JavaScript module format to emit
+ * @property {(specifier: string) => string} [resolveModuleSpecifier] Resolver for compiler-generated ESM import specifiers
  */
 
 /**

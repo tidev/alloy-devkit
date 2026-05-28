@@ -161,6 +161,7 @@ class ComponentCompiler extends BaseCompiler {
 		CU.postCode = '';
 		CU.resetGeneratedImports();
 		CU.isEsm = this.compilationMeta.isEsm;
+		CU.resolveModuleSpecifier = this.compilationMeta.resolveModuleSpecifier;
 		CU[CONST.AUTOSTYLE_PROPERTY] = this.config[CONST.AUTOSTYLE_PROPERTY];
 		CU.currentManifest = manifest;
 		CU.currentDefaultId = componentName;

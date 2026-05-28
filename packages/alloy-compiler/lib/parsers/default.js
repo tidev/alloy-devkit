@@ -116,7 +116,8 @@ function parse(node, state, args) {
 		if (module) {
 			createFunc = node.getAttribute('method') || createFunc;
 			if (CU.isEsm) {
-				var moduleBinding = CU.addGeneratedNamespaceImport(module);
+				var moduleSpecifier = CU.resolveModuleSpecifier(module);
+				var moduleBinding = CU.addGeneratedNamespaceImport(moduleSpecifier, module);
 				code += (state.local ? 'var ' : '') + args.symbol + ' = (' + moduleBinding + '.' + createFunc + ' || ' + args.ns + '.' + createFunc + ')(\n';
 			} else {
 				code += (state.local ? 'var ' : '') + args.symbol + ' = (require("' + module + '").' + createFunc + ' || ' + args.ns + '.' + createFunc + ')(\n';

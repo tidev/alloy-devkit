@@ -67,6 +67,17 @@ class CompilationMeta {
 		 */
 		this.isEsm = this.moduleFormat === 'esm';
 
+		/**
+		 * Resolves generated ESM import specifiers before they are emitted.
+		 *
+		 * @type {(specifier: string) => string}
+		 */
+		this.resolveModuleSpecifier = typeof options.resolveModuleSpecifier === 'function'
+			? options.resolveModuleSpecifier
+			: function (specifier) {
+				return specifier;
+			};
+
 		/** @type {Map<string, WidgetMeta>} */
 		this.widgets = new Map();
 

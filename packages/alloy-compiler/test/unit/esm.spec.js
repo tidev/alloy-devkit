@@ -144,6 +144,24 @@ export { localName as publicName };
 		expect(result.code).not.toContain('require("xp.ui")');
 	});
 
+	it('should normalize module-backed UI node ESM import specifiers', () => {
+		expect.assertions(3);
+		const compiler = setupCompiler({
+			moduleFormat: 'esm',
+			resolveModuleSpecifier(specifier) {
+				return specifier === 'xp.ui' ? '~/lib/xp.ui' : specifier;
+			}
+		});
+		const viewPath = resolveComponentPath('views', 'module-node.xml');
+		const result = compiler.compileComponent({
+			file: viewPath,
+		});
+
+		expect(result.code).toContain('import * as __AlloyModule_xp_ui from \'~/lib/xp.ui\';');
+		expect(result.code).toContain('__AlloyModule_xp_ui.createActionButton');
+		expect(result.code).not.toContain('from \'xp.ui\';');
+	});
+
 	it('should compile static model and collection nodes as ESM model imports', () => {
 		expect.assertions(5);
 		const compiler = setupCompiler({ moduleFormat: 'esm' });

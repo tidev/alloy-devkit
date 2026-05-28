@@ -30,6 +30,7 @@ const styler = require('../styler');
  * @property {CompileConfig} compileConfig Compile config from compilerUtils
  * @property {fs} fs Compiler file system to use
  * @property {'cjs'|'esm'} [moduleFormat=cjs] JavaScript module format to emit
+ * @property {(specifier: string) => string} [resolveModuleSpecifier] Resolver for compiler-generated ESM import specifiers
  */
 
 /**

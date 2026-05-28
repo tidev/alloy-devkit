@@ -75,6 +75,9 @@ exports.models = [];
 exports.dataFunctionNames = {};
 exports.generatedImports = [];
 exports.isEsm = false;
+exports.resolveModuleSpecifier = function (specifier) {
+	return specifier;
+};
 
 // ////////////////////////////////////
 // //////// public interface //////////
@@ -115,8 +118,8 @@ exports.addGeneratedImport = function (specifier, binding) {
 	}
 };
 
-exports.addGeneratedNamespaceImport = function (specifier) {
-	var binding = '__AlloyModule_' + specifier.replace(/[^a-zA-Z0-9_$]/g, '_');
+exports.addGeneratedNamespaceImport = function (specifier, bindingSpecifier) {
+	var binding = '__AlloyModule_' + (bindingSpecifier || specifier).replace(/[^a-zA-Z0-9_$]/g, '_');
 	var existing = _.find(exports.generatedImports, function (entry) {
 		return entry.specifier === specifier && entry.binding === binding && entry.kind === 'namespace';
 	});
