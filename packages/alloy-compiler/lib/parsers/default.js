@@ -115,7 +115,12 @@ function parse(node, state, args) {
 		var module = node.getAttribute('module');
 		if (module) {
 			createFunc = node.getAttribute('method') || createFunc;
-			code += (state.local ? 'var ' : '') + args.symbol + ' = (require("' + module + '").' + createFunc + ' || ' + args.ns + '.' + createFunc + ')(\n';
+			if (CU.isEsm) {
+				var moduleBinding = CU.addGeneratedNamespaceImport(module);
+				code += (state.local ? 'var ' : '') + args.symbol + ' = (' + moduleBinding + '.' + createFunc + ' || ' + args.ns + '.' + createFunc + ')(\n';
+			} else {
+				code += (state.local ? 'var ' : '') + args.symbol + ' = (require("' + module + '").' + createFunc + ' || ' + args.ns + '.' + createFunc + ')(\n';
+			}
 			code += styler.generateStyleParams(
 				state.styles,
 				args.classes,

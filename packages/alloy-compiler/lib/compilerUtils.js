@@ -104,18 +104,37 @@ exports.resetGeneratedImports = function () {
 
 exports.addGeneratedImport = function (specifier, binding) {
 	var existing = _.find(exports.generatedImports, function (entry) {
-		return entry.specifier === specifier && entry.binding === binding;
+		return entry.specifier === specifier && entry.binding === binding && entry.kind === 'default';
 	});
 	if (!existing) {
 		exports.generatedImports.push({
 			specifier: specifier,
-			binding: binding
+			binding: binding,
+			kind: 'default'
 		});
 	}
 };
 
+exports.addGeneratedNamespaceImport = function (specifier) {
+	var binding = '__AlloyModule_' + specifier.replace(/[^a-zA-Z0-9_$]/g, '_');
+	var existing = _.find(exports.generatedImports, function (entry) {
+		return entry.specifier === specifier && entry.binding === binding && entry.kind === 'namespace';
+	});
+	if (!existing) {
+		exports.generatedImports.push({
+			specifier: specifier,
+			binding: binding,
+			kind: 'namespace'
+		});
+	}
+	return binding;
+};
+
 exports.renderGeneratedImports = function () {
 	return exports.generatedImports.map(function (entry) {
+		if (entry.kind === 'namespace') {
+			return 'import * as ' + entry.binding + ' from \'' + entry.specifier + '\';';
+		}
 		return 'import ' + entry.binding + ' from \'' + entry.specifier + '\';';
 	}).join('\n');
 };

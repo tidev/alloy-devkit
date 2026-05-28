@@ -131,6 +131,19 @@ export { localName as publicName };
 		expect(result.code).not.toContain('Alloy.createController(\'child\'');
 	});
 
+	it('should compile module-backed UI nodes as ESM namespace imports', () => {
+		expect.assertions(3);
+		const compiler = setupCompiler({ moduleFormat: 'esm' });
+		const viewPath = resolveComponentPath('views', 'module-node.xml');
+		const result = compiler.compileComponent({
+			file: viewPath,
+		});
+
+		expect(result.code).toContain('import * as __AlloyModule_xp_ui from \'xp.ui\';');
+		expect(result.code).toContain('__AlloyModule_xp_ui.createActionButton');
+		expect(result.code).not.toContain('require("xp.ui")');
+	});
+
 	it('should compile static model and collection nodes as ESM model imports', () => {
 		expect.assertions(5);
 		const compiler = setupCompiler({ moduleFormat: 'esm' });
@@ -218,22 +231,22 @@ const child = Widget.createController('child', { title: 'Child' });
 		expect(result.code).not.toContain('require(\'/alloy/widget\')');
 	});
 
-	it('should compile literal WPATH requires as ESM imports', () => {
-		expect.assertions(5);
+	it('should reject WPATH requires in ESM mode', () => {
+		expect.assertions(1);
 		const compiler = setupCompiler({ moduleFormat: 'esm' });
 		const controllerPath = resolveComponentPath('widgets/com.appc.grid/controllers', 'widget.js');
-		const result = compiler.compileComponent({
-			file: controllerPath,
-			controllerContent: `
+		const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+		try {
+			expect(() => compiler.compileComponent({
+				file: controllerPath,
+				controllerContent: `
 const Button = require(WPATH('button'));
 `,
-		});
-
-		expect(result.code).toContain('import __AlloyWidgetModule_com_appc_grid_button from "/alloy/widgets/com.appc.grid/lib/button";');
-		expect(result.code).toContain('const Button = __AlloyWidgetModule_com_appc_grid_button;');
-		expect(result.code).not.toContain('require(WPATH(\'button\'))');
-		expect(result.code).not.toContain('function WPATH(s)');
-		expect(result.code).not.toContain('require(\'/alloy/widget\')');
+			})).toThrow('require(WPATH(path)) is not supported in Alloy ESM mode.');
+		} finally {
+			errorSpy.mockRestore();
+		}
 	});
 
 	it('should reject dynamic authored Alloy create calls in ESM mode', () => {

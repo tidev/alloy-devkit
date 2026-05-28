@@ -113,10 +113,6 @@ exports.processController = function (code, file, options = {}) {
 		return createImportName('__AlloyCreatedWidget_', widgetId + '_' + name);
 	}
 
-	function createWidgetModuleImportName(widgetId, name) {
-		return createImportName('__AlloyWidgetModule_', widgetId + '_' + name);
-	}
-
 	function createWpathValue(widgetId, name) {
 		var index = name.lastIndexOf('/');
 		var widgetPath = index === -1
@@ -252,15 +248,13 @@ exports.processController = function (code, file, options = {}) {
 		}
 		if (wpathValue === false) {
 			throw path.buildCodeFrameError(
-				'require(WPATH(path)) is not statically loadable in Alloy ESM mode. Use a literal path or migrate to an ESM import.'
+				'require(WPATH(path)) is not supported in Alloy ESM mode. Migrate widget modules to ESM imports; dynamic WPATH values must be replaced with explicit imports or Vite-compatible dynamic import().'
 			);
 		}
 
-		var localName = createWidgetModuleImportName(options.widgetId, wpathValue);
-		addAlloyCreateImport('/alloy/widgets/' + options.widgetId + '/lib/' + wpathValue, [ localName ]);
-		path.replaceWith(types.identifier(localName));
-		path.skip();
-		return true;
+		throw path.buildCodeFrameError(
+			'require(WPATH(path)) is not supported in Alloy ESM mode. Replace require(WPATH(\'' + wpathValue + '\')) with an ESM import from /alloy/widgets/' + options.widgetId + '/lib/' + wpathValue + '.'
+		);
 	}
 
 	if (options.isProduction) {
