@@ -4,8 +4,6 @@
   "private": true,
   "packageManager": "pnpm@11.3.0",
   "scripts": {
-    "lerna:publish": "lerna publish --yes --conventional-commits",
-    "lerna:publish:from-package": "lerna publish from-package --yes",
     "lint": "eslint packages",
     "test": "jest"
   },
@@ -15,7 +13,6 @@
     "eslint-plugin-alloy": "^1.1.1",
     "eslint-plugin-jest": "^24.0.1",
     "jest": "^27.0.3",
-    "lerna": "^9.0.7",
     "prettier": "^2.0.2"
   },
   "engines": {
