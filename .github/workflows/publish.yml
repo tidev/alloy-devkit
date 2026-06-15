@@ -63,7 +63,6 @@ jobs:
 
     - name: Publish to npm
       env:
-        GH_TOKEN: ${{ github.token }}
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         NPM_DIST_TAG: ${{ steps.npm-dist-tag.outputs.dist-tag }}
-      run: pnpm lerna:publish:from-package --dist-tag "$NPM_DIST_TAG"
+      run: pnpm --recursive publish --tag "$NPM_DIST_TAG" --no-git-checks
